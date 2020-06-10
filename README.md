@@ -23,7 +23,7 @@ Instead of using sprites, I would like to use abstract geometric shapes to repre
 #### Collision detection will be based on circles, with the following procudure: 
 
   * sum the radii of the circles (r1 + r2)
-  * find the distance between the circles by calculating the difference between the x values and squaring them, calculating the difference the y values and squaring them, summing the two squares and then finding the square root of the sum √((x1 + x1)^2 + (y1 + y2)^2) 
+  * find the distance between the circles by calculating the difference between the x values and squaring them, calculating the difference the y values and squaring them, summing the two squares and then finding the square root of the sum √((x1 + x2)^2 + (y1 + y2)^2) 
   * if the distance is less than the sum of the radii, a hit is detected
 
 #### Other technical elements:
@@ -33,7 +33,7 @@ Instead of using sprites, I would like to use abstract geometric shapes to repre
 * an obstacle generator that will make waves of obstacles somewhat randomly but based on distance for difficulty (I need to plan this part out more, explore possibly making a wave generator class to handle the logic)
 * arrays to store the star background objects
 * arrays to store obstacles and enemies to be referenced for hit detection
-*on screen menu handling for game start/end
+* on screen menu handling for game start/end
 * the screen menus and game HUD could be handled with html and css to take some load off the main render function
 
 #### Ideas for generating waves of enemies:
@@ -78,15 +78,15 @@ class Star {
 
 ### Game start and Menu
 
-![Game Start](./1-game-menu.png)
+![Game Start](./img/1-game-menu.png)
 
 ### Game start and Menu
 
-![Game Background](./2-background.png)
+![Game Background](./img/2-background.png)
 
 ### Game start and Menu
 
-![Game Play](./3-gameplay.png)
+![Game Play](./img/3-gameplay.png)
 
 ## MVP
 

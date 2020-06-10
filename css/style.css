@@ -1,0 +1,110 @@
+*{
+  background-color: grey;
+  color: antiquewhite;
+  text-align: center;
+  margin: 0 auto;
+}
+
+body, html {
+  margin: 0;
+}
+
+canvas {
+  display: block;
+  cursor: pointer;
+}
+
+div {
+  /* border: 3px dotted pink; */
+}
+
+/* div that he canvas is in */
+#canvas-container {
+  width: 800px;
+  height: 600px;
+  position: relative;
+}
+
+/* HTML canvas */
+#game-canvas {
+  width: 800px;
+  height: 600px;
+  position: absolute;
+  background-color:black;
+  opacity: 90%;
+  z-index: 0;
+}
+
+/*scoreboard on lower right of screen*/
+#score {
+  background-color: rgba(0, 0, 0, 0);
+  height: 50px;
+  width: 300px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border: 3px solid red;
+  z-index: 1;
+}
+/* info HUD on lower left */
+#info {
+  background-color: rgba(0, 0, 0, 0);
+  height: 50px;
+  width: 300px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border: 3px solid red;
+  z-index: 1;
+}
+/* center interaction menu */
+#game-menu {
+  background-color: rgba(0, 0, 0, 0);
+  height: 200px;
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left:47.5%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  border: 3px solid green;
+  z-index: 1;
+  display: none;
+}
+/* nav computer display */
+#nav-computer {
+  background-color: rgba(0, 0, 0, .5);
+  height: 200px;
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  border: 3px solid green;
+  border-radius: 25px;
+  z-index: 1;
+  display: none;
+}
+
+.HUD-text {
+  background-color: rgba(0, 0, 0, 0);
+}
+/* unordered list for user interaction */
+#game-menu-list {
+  font-size: 40px;
+  /* width: 90%; */
+  display: block;
+  background-color: rgba(0, 0, 0, 0);
+  list-style: none;
+}
+
+.selectable-list-item {
+  background-color: rgba(0, 0, 0, 0);
+  list-style: none;
+}
+
+.selectable-list-item:hover {
+  color: red;
+  list-style: circle;
+}
