@@ -4,11 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project 1</title>
+  <!-- press start 2p -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> -->
+  <!-- vt323 -->
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <!-- allerta stencil -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet"> -->
+  <!-- bungee Inline -->
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
+  <!-- Monofett -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Monofett&display=swap" rel="stylesheet"> -->
+  <!-- geostar fill -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Geostar+Fill&display=swap" rel="stylesheet"> -->
+  <!-- geostar -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Geostar&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  <h1>Space Game</h1>
-  <h2>test</h2>
+  <div id="header-spacing"></div>
   <div id="canvas-container">
     <div id="info">
       <h3 class="HUD-text">INFO SCREEN</h3>
@@ -16,21 +29,27 @@
     <div id="score">
       <h3 class="HUD-text">SCORE</h3>
     </div>
-    <div id="game-menu">
-      <ul id="game-menu-list">
-        <li class="selectable-list-item">Start Game</li>
-        <li class="selectable-list-item">How To Play</li>
-      </ul>
+    <div id="title-container">
+      <h1 id="title-text">Title</h1>
     </div>
     <div id="nav-computer">
-      <h3 class="HUD-text">Nav Computer</h3>
-      <h3 class="HUD-text">Emergency</h3>
+      <h1 class="HUD-text">N A V C O M P U T E R</h3>
+      <h2 class="HUD-text" id="emergency-flash"></h2>
+    </div>
+    <div id="manual-flight-button">
+      <h2 class="HUD-text">Engage Manual</h2>
+      <h2 class="HUD-text">Flight Control</h2>
     </div>
     <canvas id="game-canvas"></canvas>
-    <!-- <canvas id="background-canvas-1"></canvas>
-    <canvas id="background-canvas-2"></canvas> -->
   </div>
   <button id='button'>LOG BUTTON</button>
-  <script src="./js/script.js"></script>
+  <script src="./js/class-CircleObstacle.js"></script>
+  <script src="./js/class-Ship.js"></script>
+  <script src="./js/class-Star.js"></script>
+  <script src="./js/class-WaveMachine.js"></script>
+  <script src="./js/functions-game.js"></script>
+  <script src="./js/functions-utilities.js"></script>
+  <script src="./js/functions-waves.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>

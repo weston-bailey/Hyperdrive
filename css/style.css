@@ -1,8 +1,23 @@
-*{
+* {
   background-color: grey;
-  color: antiquewhite;
+  /* font-family: 'Press Start 2P', cursive; */
+  font-family: 'VT323', monospace;
+  /* font-family: 'Allerta Stencil', sans-serif; */
+  /* font-family: 'Bungee Inline', cursive; */
+  /* font-family: 'Monofett', cursive; */
+  /* font-family: 'Geostar Fill', cursive; */
+  /* font-family: 'Geostar', cursive; */
+  color:  #33ff00;
   text-align: center;
   margin: 0 auto;
+  /* disable highlighting in all browsers */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+          supported by Chrome, Edge, Opera and Firefox */
 }
 
 body, html {
@@ -15,7 +30,11 @@ canvas {
 }
 
 div {
-  /* border: 3px dotted pink; */
+   /* border: 1px dotted red; */
+}
+
+#header-spacing {
+  height: 85px;
 }
 
 /* div that he canvas is in */
@@ -23,6 +42,7 @@ div {
   width: 800px;
   height: 600px;
   position: relative;
+  
 }
 
 /* HTML canvas */
@@ -33,6 +53,39 @@ div {
   background-color:black;
   opacity: 90%;
   z-index: 0;
+  border: 3px solid green;
+  border-radius: 25px;
+  cursor: default;
+}
+/* stores title text */
+#title-container {
+  background-color: rgba(0, 0, 0, 0);
+  /* border: 1px dotted red; */
+  height: 125px;
+  width: 500px;
+  position: absolute;
+  top: 10%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 1;
+  display: visible;
+}
+/* for title text */
+#title-text {
+  background-color: rgba(0, 0, 0, 0);
+  color:  rgb(51, 255, 0, .9);
+  font-size: 120px;
+  font-family: 'Bungee Inline', cursive;
+
+}
+
+#emergency-flash {
+  color: red;
+}
+
+.HUD-text {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /*scoreboard on lower right of screen*/
@@ -43,9 +96,9 @@ div {
   position: absolute;
   right: 0;
   bottom: 0;
-  border: 3px solid red;
   z-index: 1;
 }
+
 /* info HUD on lower left */
 #info {
   background-color: rgba(0, 0, 0, 0);
@@ -54,23 +107,9 @@ div {
   position: absolute;
   left: 0;
   bottom: 0;
-  border: 3px solid red;
   z-index: 1;
 }
-/* center interaction menu */
-#game-menu {
-  background-color: rgba(0, 0, 0, 0);
-  height: 200px;
-  width: 300px;
-  position: absolute;
-  top: 50%;
-  left:47.5%;
-  transform: translate(-50%, -50%);
-  margin: 0 auto;
-  border: 3px solid green;
-  z-index: 1;
-  display: none;
-}
+
 /* nav computer display */
 #nav-computer {
   background-color: rgba(0, 0, 0, .5);
@@ -84,27 +123,33 @@ div {
   border: 3px solid green;
   border-radius: 25px;
   z-index: 1;
-  display: none;
+  display: visible;
+}
+/* nav computer button */
+#manual-flight-button {
+  background-color: rgba(0, 0, 0, .5);
+  height: 75px;
+  width: 130px;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 2;
+  display: visible;
+  box-shadow: 0 9px #999;
+  border: 1px solid #999; 
+  outline: none;
 }
 
-.HUD-text {
-  background-color: rgba(0, 0, 0, 0);
-}
-/* unordered list for user interaction */
-#game-menu-list {
-  font-size: 40px;
-  /* width: 90%; */
-  display: block;
-  background-color: rgba(0, 0, 0, 0);
-  list-style: none;
+#manual-flight-button:hover {
+background-color:rgba(128, 128, 128, .5);
+cursor: pointer; 
 }
 
-.selectable-list-item {
-  background-color: rgba(0, 0, 0, 0);
-  list-style: none;
-}
-
-.selectable-list-item:hover {
-  color: red;
-  list-style: circle;
+#manual-flight-button:active {
+  background-color:rgba(128, 128, 128, .5);
+  cursor: pointer; 
+  box-shadow: 0 4px #666;
+  top: 51%;
 }
