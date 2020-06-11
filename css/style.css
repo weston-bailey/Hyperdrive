@@ -62,9 +62,9 @@ div {
   background-color: rgba(0, 0, 0, 0);
   /* border: 1px dotted red; */
   height: 125px;
-  width: 500px;
+  width: 800px;
   position: absolute;
-  top: 10%;
+  top: 16%;
   left:50%;
   transform: translate(-50%, -50%);
   margin: 0 auto;
@@ -75,7 +75,7 @@ div {
 #title-text {
   background-color: rgba(0, 0, 0, 0);
   color:  rgb(51, 255, 0, .9);
-  font-size: 120px;
+  font-size: 110px;
   font-family: 'Bungee Inline', cursive;
 
 }
@@ -91,12 +91,20 @@ div {
 /*scoreboard on lower right of screen*/
 #score {
   background-color: rgba(0, 0, 0, 0);
+  display: inline-block;
   height: 50px;
   width: 300px;
   position: absolute;
   right: 0;
   bottom: 0;
   z-index: 1;
+  /* border: 1px dotted red; */
+  text-align: left;
+
+}
+/* class for scoreboard text */
+.score-text {
+  text-align: center;
 }
 
 /* info HUD on lower left */

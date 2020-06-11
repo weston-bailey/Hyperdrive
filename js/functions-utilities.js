@@ -1,8 +1,17 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS FOR VARIOUS USEFUL TASKS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+//clamp value to range
+function clamp(x, min, max){
+  if (x < min) { x = min; }
+      else if (x > max) { x = max; } 
+      else { x = x; }
+  return x;
+}
 
 //called by log button
 function logFunction(){
-  console.log(backgroundZ3.length)
+  console.log(ship.sheildLevel > 0)
+  console.log(ship.sheildLevel)
+  console.log(ship.sheild)
   canvas.onmousemove = e => {
     console.log(`x position: ${e.offsetX} y position: ${e.offsetY}`);
   }
@@ -43,20 +52,4 @@ function randomInRange(minimum, maximum){
 function scale(x, xLo, xHi, yLo, yHi) {
   let percent = (x - xLo) / (xHi - xLo);
   return percent * (yHi - yLo) + yLo;
-}
-
-//find the differences between the x and y values, square them, sum them
-//and if the square root of the sum is less than the sum of the two radii
-//then the circles overlap
-function hitTest(radius1, x1, y1, radius2, x2, y2){
-  let radiiSum = radius1 + radius2;
-  let xDifference = x1 - x2;
-  let yDifference = y1 - y2;
-  xDifference *= xDifference;
-  yDifference *= yDifference;
-  if(radiiSum > Math.sqrt(xDifference + yDifference)){
-    return true;
-  } else {
-    return false;
-  }
 }

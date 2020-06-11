@@ -7,6 +7,7 @@ class CircleObstacle {
     this.radius = radius;
     this.color = color;
     this.onScreen = false;
+    this.isGarbage = false;
   }
   update(){
     this.x += this.speedX;
@@ -25,6 +26,7 @@ class CircleObstacle {
     // }       
     if(this.y > this.radius + canvasHeight){
       this.onScreen = false;
+      this.isGarbage = true;
     } else if(this.y < 0 - this.radius){
       this.onScreen = false;
     } else {
