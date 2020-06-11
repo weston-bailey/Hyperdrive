@@ -9,11 +9,13 @@ const MANUAL_FLIGHT_BUTTON = document.getElementById(`manual-flight-button`);
 const EMERGENCY_FLASH = document.getElementById(`emergency-flash`);
 const NAV_COMPUTER = document.getElementById(`nav-computer`);
 const TITLE_CONTAINER = document.getElementById(`title-container`);
+const AUTO_REPAIR_CONTAINER = document.getElementById(`auto-repair-container`);
 const DISTANCE_TEXT = document.getElementById(`distance-text`);
 const WAVES_TEXT = document.getElementById(`waves-text`);
 const SHEILD_LEVEL_TEXT = document.getElementById(`sheild-level-text`);
+const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
 
-MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { gameStart(); });
+MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
 //canvas variables
 let canvas,  ctx; 
 let canvasWidth = 800;
@@ -38,23 +40,26 @@ let backgroundZ3 = [];
 //array of enemies
 let enemies = [];
 //variables to make emergency message
+var emergencyMessageTimeout;
 var emergencyMessageInc1 = 0; //letter index to print
 var emergencyMessageInc2 = 0;
-var emergenccText1 = 'Emergency   '; //first message
+var emergenccText1 = '*EMERGENCY ALERT*   '; //first message
 var emergenccText2 = 'Auto Pilot System Failure   '; 
 var typingSpeed = 150; //letter update speed
-
-//for menufade
+//for fading out of elements
 var navComputerOpacity = 1;
-var navComputerFadeSpeed = 10;
+var titleOpacity = 1;
+var fadeSpeed = 10;
 //setinterval for distance
 var distanceTimer;
 var distance = 0;
+//for levels
+var levelStartInterval;
+var level = 0;
+
+
 //varible to check if the game has started
 var gameActive = false;
-//for sheild level
-// var sheildInterval;
-
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -81,12 +86,46 @@ function init() {
   render();
 }
 
+//fades the nav computer out and disables the start game button
+function navComputerGameStart(){
+  //fade out the title
+  titleFadeOut();
+  //get rid of the button
+  MANUAL_FLIGHT_BUTTON.style.display = `none`;
+  AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
+  //update nav computer screen
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
+  //reset emergency flash message
+  EMERGENCY_FLASH.innerHTML = ' ';
+  clearTimeout(emergencyMessageTimeout);
+  emergencyMessageInc1 = 0; //letter index to print
+  emergencyMessageInc2 = 0;
+  emergenccText1 = 'WARNING: COLLISION IMMINENT   '; //first message
+  emergenccText2 = 'Evasive maneuvers required   '; 
+  emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
+  //make timer for level start
+  levelStartInterval = setTimeout(nextLevel, 9500);
+}
+
+function nextLevel(){
+  //check if we are on level one, if so start timer and gameActive
+  if(level === 0){
+    //get rid of nav computer
+    navComputerFadeOut();
+    //make wave machine
+    waveMachine = new WaveMachine(circleWave);
+    //track distance
+    distanceTimer = setInterval(distanceTick, 500);
+    //game is now active
+    gameActive = true;
+  }
+  level++;
+}
+
 //called when manual flight control button is pressed
 function gameStart(){
   //make a new wave machine
-  waveMachine = new WaveMachine(circleWave);
   //fade out menu
-  navComputerFadeOutGameStart();
   //track distance
   distanceTimer = setInterval(distanceTick, 500);
   //game is now active

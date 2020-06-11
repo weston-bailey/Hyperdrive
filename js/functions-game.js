@@ -1,15 +1,40 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY init() AND gameStart()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY init() AND navComputerGameStart()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+function nextLevel(){
+  //check if we are on level one, if so start timer and gameActive
+  if(level === 0){
+    //get rid of nav computer
+    navComputerFadeOut();
+    //make wave machine
+    waveMachine = new WaveMachine(circleWave);
+    //track distance
+    distanceTimer = setInterval(distanceTick, 500);
+    //game is now active
+    gameActive = true;
+  }
+  level++;
+}
+
+//called when manual flight control button is pressed
+function gameStart(){
+  //make a new wave machine
+  //fade out menu
+  //track distance
+  distanceTimer = setInterval(distanceTick, 500);
+  //game is now active
+  gameActive = true;
+}
 
 //writes emergencyText1 and switches by calling emergencyMessage2 when finished
 function emergencyMesssage1() {
   if (emergencyMessageInc1 < emergenccText1.length) {
     EMERGENCY_FLASH.innerHTML += emergenccText1.charAt(emergencyMessageInc1);
     emergencyMessageInc1++;
-    setTimeout(emergencyMesssage1, typingSpeed);
+    emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
   } else if (emergencyMessageInc1 >= emergenccText1.length){
     emergencyMessageInc1 = 0;
     EMERGENCY_FLASH.innerHTML = ' ';
-    setTimeout(emergencyMesssage2, typingSpeed);
+    emergencyMessageTimeout = setTimeout(emergencyMesssage2, typingSpeed);
   }
 }
 //writes emergencyText2 and switches by caliing emergencyMessage1 when finished
@@ -17,11 +42,11 @@ function emergencyMesssage2() {
   if (emergencyMessageInc2 < emergenccText2.length) {
     EMERGENCY_FLASH.innerHTML += emergenccText2.charAt(emergencyMessageInc2);
     emergencyMessageInc2++;
-    setTimeout(emergencyMesssage2, typingSpeed);
+    emergencyMessageTimeout = setTimeout(emergencyMesssage2, typingSpeed);
   } else if (emergencyMessageInc2 >= emergenccText2.length){
     emergencyMessageInc2 = 0;
     EMERGENCY_FLASH.innerHTML = ' ';
-    setTimeout(emergencyMesssage1, typingSpeed);
+    emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
   }
 }
 
@@ -40,18 +65,18 @@ function makeStarBackgroud() {
   }
 }
 
-//fades the nav computer out and disables the start game button
-function navComputerFadeOutGameStart(){
-  if(navComputerOpacity > .0){
-    navComputerOpacity -= .01;
-    NAV_COMPUTER.style.opacity = navComputerOpacity;
-    MANUAL_FLIGHT_BUTTON.style.opacity = navComputerOpacity;
-    TITLE_CONTAINER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeOutGameStart, navComputerFadeSpeed);
-  } else if (navComputerOpacity <= 0 ){
-    MANUAL_FLIGHT_BUTTON.style.display = `none`;
-  }
-}
+// //fades the nav computer out and disables the start game button
+// function navComputerFadeOutGameStart(){
+//   if(navComputerOpacity > .0){
+//     navComputerOpacity -= .01;
+//     NAV_COMPUTER.style.opacity = navComputerOpacity;
+//     MANUAL_FLIGHT_BUTTON.style.opacity = navComputerOpacity;
+//     TITLE_CONTAINER.style.opacity = navComputerOpacity;
+//     setTimeout(navComputerFadeOutGameStart, navComputerFadeSpeed);
+//   } else if (navComputerOpacity <= 0 ){
+//     MANUAL_FLIGHT_BUTTON.style.display = `none`;
+//   }
+// }
 
 //keeps track of overall distance
 function distanceTick(){
@@ -155,20 +180,31 @@ function decrementSheild(){
   }
 }
 
+/* TODO: try to make a function/class that fades 
+whatever html element is passed to it, that would slick af */
+
+//fades out the title (same speed as nav computer)
+function titleFadeOut(){
+  if(titleOpacity > .0){
+    titleOpacity -= .01;
+    TITLE_CONTAINER.style.opacity = titleOpacity;
+    setTimeout(titleFadeOut, fadeSpeed);
+  } 
+}
 //fades out the nav computer but doesnt bother with the flight control
 function navComputerFadeOut(){
   if(navComputerOpacity > .0){
     navComputerOpacity -= .01;
     NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeOut, navComputerFadeSpeed);
+    setTimeout(navComputerFadeOut, fadeSpeed);
   } 
 }
 
-//fades out the nav computer 
+//fades in the nav computer 
 function navComputerFadeIn(){
   if(navComputerOpacity < 1){
     navComputerOpacity += .01;
     NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeIn, navComputerFadeSpeed);
+    setTimeout(navComputerFadeIn, fadeSpeed);
   } 
 }

@@ -1,12 +1,6 @@
 * {
   background-color: grey;
-  /* font-family: 'Press Start 2P', cursive; */
   font-family: 'VT323', monospace;
-  /* font-family: 'Allerta Stencil', sans-serif; */
-  /* font-family: 'Bungee Inline', cursive; */
-  /* font-family: 'Monofett', cursive; */
-  /* font-family: 'Geostar Fill', cursive; */
-  /* font-family: 'Geostar', cursive; */
   color:  #33ff00;
   text-align: center;
   margin: 0 auto;
@@ -25,14 +19,13 @@ body, html {
 }
 
 canvas {
-  display: block;
-  cursor: pointer;
+  display: block;/* animation for button div */
 }
 
 div {
    /* border: 1px dotted red; */
 }
-
+/* blank div at top of screen */
 #header-spacing {
   height: 85px;
 }
@@ -57,6 +50,7 @@ div {
   border-radius: 25px;
   cursor: default;
 }
+
 /* stores title text */
 #title-container {
   background-color: rgba(0, 0, 0, 0);
@@ -71,6 +65,7 @@ div {
   z-index: 1;
   display: visible;
 }
+
 /* for title text */
 #title-text {
   background-color: rgba(0, 0, 0, 0);
@@ -79,11 +74,7 @@ div {
   font-family: 'Bungee Inline', cursive;
 
 }
-
-#emergency-flash {
-  color: red;
-}
-
+/* makes bg see through */
 .HUD-text {
   background-color: rgba(0, 0, 0, 0);
 }
@@ -100,13 +91,12 @@ div {
   z-index: 1;
   /* border: 1px dotted red; */
   text-align: left;
-
 }
+
 /* class for scoreboard text */
 .score-text {
   text-align: center;
 }
-
 /* info HUD on lower left */
 #info {
   background-color: rgba(0, 0, 0, 0);
@@ -117,7 +107,6 @@ div {
   bottom: 0;
   z-index: 1;
 }
-
 /* nav computer display */
 #nav-computer {
   background-color: rgba(0, 0, 0, .5);
@@ -131,9 +120,57 @@ div {
   border: 3px solid green;
   border-radius: 25px;
   z-index: 1;
-  display: visible;
+  visibility: visible;
 }
-/* nav computer button */
+
+/* emergency alert text */
+#emergency-flash {
+  color: red;
+}
+
+/* auto repair div*/
+#auto-repair-container {
+  background-color: rgba(0, 0, 0, .5);
+  height: 100px;
+  width: 300px;
+  position: absolute;
+  top: 60%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 2;
+  visibility: hidden;
+}
+/* rules for auto repair text */
+#sheild-repair-text {
+  background-color: rgba(0, 0, 0, 0);
+  display: inline-block;
+  color: blue;
+}
+#sheild-repair-value {
+  background-color: rgba(0, 0, 0, 0);
+  display: inline-block;
+  color: red;
+}
+#hyperdrive-repair-text {
+  background-color: rgba(0, 0, 0, 0);
+  display: inline-block;
+}
+#hyperdrive-repair-value {
+  background-color: rgba(0, 0, 0, 0);
+  display: inline-block;
+  color: red;
+}
+
+#manual-flight-message {
+  text-align: center;
+  width: 300px;
+  position: absolute;
+  margin: 0 auto;
+  bottom: 1px;
+}
+
+/* nav computer button div */
 #manual-flight-button {
   background-color: rgba(0, 0, 0, .5);
   height: 75px;
@@ -149,15 +186,20 @@ div {
   border: 1px solid #999; 
   outline: none;
 }
-
+/* animation for button div */
 #manual-flight-button:hover {
 background-color:rgba(128, 128, 128, .5);
 cursor: pointer; 
 }
-
+/* animation for button div */
 #manual-flight-button:active {
   background-color:rgba(128, 128, 128, .5);
   cursor: pointer; 
   box-shadow: 0 4px #666;
   top: 51%;
+}
+/* error messages class */
+.error {
+  color: red; 
+  background-color: rgba(0, 0, 0, 0);
 }

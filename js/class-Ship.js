@@ -9,7 +9,7 @@ class Ship {
     this.sheildColor =  `173, 216, 230`;
     this.sheildColorAlpha = 1;  //presently unsued, but could be modified for effect
     this.sheild = false;
-    this.sheildLevel = 4;
+    this.sheildLevel = 0;
   }
   update(directionX, directionY){
     //update postion 

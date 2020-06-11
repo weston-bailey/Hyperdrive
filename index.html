@@ -24,7 +24,7 @@
   <div id="header-spacing"></div>
   <div id="canvas-container">
     <div id="info">
-      <h3 class="HUD-text" id="sheild-level-text">SHEILD LEVEL: 100%</h3>
+      <h3 class="HUD-text error" id="sheild-level-text">SHEILD LEVEL: 0%</h3>
     </div>
     <div id="score">
       <h4 class="HUD-text score-text">SECTOR: OPEN SPACE</h4>
@@ -32,11 +32,23 @@
       <h4 class="HUD-text score-text" id="waves-text">WAVE #: 0</h4>
     </div>
     <div id="title-container">
-      <h1 id="title-text">Title</h1>
+      <h1 id="title-text">HYPERDRIVE</h1>
     </div>
     <div id="nav-computer">
       <h1 class="HUD-text">N A V C O M P U T E R</h3>
       <h2 class="HUD-text" id="emergency-flash"></h2>
+        <div class="HUD-text" id="auto-repair-container">
+          <h2 class="HUD-text" id="ship-auto-repair-text">SHIP AUTO-REPAIR STATUS:</h2>
+          <div class="HUD-text">
+            <h2 class="HUD-text" id="sheild-repair-text">SHEILD:</h2>
+            <h2 class="HUD-text" id="sheild-repair-value">0%</h2>
+          </div>
+          <div class="HUD-text">
+            <h2 class="HUD-text" id="hyperdrive-repair-text">HYPERDRIVE:</h2>
+            <h2 class="HUD-text" id="hyperdrive-repair-value">0%</h2>
+          </div>
+        </div>
+      <h3 class="HUD-text" id="manual-flight-message"> FLIGHT CONTROL: <span class="error">ERROR</span></h3>
     </div>
     <div id="manual-flight-button">
       <h2 class="HUD-text">Engage Manual</h2>
