@@ -1,3 +1,28 @@
+function sidesToHitRadiusScale(numOfSides){
+  let scaleValue;
+  switch(numOfSides){
+    case 3 :
+      scaleValue = .65;
+      break;
+    case 4 :
+      scaleValue = .8;
+      break;
+    case 5 :
+      scaleValue = .85;
+      break;
+    case 6 :
+      scaleValue = .9;
+      break;
+    case 7 :
+      scaleValue = .95;
+      break;
+    default :
+      scaleValue = .95;
+      break;
+  }
+  return scaleValue;
+}
+
 //pass to the wave machine as a 'null' function so it doesn't freak out
 let dummyWave = function(){
   return;
@@ -26,7 +51,7 @@ let polygonWaveRandom = function(){
 let triangleCometWaveBig = function(){
   let boxColor = randomColorHex();
   for(let i = 0; i < randomInRange(30, 60); i++){
-    enemies.push(new PolgonWrap( randomInRange(0, canvasWidth), //x random
+    enemies.push(new PolygonTemplate(randomInRange(0, canvasWidth), //x random
         (i * 200) * -1 + spawn3X,                               //y random
           0,                                                    //speedX
             randomInRange(7, 9),                                //speedY
@@ -56,6 +81,32 @@ let squareLineSlantWave = function() {
                       4,                          //sides
                         4,                        //lineWidth
                           boxColor));             //color
+    }
+  }
+}
+
+//rows of squares with an offset y
+let hitTestWave = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  console.log(`sides`, sides)
+  //random speed per wave
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < randomInRange(3, 6); h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolgonWrap( (i * 90),      //x inc with every box made
+          ((10 - i) * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            0,                                    //speedX fall straight down
+              4,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        4,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
     }
   }
 }

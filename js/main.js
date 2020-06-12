@@ -4,7 +4,7 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(squareLineSlantWave, 1, 4);
+                                                                          debugGameStart(hitTestWave, 1, 4);
                                                                         }                                                              
                                                                       });
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });

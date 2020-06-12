@@ -4,7 +4,8 @@ class PolgonWrap {
   //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, 
   //spinspeed should be float 0 - 1 (lower values better), sides = vertices, lineiwdth is an int
   //color needs to be a hex so makeDebris can run hexToRGBArray() on it
-  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color){
+  //hitRadiusScale shrinks the radius for hit detection based on draw radius
+  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale){
     this.x = x;
     this.y = y;
     this.speedX = speedX;
@@ -13,7 +14,7 @@ class PolgonWrap {
     this.lineWidth = lineWidth;
     this.alpha = 1;  //presently unused
     this.size = size;
-    this.hitRadius = this.size * .8; //just shink the draw circle for hit detection
+    this.hitRadius = this.size * hitRadiusScale; //just shink the draw circle for hit detection
     this.radians = radians;
     this.spinSpeed = spinSpeed; 
     this.sides = sides;

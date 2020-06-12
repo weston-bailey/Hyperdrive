@@ -12,6 +12,8 @@ class WaveMachineDebug {
       //inc wave cont and display, mark wave active 
       this.waveCount++;
       this.waveActive = true;
+      level = this.waveCount;
+      console.log(`level`, level)
       WAVES_TEXT.innerText = `WAVE #: ${this.waveCount}`;
       //console.log(`called`, this.enemyTypes)
     }
