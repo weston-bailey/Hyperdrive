@@ -43,6 +43,8 @@ function hexToRGB(hex) {
 }
 
 //convert color hex to rgb values rturned as an array
+//used mainly to convert enemy colors from hexes to a format
+//that debris can use to modify the alpha of
 function hexToRGBArray(hex) {
   var r = parseInt(hex.slice(1, 3), 16),
       g = parseInt(hex.slice(3, 5), 16),

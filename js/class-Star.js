@@ -1,14 +1,15 @@
+//a star object to be rendered as a background
 class Star {
+  //size = radius
   constructor(speed, x, y, color, size){
     this.speed = speed;
     this.x = x;
     this.y = y;
     this.color = color;
     this.size = size;
-    //this.element = element;
   }
   update(){
-    //move stare
+    //move star
     this.y += this.speed;
     //if star moves off screen, reset y and randomize x to repurpose it as a new star
     if(this.y > canvasHeight){
@@ -16,6 +17,7 @@ class Star {
       this.x = scale(Math.random(), 0, 1, 0, canvasWidth);
     }
   }
+  //stars are just little circles
   draw(){
     ctx.lineWidth = 2;
     ctx.strokeStyle = this.color;

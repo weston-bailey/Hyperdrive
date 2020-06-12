@@ -1,4 +1,7 @@
+//random polygons made on impacts
 class Debris {
+  //staring x, starting y, speed that debris dissapears (values closer to 0 is longer), color of debris
+  //constructor is randomized is not passed values when created 
   constructor(x, y, alphaDecrement, color){
     this.speedX = randomSignInRange(.1, 5);
     this.speedY = randomSignInRange(.1, 5);
@@ -10,7 +13,7 @@ class Debris {
     this.size = randomInRange(.5, 10);
     this.radians = degreesToRadians(randomInRange(0, 360));
     this.spinSpeed = randomSignInRange(0, 1); 
-    this.sides = Math.floor(randomInRange(1, 8));
+    this.sides = Math.floor(randomInRange(2, 12));
     this.vertAngle = TWO_PI / this.sides; 
     this.isGarbage = false;
   }

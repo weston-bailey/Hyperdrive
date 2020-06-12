@@ -1,5 +1,9 @@
 
+//template for making polygon enemies
 class PolygonTemplate {
+    //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, 
+  //spinspeed should be float 0 - 1 (lower values better), sides = vertices, lineiwdth is an int
+  //color needs to be a hex so makeDebris can run hexToRGBArray() on it
   constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color){
     this.x = x || randomInRange(0, canvasWidth);
     this.y = y || randomInRange(spawn1X, spawn2X);
@@ -23,10 +27,10 @@ class PolygonTemplate {
     this.x += this.speedX;
     this.radians += this.spinSpeed;
     //wrap the screen boundaries
-    if(this.x > canvasWidth + this.hitRadius){                     //move ship to other side of screen when it reaches the side
+    if(this.x > canvasWidth + this.hitRadius){                     
       this.x = 0 - this.hitRadius;
     }       
-    if(this.x < 0 - this.hitRadius){                     //move ship to other side of screen when it reaches the side
+    if(this.x < 0 - this.hitRadius){                     
       this.x = canvasWidth + this.hitRadius;
     }  
     // if(this.y > (canvasHeight - this.size)){                     
@@ -42,9 +46,7 @@ class PolygonTemplate {
       this.onScreen = false;
     } else {
       this.onScreen = true;
-    }
-    
-
+    } 
   }
   draw(){
     ctx.lineWidth = this.lineWidth;
@@ -57,10 +59,25 @@ class PolygonTemplate {
     ctx.closePath();
     ctx.stroke();
   }
+  //for debug
+  drawCollisionRadius(){
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = `white`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.hitRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.stroke();
+  }
   makeDebris(){
-    let amount = randomInRange(8, 32);
-    for (let i = 0; i < amount; i++){
-      debrisParticles.push(new Debris(this.x, this.y));
-    }
+     //make alot of partilces
+     let amount = randomInRange(24, 64);
+     for (let i = 0; i < amount; i++){
+       debrisParticles.push(new Debris(this.x, this.y, .001, hexToRGBArray(this.color)));
+     }
+     amount = randomInRange(24, 64);
+     //make a little rainbow explosion
+     for (let i = 0; i < amount; i++){
+       debrisParticles.push(new Debris(this.x, this.y, .09));
+     }
   }
 }

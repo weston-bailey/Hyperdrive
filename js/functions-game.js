@@ -6,7 +6,7 @@ function nextLevel(){
     //get rid of nav computer
     navComputerFadeOut();
     //make wave machine
-    waveMachine = new WaveMachine([triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]);
+    waveMachine = new WaveMachine([squareLineWave, triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]);
     //track distance
     distanceTimer = setInterval(distanceTick, 500);
     //game is now active
@@ -64,19 +64,6 @@ function makeStarBackgroud() {
     scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
   }
 }
-
-// //fades the nav computer out and disables the start game button
-// function navComputerFadeOutGameStart(){
-//   if(navComputerOpacity > .0){
-//     navComputerOpacity -= .01;
-//     NAV_COMPUTER.style.opacity = navComputerOpacity;
-//     MANUAL_FLIGHT_BUTTON.style.opacity = navComputerOpacity;
-//     TITLE_CONTAINER.style.opacity = navComputerOpacity;
-//     setTimeout(navComputerFadeOutGameStart, navComputerFadeSpeed);
-//   } else if (navComputerOpacity <= 0 ){
-//     MANUAL_FLIGHT_BUTTON.style.display = `none`;
-//   }
-// }
 
 //keeps track of overall distance
 function distanceTick(){

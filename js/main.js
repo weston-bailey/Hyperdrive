@@ -3,8 +3,9 @@
 //dom elements
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
-                                                                      navComputerGameStart(); 
-                                                                        /*gameStart()*/
+                                                                        if(debug){
+                                                                          debugGameStart(squareLineSlantWave, 1, 4);
+                                                                        }                                                              
                                                                       });
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });
 const KEY_UP = document.body.addEventListener(`keyup`, e => { keys[e.keyCode] = false; });
@@ -23,6 +24,9 @@ const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
 
 const TWO_PI = 2 * Math.PI;
+
+//toggles debug mode
+let debug = true;
 
 //canvas variables
 let canvas, ctx; 
@@ -118,6 +122,31 @@ function navComputerGameStart(){
   levelStartInterval = setTimeout(nextLevel, 9500);
 }
 
+//for debug mode start
+function debugGameStart(wave, level, sheild){
+  level = level;
+  ship.sheildLevel = sheild;
+  //fade out the title
+  TITLE_CONTAINER.style.opacity = 0;
+  NAV_COMPUTER.style.opacity = 0;
+  //get rid of the button
+  MANUAL_FLIGHT_BUTTON.style.display = `none`;
+  // AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
+  // SECTOR_CONTAINER.style.visibility = `visible`;
+  //update nav computer screen
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
+  //reset emergency flash message
+  EMERGENCY_FLASH.innerHTML = ' ';
+  clearTimeout(emergencyMessageTimeout);
+  //make debug wave machine
+  waveMachine = new WaveMachineDebug(wave);
+  distanceTimer = setInterval(distanceTick, 500);
+  //update sheild hud
+  SHEILD_LEVEL_TEXT.innerText = `SHEILD LEVEL: ${scale(ship.sheildLevel, 0, 4, 0, 100)}%`;
+  //game is now active
+  gameActive = true;
+}
+
 //main render loop
 function render(){
   //returns x and y directions in array
@@ -130,7 +159,9 @@ function render(){
   if(gameActive){
     ship.update(shipDirection[0], shipDirection[1]);
     ship.draw();
-    //ship.drawCollisionRadius();
+    if(debug){
+      ship.drawCollisionRadius();
+    }
   }
   //update and draw exhaust
   for(let i = 0; i < exhuastParticles.length; i++){
@@ -150,6 +181,9 @@ function render(){
   for(let i = 0; i < enemies.length; i++){
     enemies[i].update();
     enemies[i].draw();
+    if(debug){
+      enemies[i].drawCollisionRadius();
+    }
   }
   //check for collisions
   for(let i = 0; i < enemies.length; i++){
@@ -169,12 +203,13 @@ function render(){
       if(crash){
         enemies[i].makeDebris();
         enemies[i].isGarbage = true;
-        ship.makeDebris();
-        //ship.isGarbage = true;
-        //gameActive = false;
-      } else {
-        //enemies[i].color = `white`;
-      }
+        //ship is invincible in debug mode
+        if(!debug){
+          ship.makeDebris();
+          ship.isGarbage = true;
+          gameActive = false;
+        }
+      } 
     }
   }
   //check if enemies are marked as garbage, splice the ones that are

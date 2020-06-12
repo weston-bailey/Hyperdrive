@@ -1,9 +1,12 @@
+//ship exhaust
 class Exhaust {
-  constructor(){
-    this.speedX = randomSignInRange(.1, 1);
-    this.speedY = randomInRange(.5, 2);
-    this.x = ship.noseX;
-    this.y = ship.noseY + 45;
+  //if no staring x and y position are giving, and no speed is given, then the constructor
+  //assumes its just regular ship exhaus
+  constructor(x, y, speedX, speedY){
+    this.speedX = speedX || randomSignInRange(.1, 1);
+    this.speedY = speedY || randomInRange(.5, 2);
+    this.x = x || ship.noseX;
+    this.y = y || ship.noseY + 45;
     this.colorR =  255;
     this.colorG =  0;
     this.alpha = 1;  
@@ -22,6 +25,7 @@ class Exhaust {
       this.isGarbage = true;
     }
   }
+  //exhaust are little circles
   draw(){
     ctx.lineWidth = 1;
     ctx.strokeStyle = `rgba(${this.colorR}, ${this.colorG}, 0, ${this.alpha})`;

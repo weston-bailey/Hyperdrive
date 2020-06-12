@@ -1,25 +1,28 @@
+//triangle ship for player
 class Ship {
   constructor(){
     this.speed = 5;
-    this.noseX = canvasWidth * .5;
+    this.noseX = canvasWidth * .5; //start in middle (ship is draw from nose)
     this.noseY = canvasHeight * .5;
     this.movingX = false;
     this.movingY = false;
     this.velocityX = 0;
     this.velocityY = 0;
-    this.color = `antiquewhite`;
-    this.sheildColor =  `173, 216, 230`;
+    this.color = `#faebd7`; //`antiquewhite`
+    this.sheildColor =  `173, 216, 230`; //`lightblue`
     this.sheildColorAlpha = 1;  //presently unsued, but could be modified for effect
     this.sheild = false;
-    this.sheildLevel = 4;
+    this.sheildLevel = 4; //draw width for line and level of how much sheild is left
     this.isGarbage = false;
   }
   update(directionX, directionY){
-    //update postion 
+    //update postion and make exhaust if player is moving ship
     if(this.movingY){
       this.velocityY = directionY * 3;
       this.noseY += this.speed * directionY;
-      exhuastParticles.push(new Exhaust);
+      for(let i = 0; i < 3; i++){
+        exhuastParticles.push(new Exhaust);
+      }
     }
     if(this.movingX){
       this.velocityX = directionX * 3;
@@ -40,7 +43,7 @@ class Ship {
     if(this.noseY < 0){                     
       this.noseY = 0;
     } 
-    //rate that velocity waers off
+    //rate that velocity wears off
     this.velocityX *= 0.999;                             
     this.velocityY *= 0.999;   
     //influence position with velocity
@@ -77,9 +80,35 @@ class Ship {
     ctx.stroke();
   }
   makeDebris(){
-    let amount = randomInRange(32, 64);
+    //make alot of debris for ship explosion
+    let amount = randomInRange(80, 100);
     for (let i = 0; i < amount; i++){
-      debrisParticles.push(new Debris(this.noseX, this.noseY, .001));
+      debrisParticles.push(new Debris(this.noseX, this.noseY, .001, hexToRGBArray(this.color)));
+    }
+    //reactor blowout XD
+    amount = randomInRange(64, 90);
+    for(let i = 0; i < amount; i++){
+      exhuastParticles.push(new Exhaust(this.noseX, this.noseY + 30, randomSignInRange(.1, 5), randomSignInRange(.1, 5)));
+    }
+    //make a little rainbow explosion
+    amount = randomInRange(32, 64);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.noseX + randomInRange(5, 30), this.noseY + randomInRange(5, 60)));
+    }
+    //make a little rainbow explosion
+    amount = randomInRange(32, 64);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.noseX + randomInRange(5, 30), this.noseY + randomInRange(5, 60)));
+    }
+    //make a little rainbow explosion
+    amount = randomInRange(32, 64);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.noseX + randomInRange(5, 30), this.noseY + randomInRange(5, 60)));
+    }
+    //make a little rainbow explosion
+    amount = randomInRange(32, 64);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.noseX, this.noseY, .01));
     }
   }
 }
