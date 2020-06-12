@@ -11,7 +11,8 @@ class Ship {
     this.sheildColor =  `173, 216, 230`;
     this.sheildColorAlpha = 1;  //presently unsued, but could be modified for effect
     this.sheild = false;
-    this.sheildLevel = 0;
+    this.sheildLevel = 4;
+    this.isGarbage = false;
   }
   update(directionX, directionY){
     //update postion 
@@ -74,5 +75,11 @@ class Ship {
     ctx.arc(this.noseX, this.noseY + 30, 15, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.stroke();
+  }
+  makeDebris(){
+    let amount = randomInRange(32, 64);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.noseX, this.noseY, .001));
+    }
   }
 }

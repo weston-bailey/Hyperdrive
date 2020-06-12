@@ -3,7 +3,7 @@
 //dom elements
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
-                                                                        navComputerGameStart(); 
+                                                                      navComputerGameStart(); 
                                                                         /*gameStart()*/
                                                                       });
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });
@@ -25,15 +25,14 @@ MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); }
 const TWO_PI = 2 * Math.PI;
 
 //canvas variables
-let canvas,  ctx; 
+let canvas, ctx; 
 let canvasWidth = 800;
 let canvasHeight = 800;
 //usesful spawn coordinates for enemies
 let spawn1X = canvasHeight * -1;
+let spawnHalfX = spawn1X * .5;
 let spawn2X = spawn1X * 2;
 let spawn3X = spawn1X * 3;
-
-
 //Array of keypresses
 let keys = [];
 //for ship object
@@ -68,7 +67,6 @@ var distance = 0;
 //for levels
 var levelStartInterval;
 var level = 0;
-
 
 //varible to check if the game has started
 var gameActive = false;
@@ -132,7 +130,7 @@ function render(){
   if(gameActive){
     ship.update(shipDirection[0], shipDirection[1]);
     ship.draw();
-    ship.drawCollisionRadius();
+    //ship.drawCollisionRadius();
   }
   //update and draw exhaust
   for(let i = 0; i < exhuastParticles.length; i++){
@@ -157,23 +155,25 @@ function render(){
   for(let i = 0; i < enemies.length; i++){
     let crash;
     if(ship.sheild && ship.sheildLevel > 0){     //sheild is on
-      crash = hitTest(45, ship.noseX, ship.noseY + 25, enemies[i].radius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
+      crash = hitTest(45, ship.noseX, ship.noseY + 25, enemies[i].hitRadius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
       if(crash){  //hit detected
         //decrease sheild level and mark enemy as garbage
         decrementSheild();
         enemies[i].makeDebris();
         enemies[i].isGarbage = true;
       } else {
-        enemies[i].color = `white`;
+        //enemies[i].color = `white`;
       }
     } else if (!ship.sheild) { //sheild is off
-      crash = hitTest(15, ship.noseX, ship.noseY + 30, enemies[i].radius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
+      crash = hitTest(15, ship.noseX, ship.noseY + 30, enemies[i].hitRadius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
       if(crash){
         enemies[i].makeDebris();
         enemies[i].isGarbage = true;
-        enemies[i].color = `red`;
+        ship.makeDebris();
+        //ship.isGarbage = true;
+        //gameActive = false;
       } else {
-        enemies[i].color = `white`;
+        //enemies[i].color = `white`;
       }
     }
   }

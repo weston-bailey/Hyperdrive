@@ -5,6 +5,7 @@ class CircleObstacle {
     this.speedX = speedX;
     this.speedY = speedY;
     this.radius = radius;
+    this.hitRadius = this.radius;
     this.color = color;
     this.onScreen = false;
     this.isGarbage = false;

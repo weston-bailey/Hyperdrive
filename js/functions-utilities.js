@@ -14,7 +14,7 @@ function degreesToRadians(angle){
 
 //called by log button
 function logFunction(){
-  console.log(debrisParticles)
+  console.log(enemies)
   canvas.onmousemove = e => {
     console.log(`x position: ${e.offsetX} y position: ${e.offsetY}`);
   }

@@ -1,11 +1,12 @@
 class Debris {
-  constructor(x, y, color){
+  constructor(x, y, alphaDecrement, color){
     this.speedX = randomSignInRange(.1, 5);
     this.speedY = randomSignInRange(.1, 5);
     this.x = x;
     this.y = y;
     this.color = color || hexToRGBArray(randomColorHex());
     this.alpha = 1;  
+    this.alphaDecrement = alphaDecrement || .1;
     this.size = randomInRange(.5, 10);
     this.radians = degreesToRadians(randomInRange(0, 360));
     this.spinSpeed = randomSignInRange(0, 1); 
@@ -17,7 +18,7 @@ class Debris {
     //move debris
     this.y += this.speedY;
     this.x += this.speedX;
-    this.alpha -= .01;
+    this.alpha -= this.alphaDecrement;
     this.radians += this.spinSpeed;
     //if is no longer visible it is marked as garbage
     if(this.alpha <= 0){

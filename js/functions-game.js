@@ -6,7 +6,7 @@ function nextLevel(){
     //get rid of nav computer
     navComputerFadeOut();
     //make wave machine
-    waveMachine = new WaveMachine(circleWave);
+    waveMachine = new WaveMachine([triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]);
     //track distance
     distanceTimer = setInterval(distanceTick, 500);
     //game is now active
@@ -14,7 +14,7 @@ function nextLevel(){
   }
   level++;
 }
-
+//[triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]
 //called when manual flight control button is pressed
 function gameStart(){
   //make a new wave machine
@@ -144,15 +144,17 @@ function drawBackground(){
 //and if the square root of the sum is less than the sum of the two radii
 //then the circles overlap
 function hitTest(radius1, x1, y1, radius2, x2, y2){
-  let radiiSum = radius1 + radius2;
-  let xDifference = x1 - x2;
-  let yDifference = y1 - y2;
-  xDifference *= xDifference;
-  yDifference *= yDifference;
-  if(radiiSum > Math.sqrt(xDifference + yDifference)){
-    return true;
-  } else {
-    return false;
+  if(gameActive){
+    let radiiSum = radius1 + radius2;
+    let xDifference = x1 - x2;
+    let yDifference = y1 - y2;
+    xDifference *= xDifference;
+    yDifference *= yDifference;
+    if(radiiSum > Math.sqrt(xDifference + yDifference)){
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

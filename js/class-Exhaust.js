@@ -17,7 +17,7 @@ class Exhaust {
     this.colorG += 2;
     this.colorR -= 2 ;
     this.alpha -= .01;
-    //if star moves off screen, reset y and randomize x to repurpose it as a new star
+    //mark for garbage collector when no longer visible
     if(this.alpha <= 0){
       this.isGarbage = true;
     }
@@ -26,7 +26,6 @@ class Exhaust {
     ctx.lineWidth = 1;
     ctx.strokeStyle = `rgba(${this.colorR}, ${this.colorG}, 0, ${this.alpha})`;
     ctx.beginPath();
-    //ctx.arc(this.x, this.y, this.size, 2, Math.pi * 2);
     ctx.arc(this.x, this.y, this.size, 0, TWO_PI);
     ctx.closePath();
     ctx.stroke();
