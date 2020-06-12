@@ -41,4 +41,10 @@ class CircleObstacle {
     ctx.closePath();
     ctx.stroke();
   }
+  makeDebris(){
+    let amount = randomInRange(8, 32);
+    for (let i = 0; i < amount; i++){
+      debrisParticles.push(new Debris(this.x, this.y));
+    }
+  }
 }

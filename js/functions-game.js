@@ -61,7 +61,7 @@ function makeStarBackgroud() {
   }
   for(let k = 0; k < 3; k++){
     backgroundZ2[k] = new Star(Math.random() * 3, scale(Math.random(), 0, 1, 0, canvasHeight), 
-    scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGB(randomColorHex(), Math.random()), Math.random() * 3);
+    scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
   }
 }
 
@@ -111,7 +111,6 @@ function inputHandler(){
     }
     if (keys[16]){
       if(ship.sheildLevel > 0){
-        console.log(`called`)
         ship.sheild = true;
       }
     } else {

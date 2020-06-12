@@ -1,10 +1,12 @@
 class Ship {
   constructor(){
-    this.speed = 7;
+    this.speed = 5;
     this.noseX = canvasWidth * .5;
     this.noseY = canvasHeight * .5;
     this.movingX = false;
     this.movingY = false;
+    this.velocityX = 0;
+    this.velocityY = 0;
     this.color = `antiquewhite`;
     this.sheildColor =  `173, 216, 230`;
     this.sheildColorAlpha = 1;  //presently unsued, but could be modified for effect
@@ -14,10 +16,14 @@ class Ship {
   update(directionX, directionY){
     //update postion 
     if(this.movingY){
+      this.velocityY = directionY * 3;
       this.noseY += this.speed * directionY;
+      exhuastParticles.push(new Exhaust);
     }
     if(this.movingX){
+      this.velocityX = directionX * 3;
       this.noseX += this.speed * directionX;
+      exhuastParticles.push(new Exhaust);
     }
     //move ship to other side of screen when it reaches the side
     if(this.noseX > canvasWidth){                     
@@ -27,12 +33,18 @@ class Ship {
       this.noseX = canvasWidth;
     }  
     //restrict movement to height boundaries of screen     
-    if(this.noseY > (canvasHeight - 30)){                    
-      this.noseY = (canvasHeight - 30);
+    if(this.noseY > (canvasHeight - 45)){                    
+      this.noseY = (canvasHeight - 45);
     }       
     if(this.noseY < 0){                     
       this.noseY = 0;
     } 
+    //rate that velocity waers off
+    this.velocityX *= 0.999;                             
+    this.velocityY *= 0.999;   
+    //influence position with velocity
+    this.noseX += this.velocityX;
+    this.noseY += this.velocityY;
   }
   draw(){
     //draw a traingle

@@ -129,12 +129,26 @@ div {
 }
 
 /* auto repair div*/
-#auto-repair-container {
+#sector-container{
   background-color: rgba(0, 0, 0, .5);
   height: 100px;
   width: 300px;
   position: absolute;
-  top: 60%;
+  top: 53%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 2;
+  visibility: hidden;
+}
+
+/* auto repair div*/
+#auto-repair-container {
+  background-color: rgba(0, 0, 0, .5);
+  height: 90px;
+  width: 300px;
+  position: absolute;
+  top: 70%;
   left:50%;
   transform: translate(-50%, -50%);
   margin: 0 auto;
@@ -181,7 +195,7 @@ div {
   transform: translate(-50%, -50%);
   margin: 0 auto;
   z-index: 2;
-  display: visible;
+  visibility: visible;
   box-shadow: 0 9px #999;
   border: 1px solid #999; 
   outline: none;

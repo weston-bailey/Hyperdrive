@@ -1,5 +1,5 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS FOR VARIOUS USEFUL TASKS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-//clamp value to range
+//limit value x to range between min and max
 function clamp(x, min, max){
   if (x < min) { x = min; }
       else if (x > max) { x = max; } 
@@ -7,11 +7,14 @@ function clamp(x, min, max){
   return x;
 }
 
+//degrees to radians
+function degreesToRadians(angle){
+  return (angle / Math.PI) * 180;
+}
+
 //called by log button
 function logFunction(){
-  console.log(ship.sheildLevel > 0)
-  console.log(ship.sheildLevel)
-  console.log(ship.sheild)
+  console.log(debrisParticles)
   canvas.onmousemove = e => {
     console.log(`x position: ${e.offsetX} y position: ${e.offsetY}`);
   }
@@ -23,12 +26,28 @@ function randomColorHex(){
 }
 
 //convert color hex to rgb with a predefined alpha(optional)
-function hexToRGB(hex, alpha) {
+function hexToRGBA(hex, alpha) {
   var r = parseInt(hex.slice(1, 3), 16),
       g = parseInt(hex.slice(3, 5), 16),
       b = parseInt(hex.slice(5, 7), 16);
       a = alpha || 1.;
       return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+//convert color hex to rgb 
+function hexToRGB(hex) {
+  var r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r}, ${g}, ${b})`;
+}
+
+//convert color hex to rgb values rturned as an array
+function hexToRGBArray(hex) {
+  var r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+      return [r, g, b];
 }
 
 //makes a randoom number between a range that is either positive or negetive with probability (float 0 - 1) influencing the sign chance
@@ -53,3 +72,4 @@ function scale(x, xLo, xHi, yLo, yHi) {
   let percent = (x - xLo) / (xHi - xLo);
   return percent * (yHi - yLo) + yLo;
 }
+

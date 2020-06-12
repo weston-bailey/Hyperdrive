@@ -20,7 +20,7 @@ class Star {
     ctx.lineWidth = 2;
     ctx.strokeStyle = this.color;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, this.size, 0, Math.pi * 2);
+    ctx.arc(this.x, this.y, this.size, 0, TWO_PI);
     ctx.closePath();
     ctx.stroke();
   }
