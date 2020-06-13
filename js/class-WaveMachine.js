@@ -14,11 +14,40 @@ class WaveMachine {
     if(!this.waveActive){
       // pull the function out the array fand store it in a variable LOUIS THANK YOU THE IDEA!
       let thisFunction = this.enemyTypes[waveFunction];
+      if(typeof thisFunction != `function`){
+        console.log(`this.enemyTypes[waveFunction]: ${this.enemyTypes[waveFunction]}`)
+        console.log(`BREAK`)
+        return;
+      }
+      let colors = [];
+      for (let i = 0; i < enemies.length; i++){
+        colors.push(enemies[i].color);
+      }
+      //console.log(`waveFunction ${waveFunction} enemyTypes.length ${this.enemyTypes.length}, this function: ${thisFunction}, typeof ${typeof thisFunction}`/* this.enemyTypes[waveFunction] ${this.enemyTypes[waveFunction]}*/)
       //call the chosen function
       thisFunction();
       //inc wave cont and display, mark wave active 
       this.waveCount++;
       this.waveActive = true;
+      WAVES_TEXT.innerText = `WAVE #: ${this.waveCount}`;
+      //console.log(`called`, this.enemyTypes)
+    }
+  }
+}
+
+class WaveMachineDebug extends WaveMachine {
+  update(){
+    if(!this.waveActive){
+      this.enemyTypes();
+      //inc wave cont and display, mark wave active 
+      this.waveCount++;
+      this.waveActive = true;
+      level = this.waveCount;
+      let colors = [];
+      for (let i = 0; i < enemies.length; i++){
+        colors.push(enemies[i].color);
+      }
+      console.log(`level: ${level}, color: ${colors}`)
       WAVES_TEXT.innerText = `WAVE #: ${this.waveCount}`;
       //console.log(`called`, this.enemyTypes)
     }

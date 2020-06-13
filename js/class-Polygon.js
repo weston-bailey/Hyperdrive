@@ -1,6 +1,6 @@
 
-//polygon enemy that wraps around the screen width boundaries like the player's ship
-class PolgonWrap {
+//polygon enemy that needs to be given an upodate method
+class Polygon {
   //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, 
   //spinspeed should be float 0 - 1 (lower values better), sides = vertices, lineiwdth is an int
   //color needs to be a hex so makeDebris can run hexToRGBArray() on it
@@ -18,32 +18,13 @@ class PolgonWrap {
     this.radians = radians;
     this.spinSpeed = spinSpeed; 
     this.sides = sides;
+    this.updateFunctions = updateTest;
     this.vertAngle = TWO_PI / this.sides; 
     this.onScreen = false;
     this.isGarbage = false;
   }
   update(){
-    //move polygon
-    this.y += this.speedY;
-    this.x += this.speedX;
-    this.radians += this.spinSpeed;
-    //wrap the screen boundaries
-    if(this.x > canvasWidth + this.hitRadius){                    
-      this.x = 0 - this.hitRadius;
-    }       
-    if(this.x < 0 - this.hitRadius){                     
-      this.x = canvasWidth + this.hitRadius;
-    }  
-    if(this.y > this.hitRadius + canvasHeight){
-      this.onScreen = false;
-      this.isGarbage = true;
-    } else if(this.y < 0 - this.hitRadius){
-      this.onScreen = false;
-    } else {
-      this.onScreen = true;
-    }
-    
-
+    console.log(`Polygon class needs to be extended with an update method`);
   }
   draw(){
     ctx.lineWidth = this.lineWidth;
@@ -76,4 +57,51 @@ class PolgonWrap {
       debrisParticles.push(new Debris(this.x, this.y, .09));
     }
   }
+}
+//wraps movement from one x boundary to another
+class PolygonWrap extends Polygon {
+  update(){
+    //move polygon
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.radians += this.spinSpeed;
+    //wrap the screen boundaries
+    if(this.x > canvasWidth + this.hitRadius){                    
+      this.x = 0 - this.hitRadius;
+    }       
+    if(this.x < 0 - this.hitRadius){                     
+      this.x = canvasWidth + this.hitRadius;
+    }  
+    if(this.y > this.hitRadius + canvasHeight){
+      this.onScreen = false;
+      this.isGarbage = true;
+    } else if(this.y < 0 - this.hitRadius){
+      this.onScreen = false;
+    } else {
+      this.onScreen = true;
+    }
+  }
+}
+
+function updateTest(){
+      //move polygon
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.radians += this.spinSpeed;
+    //wrap the screen boundaries
+    if(this.x > canvasWidth + this.hitRadius){                    
+      this.x = 0 - this.hitRadius;
+    }       
+    if(this.x < 0 - this.hitRadius){                     
+      this.x = canvasWidth + this.hitRadius;
+    }  
+    if(this.y > this.hitRadius + canvasHeight){
+      this.onScreen = false;
+      this.isGarbage = true;
+    } else if(this.y < 0 - this.hitRadius){
+      this.onScreen = false;
+    } else {
+      this.onScreen = true;
+    }
+    //console.log(`called`)
 }

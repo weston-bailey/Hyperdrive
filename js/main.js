@@ -4,7 +4,7 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(hitTestWave, 1, 4);
+                                                                          debugGameStart(triangleCometWaveSameDirections, 1, 4);
                                                                         }                                                              
                                                                       });
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });
@@ -26,7 +26,7 @@ MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); }
 const TWO_PI = 2 * Math.PI;
 
 //toggles debug mode
-let debug = true;
+let debug = false;
 
 //canvas variables
 let canvas, ctx; 
@@ -74,6 +74,8 @@ var level = 0;
 
 //varible to check if the game has started
 var gameActive = false;
+
+var waveFunctions = [triangleCometWaveRandomDirections, triangleCometWaveSameDirections, higherRightSlantWave, higherLeftSlantWave, higherRightSlantWaveMoveX, inverseHigherRightSlantWaveMoveX, higherLeftSlantWaveMoveX, inverseHigherLeftSlantWaveMoveX]
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

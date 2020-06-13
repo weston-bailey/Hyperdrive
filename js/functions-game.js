@@ -6,7 +6,7 @@ function nextLevel(){
     //get rid of nav computer
     navComputerFadeOut();
     //make wave machine
-    waveMachine = new WaveMachine([squareLineWave, triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]);
+    waveMachine = new WaveMachine(waveFunctions);
     //track distance
     distanceTimer = setInterval(distanceTick, 500);
     //game is now active

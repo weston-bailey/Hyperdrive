@@ -47,22 +47,48 @@ let polygonWaveRandom = function(){
   }
 }
 
-//falling triangles
-let triangleCometWaveBig = function(){
+//falling triangles random directions
+let triangleCometWaveRandomDirections = function(){
   let boxColor = randomColorHex();
-  for(let i = 0; i < randomInRange(30, 60); i++){
-    enemies.push(new PolygonTemplate(randomInRange(0, canvasWidth), //x random
+  let amount = randomInRange(clamp(30 + (level * 5), 35, 80), clamp(60 + (level * 5), 65, 120));
+  let spinningSpeed = randomInRange(0., .05);
+  let lineWidth = randomInRange(2, 4);
+  for(let i = 0; i < amount; i++){
+    enemies.push(new PolygonWrap(randomInRange(0, canvasWidth), //x random
         (i * 200) * -1 + spawn3X,                               //y random
-          0,                                                    //speedX
+          randomSignInRange(0, 6),                                                    //speedX
             randomInRange(7, 9),                                //speedY
             randomInRange(25, 70),                              //size
                 180,                                            //radans
-                  .01,                                          //spinSpeed
+                  spinningSpeed,                                          //spinSpeed
                     3,                                          //sides
-                      2,                                        //lineWidth
-                        boxColor));                             //color
+                      lineWidth,                                        //lineWidth
+                        boxColor,                               //color
+                          .6));                                  //hit radius sca;e               
   }
 }
+//falling triangles random directions
+let triangleCometWaveSameDirections = function(){
+  let boxColor = randomColorHex();
+  let amount = randomInRange(clamp(30 + (level * 5), 35, 80), clamp(60 + (level * 5), 65, 120));
+  let spinningSpeed = randomInRange(0., .05);
+  let lineWidth = randomInRange(2, 4);
+  let direction = randomSignInRange(1, 6)
+  for(let i = 0; i < amount; i++){
+    enemies.push(new PolygonWrap(randomInRange(0, canvasWidth), //x random
+        (i * 200) * -1 + spawn3X,                               //y random
+          direction,                              //speedX
+            randomInRange(7, 9),                                //speedY
+            randomInRange(25, 70),                              //size
+                180,                                            //radans
+                  spinningSpeed,                                          //spinSpeed
+                    3,                                          //sides
+                      lineWidth,                                        //lineWidth
+                        boxColor,                               //color
+                          .6));                                  //hit radius sca;e               
+  }
+}
+
 //rows of squares with an offset y
 let squareLineSlantWave = function() {
   //random color per wave 
@@ -86,30 +112,184 @@ let squareLineSlantWave = function() {
 }
 
 //rows of squares with an offset y
-let hitTestWave = function() {
+let higherRightSlantWave = function() {
   //random color per wave 
   let boxColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
-  console.log(`sides`, sides)
-  //random speed per wave
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
   let spinningSpeed = randomSignInRange(.05, .06)
-  for(let h = 0; h < randomInRange(3, 6); h++){
+  for(let h = 0; h < rows; h++){
     for(let i = 0; i < 10; i++){
-      enemies.push(new PolgonWrap( (i * 90),      //x inc with every box made
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
           ((10 - i) * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
             0,                                    //speedX fall straight down
-              4,                                  //speedY
+              speed,                                  //speedY
               50,                                 //size needs to be consistent
                   180,                            //radians so they all spin together
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
-                        4,                        //lineWidth
+                        lineWidth,                        //lineWidth
                           boxColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
 }
+//rows of squares with an offset y
+let higherLeftSlantWave = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < rows; h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
+          (i * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            0,                                    //speedX fall straight down
+              speed,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        lineWidth,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
+    }
+  }
+}
+
+//rows of squares with an offset y
+let higherRightSlantWaveMoveX = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5);
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < rows; h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
+          (i * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            speedX,                                    //speedX fall straight down
+              speed,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        lineWidth,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
+    }
+  }
+}
+//rows of squares with an offset y
+let inverseHigherRightSlantWaveMoveX = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5) * 1;
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < rows; h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
+          (i * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            speedX,                                    //speedX fall straight down
+              speed,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        lineWidth,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
+    }
+  }
+}
+
+//rows of squares with an offset y
+let higherLeftSlantWaveMoveX = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5) * -1;
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < rows; h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
+          ((10 - i) * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            speedX,                                    //speedX fall straight down
+              speed,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        lineWidth,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
+    }
+  }
+}
+
+let inverseHigherLeftSlantWaveMoveX = function() {
+  //random color per wave 
+  let boxColor =  randomColorHex(); //`#FF0000`
+  let sides =  Math.round(randomInRange(3, 10));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let rows = Math.round(randomInRange(clamp(1 + level, 2, 4), clamp(3 + level, 4, 8)));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5);
+  let speed = randomInRange(4, clamp(3 + level, 4, 5));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06)
+  for(let h = 0; h < rows; h++){
+    for(let i = 0; i < 10; i++){
+      enemies.push(new PolygonWrap( (i * 90),      //x inc with every box made
+          ((10 - i) * 40 + spawn1X) + (h * spawnHalfX),  //y inc with everybox made
+            speedX,                                    //speedX fall straight down
+              speed,                                  //speedY
+              50,                                 //size needs to be consistent
+                  180,                            //radians so they all spin together
+                    spinningSpeed,                //spinSpeed
+                      sides,                          //no of polygon vertices
+                        lineWidth,                        //lineWidth
+                          boxColor,               //color
+                            radiusScaling));                   //hit radius scaling
+    }
+  }
+}
+
 //rows of squares missing on square per row
 let squareLineWave = function() {
   //random per wave
@@ -119,7 +299,7 @@ let squareLineWave = function() {
     let noBox = Math.floor(randomInRange(1, 9)); //each row skips one box
     for(let i = 0; i < 10; i++){
       if(i != noBox){
-        enemies.push(new PolgonWrap( (i * 90),  //x inc per box
+        enemies.push(new PolygonWrap( (i * 90),  //x inc per box
             (spawn1X) + (h * spawnHalfX),       //y same for each box row
               0,                                //speedX falls straight down
                 4,                              //speedY
