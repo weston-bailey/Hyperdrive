@@ -26,13 +26,138 @@ function gameStart(){
   gameActive = true;
 }
 
+//fades the nav computer out and disables the start game button
+function navComputerGameStart(){
+  //fade out the title
+  titleFadeOut();
+  //get rid of the button
+  MANUAL_FLIGHT_BUTTON.style.display = `none`;
+  AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
+  SECTOR_CONTAINER.style.visibility = `visible`;
+  //update nav computer screen
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
+  //reset emergency flash message
+  EMERGENCY_FLASH.innerHTML = ' ';
+  clearTimeout(emergencyMessageTimeout);
+  emergencyMessageInc1 = 0; //letter index to print
+  emergencyMessageInc2 = 0;
+  emergencyText1 = 'WARNING: COLLISION IMMINENT   '; //first message
+  emergencyText2 = 'Evasive maneuvers required   '; 
+  emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
+  //make timer for level start
+  levelStartInterval = setTimeout(nextLevel, 6000);
+}
+
+//fades the nav computer out and disables the start game button
+function navComputerPlayerDeath(){
+  //fade in the title and nav computer
+  setTimeout(titleFadeIn, 9000);
+  setTimeout(navComputerFadeIn, 3000);
+  //get rid of the button
+  MANUAL_FLIGHT_BUTTON.style.display = `none`;
+  AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
+  SCOREBOARD_CONTAINER.style.visibility = `visible`;
+  DISTANCE_SCORE_TEXT.innerText = `Distance Survived: ${distance}`;
+  TOTAL_WAVES_TEXT.innerText = `Waves Survived: ${totalWaves}`;
+  COLLISIONS_AVOIDED_TEXT.innerText = `Collisions Avoided: ${totalEnemies}`;
+  NAV_COMPUTER_O.style.visibility = `hidden`;
+  NAV_COMPUTER_M_P_U.style.color = `red`;
+  navComputerBlinkTimerER = setTimeout(navComputerBlinkER, 350);
+  navComputerBlinkTimerN = setTimeout(navComputerBlinkN, 200);
+
+  // SECTOR_CONTAINER.style.visibility = `visible`;
+  // //update nav computer screen
+  MANUAL_FLIGHT_MESSAGE.style.visibility = `hidden`;
+  //reset emergency flash message
+  EMERGENCY_FLASH.innerHTML = ' ';
+  clearTimeout(emergencyMessageTimeout);
+  emergencyMessageInc1 = 0; //letter index to print
+  emergencyMessageInc2 = 0;
+  emergencyText1 = 'CRITICAL MALFUNCTION ALERT   '; //first message
+  emergencyText2 = 'Life Support System Failure   '; 
+  emergencyText1 = scrambleString(emergencyText1);
+  emergencyText2 = scrambleString(emergencyText2);
+  emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
+  // //make timer for level start
+  // levelStartInterval = setTimeout(nextLevel, 6000);
+}
+
+function navComputerBlinkER(){
+  if( NAV_COMPUTER_E_R.style.visibility == `hidden`){
+    NAV_COMPUTER_E_R.style.visibility = `visible`;
+    let coinToss = Math.random();
+    if (coinToss > .66) {
+      NAV_COMPUTER_E_R.style.color = `#33ff00`;
+    } else if (coinToss > .33) {
+      NAV_COMPUTER_E_R.style.color = `yellow`;
+    } else {
+      NAV_COMPUTER_E_R.style.color = `red`; 
+    }
+  } else {
+    NAV_COMPUTER_E_R.style.visibility = `hidden`;
+  }
+  setTimeout(navComputerBlinkER, 350);
+}
+function navComputerBlinkN(){
+  if( NAV_COMPUTER_N.style.visibility == `hidden`){
+    let navComputerRandomChars = `NnñÑ¿µúùû¥ü`;
+    let randomChar = Math.round(randomInRange(0, navComputerRandomChars.length - 1));
+    NAV_COMPUTER_N.innerText = `${navComputerRandomChars[randomChar]}`
+    NAV_COMPUTER_N.style.visibility = `visible`;
+  } else {
+    NAV_COMPUTER_N.style.visibility = `hidden`;
+  }
+  setTimeout(navComputerBlinkN, randomInRange(30, 300));
+}
+
+//for debug mode start
+function debugGameStart(wave, level){
+  level = level;
+  ship.sheildLevel = 5;
+  decrementSheild();
+  //fade out the title
+  TITLE_CONTAINER.style.opacity = 0;
+  NAV_COMPUTER.style.opacity = 0;
+  //get rid of the button
+  MANUAL_FLIGHT_BUTTON.style.display = `none`;
+  // AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
+  // SECTOR_CONTAINER.style.visibility = `visible`;
+  //update nav computer screen
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
+  //reset emergency flash message
+  EMERGENCY_FLASH.innerHTML = ' ';
+  clearTimeout(emergencyMessageTimeout);
+  //make debug wave machine
+  waveMachine = new WaveMachineDebug(wave);
+  distanceTimer = setInterval(distanceTick, 500);
+  //game is now active
+  gameActive = true;
+}
+
+function scrambleString(string){
+  let stringArray = [];
+  for(let i = 0; i < string.length; i++){
+    let randomChars = `NnñÑ¿µúùû¥ü¡åß∂ƒœ∑≈ç£¢∞§¶•ªº–øˆ∆˚¬˙≥≤÷æ…¬“”˚*  `;
+    let randomIndex = Math.round(randomInRange(0, randomChars.length - 1))
+    let coinToss = Math.random();
+    stringArray.push(string[i]);
+    if(coinToss > .9){
+      stringArray[i] += randomChars[randomIndex];
+    } else if (coinToss > .8){
+      stringArray[i] = randomChars[randomIndex];
+    }
+  }
+  return stringArray.toString().replace( /,/g, "" );;
+}
+
+
 //writes emergencyText1 and switches by calling emergencyMessage2 when finished
 function emergencyMesssage1() {
-  if (emergencyMessageInc1 < emergenccText1.length) {
-    EMERGENCY_FLASH.innerHTML += emergenccText1.charAt(emergencyMessageInc1);
+  if (emergencyMessageInc1 < emergencyText1.length) {
+    EMERGENCY_FLASH.innerHTML += emergencyText1.charAt(emergencyMessageInc1);
     emergencyMessageInc1++;
     emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
-  } else if (emergencyMessageInc1 >= emergenccText1.length){
+  } else if (emergencyMessageInc1 >= emergencyText1.length){
     emergencyMessageInc1 = 0;
     EMERGENCY_FLASH.innerHTML = ' ';
     emergencyMessageTimeout = setTimeout(emergencyMesssage2, typingSpeed);
@@ -40,11 +165,11 @@ function emergencyMesssage1() {
 }
 //writes emergencyText2 and switches by caliing emergencyMessage1 when finished
 function emergencyMesssage2() {
-  if (emergencyMessageInc2 < emergenccText2.length) {
-    EMERGENCY_FLASH.innerHTML += emergenccText2.charAt(emergencyMessageInc2);
+  if (emergencyMessageInc2 < emergencyText2.length) {
+    EMERGENCY_FLASH.innerHTML += emergencyText2.charAt(emergencyMessageInc2);
     emergencyMessageInc2++;
     emergencyMessageTimeout = setTimeout(emergencyMesssage2, typingSpeed);
-  } else if (emergencyMessageInc2 >= emergenccText2.length){
+  } else if (emergencyMessageInc2 >= emergencyText2.length){
     emergencyMessageInc2 = 0;
     EMERGENCY_FLASH.innerHTML = ' ';
     emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
@@ -71,6 +196,21 @@ function distanceTick(){
   if(gameActive){
     distance++;
     DISTANCE_TEXT.innerText = `DISTANCE: ${distance}`;
+    //inc sheild level every 50 distances
+    //inc by 2 and call decrementSheild() bc im lazy, haha
+    if(distance % 50 == 0){
+      ship.sheildLevel = clamp(ship.sheildLevel + 1, 0, 4);
+    //update HUD Textt
+    SHEILD_LEVEL_TEXT.innerText = `SHEILD LEVEL: ${scale(ship.sheildLevel, 0, 4, 0, 100)}%`;
+    //update HUD color
+    if (ship.sheildLevel > 2) {
+        SHEILD_LEVEL_TEXT.style.color = `#33ff00`;
+      } else if (ship.sheildLevel >= 2) {
+        SHEILD_LEVEL_TEXT.style.color = `yellow`;
+      } else if (ship.sheildLevel >= 0) {
+        SHEILD_LEVEL_TEXT.style.color = `red`; 
+      }
+    }
   }
 }
 
@@ -175,7 +315,6 @@ function sheildCoolDownOver(){
   decrementSheild();
   ship.sheildCoolDown = false;
   ship.sheild = ship.sheild;
-
 }
 
 /* TODO: try to make a function/class that fades 
@@ -187,6 +326,14 @@ function titleFadeOut(){
     titleOpacity -= .01;
     TITLE_CONTAINER.style.opacity = titleOpacity;
     setTimeout(titleFadeOut, fadeSpeed);
+  } 
+}
+//fades out the title (same speed as nav computer)
+function titleFadeIn(){
+  if(titleOpacity <= 1){
+    titleOpacity += .01;
+    TITLE_CONTAINER.style.opacity = titleOpacity;
+    setTimeout(titleFadeIn, fadeSpeed);
   } 
 }
 //fades out the nav computer but doesnt bother with the flight control

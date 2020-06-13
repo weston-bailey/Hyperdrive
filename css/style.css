@@ -131,7 +131,7 @@ div {
 
 /* auto repair div*/
 #sector-container{
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0);
   height: 100px;
   width: 300px;
   position: absolute;
@@ -145,7 +145,7 @@ div {
 
 /* auto repair div*/
 #auto-repair-container {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0);
   height: 90px;
   width: 300px;
   position: absolute;
@@ -187,7 +187,7 @@ div {
 
 /* nav computer button div */
 #manual-flight-button {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0);
   height: 75px;
   width: 130px;
   position: absolute;
@@ -208,7 +208,7 @@ cursor: pointer;
 }
 /* animation for button div */
 #manual-flight-button:active {
-  background-color:rgba(128, 128, 128, .5);
+  background-color:rgba(128, 128, 128, 0);
   cursor: pointer; 
   box-shadow: 0 4px #666;
   top: 51%;
@@ -222,4 +222,19 @@ cursor: pointer;
 .warning {
   color: yellow; 
   background-color: rgba(0, 0, 0, 0);
+}
+
+#scoreboard-container {
+  background-color: rgba(0, 0, 0, 0);
+  height: 200px;
+  width: 300px;
+  position: absolute;
+  top: 100%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  border: none;
+  border-radius: 25px;
+  z-index: 2;
+  visibility: hidden;
 }

@@ -21,6 +21,14 @@ const WAVES_TEXT = document.getElementById(`waves-text`);
 const SHEILD_LEVEL_TEXT = document.getElementById(`sheild-level-text`);
 const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
 const COLLISION_VECTOR_TEXT = document.getElementById(`collision-vector-text`);
+const SCOREBOARD_CONTAINER = document.getElementById(`scoreboard-container`);
+const DISTANCE_SCORE_TEXT = document.getElementById(`distance-score-text`);
+const TOTAL_WAVES_TEXT = document.getElementById(`total-waves-text`);
+const COLLISIONS_AVOIDED_TEXT = document.getElementById(`collisons-avoided-text`);
+const NAV_COMPUTER_N = document.getElementById(`nav-computer-N`);
+const NAV_COMPUTER_O = document.getElementById(`nav-computer-O`);
+const NAV_COMPUTER_M_P_U = document.getElementById(`nav-computer-M-P-U`);
+const NAV_COMPUTER_E_R = document.getElementById(`nav-computer-E-R`);
 
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
 
@@ -54,32 +62,38 @@ let backgroundZ3 = [];
 //array of enemies
 let enemies = [];
 //previous amount of enemies for HUD update
-var prevEnemiesLength = 0;
+let prevEnemiesLength = 0;
+let totalEnemies = 0;
 //array of exhuast particles
 let exhuastParticles = [];
 //array of debris
 let debrisParticles = [];
 //variables to make emergency message
-var emergencyMessageTimeout;
-var emergencyMessageInc1 = 0; //letter index to print
-var emergencyMessageInc2 = 0;
-var emergenccText1 = '*EMERGENCY ALERT*   '; //first message
-var emergenccText2 = 'Auto Pilot System Failure   '; 
-var typingSpeed = 150; //letter update speed
+let emergencyMessageTimeout;
+let emergencyMessageInc1 = 0; //letter index to print
+let emergencyMessageInc2 = 0;
+let emergencyText1 = '*EMERGENCY ALERT*   '; //first message
+let emergencyText2 = 'Auto Pilot System Failure   '; 
+let typingSpeed = 100; //letter update speed
+//timeout for blink er and n on game over
+let navComputerBlinkTimerER;
+let navComputerBlinkTimerN;
 //for fading out of elements
-var navComputerOpacity = 1;
-var titleOpacity = 1;
-var fadeSpeed = 10;
+let navComputerOpacity = 1;
+let titleOpacity = 1;
+let fadeSpeed = 10;
 //setinterval for distance
-var distanceTimer;
-var distance = 0;
+let distanceTimer;
+let distance = 0;
+//total amount of waves survived
+let totalWaves = -1;
 //for levels
-var levelStartInterval;
-var level = 0;
+let levelStartInterval;
+let level = 0;
 //varible to check if the game has started
-var gameActive = false;
+let gameActive = false;
 //functions for wave machine to call
-var waveFunctions =   [triangleCometWaveRandomDirections, 
+let waveFunctions =   [triangleCometWaveRandomDirections, 
                       triangleCometWaveSameDirections, 
                       higherRightSlantWave, 
                       higherLeftSlantWave, 
@@ -115,52 +129,6 @@ function init() {
   makeStarBackgroud();                                                       
   //start rendering
   render();
-}
-
-//fades the nav computer out and disables the start game button
-function navComputerGameStart(){
-  //fade out the title
-  titleFadeOut();
-  //get rid of the button
-  MANUAL_FLIGHT_BUTTON.style.display = `none`;
-  AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
-  SECTOR_CONTAINER.style.visibility = `visible`;
-  //update nav computer screen
-  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
-  //reset emergency flash message
-  EMERGENCY_FLASH.innerHTML = ' ';
-  clearTimeout(emergencyMessageTimeout);
-  emergencyMessageInc1 = 0; //letter index to print
-  emergencyMessageInc2 = 0;
-  emergenccText1 = 'WARNING: COLLISION IMMINENT   '; //first message
-  emergenccText2 = 'Evasive maneuvers required   '; 
-  emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
-  //make timer for level start
-  levelStartInterval = setTimeout(nextLevel, 9500);
-}
-
-//for debug mode start
-function debugGameStart(wave, level){
-  level = level;
-  ship.sheildLevel = 5;
-  decrementSheild();
-  //fade out the title
-  TITLE_CONTAINER.style.opacity = 0;
-  NAV_COMPUTER.style.opacity = 0;
-  //get rid of the button
-  MANUAL_FLIGHT_BUTTON.style.display = `none`;
-  // AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
-  // SECTOR_CONTAINER.style.visibility = `visible`;
-  //update nav computer screen
-  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL: MANUAL`;
-  //reset emergency flash message
-  EMERGENCY_FLASH.innerHTML = ' ';
-  clearTimeout(emergencyMessageTimeout);
-  //make debug wave machine
-  waveMachine = new WaveMachineDebug(wave);
-  distanceTimer = setInterval(distanceTick, 500);
-  //game is now active
-  gameActive = true;
 }
 
 //main render loop
@@ -226,6 +194,7 @@ function render(){
           ship.makeDebris();
           ship.isGarbage = true;
           gameActive = false;
+          navComputerPlayerDeath();
         }
       } 
     }
@@ -260,10 +229,16 @@ function render(){
     waveMachine.waveActive = false;
 
   }
-  //update collison vectors hud if change
+  //update collison vectors hud if change while game is active
   if(gameActive){
     if(enemies.length != prevEnemiesLength){
+      //update HUD
       COLLISION_VECTOR_TEXT.innerText = `COLLISION VECTORS: ${enemies.length}`;
+      //for game over screen
+      if(enemies.length < prevEnemiesLength){
+        totalEnemies++;
+      }
+      //color HUD 
       if(enemies.length > prevEnemiesLength){
         COLLISION_VECTOR_TEXT.style.color = `red`;
       } else if(enemies.length > 10) 
@@ -271,9 +246,9 @@ function render(){
       else  {
         COLLISION_VECTOR_TEXT.style.color = `#33ff00`;
       }
+      //update prev value for next compare
       prevEnemiesLength = enemies.length;
     }
   }
-  //console.log(ship.sheildCoolDown)
   requestAnimationFrame(render);
 }

@@ -8,11 +8,12 @@ class WaveMachine {
     this.waveMax = waveMax || Math.round(randomInRange(8, 12));
   }
   update(){
-    //randomly select a wave function from the array
-    let waveFunction = Math.round(randomInRange(0, this.enemyTypes.length));  
-    //double check that the value is in range just in case, because if it isn't, javascript will crash
-    waveFunction = clamp(waveFunction, 0, this.enemyTypes.length);
+    //check if a wave is active
     if(!this.waveActive){
+      //randomly select a wave function from the array
+      let waveFunction = Math.round(randomInRange(0, this.enemyTypes.length));  
+      //double check that the value is in range just in case, because if it isn't, javascript will crash
+      waveFunction = clamp(waveFunction, 0, this.enemyTypes.length);
       //inc level and reset wavecount if max wave passed already
       if(this.waveCount >= this.waveMax){
         level++;
@@ -20,27 +21,23 @@ class WaveMachine {
         this.waveMax = Math.round(randomInRange(8, 12));
         ship.sheild = clamp(ship.sheild + 2, 0, 4);
       }
-      // pull the function out the array fand store it in a variable LOUIS THANK YOU THE IDEA!
+      // pull the function out the array and store it in a variable LOUIS THANK YOU THE IDEA!
       let thisFunction = this.enemyTypes[waveFunction];
+      //if its not a function, break here to avoid a crash
       if(typeof thisFunction != `function`){
-        console.log(`this.enemyTypes[waveFunction]: ${this.enemyTypes[waveFunction]}`)
-        console.log(`BREAK`)
+        console.log(`this.enemyTypes[waveFunction]: ${this.enemyTypes[waveFunction]} wavemachine retuning early`)
         return;
       }
-      let colors = [];
-      for (let i = 0; i < enemies.length; i++){
-        colors.push(enemies[i].color);
-      }
-      //console.log(`waveFunction ${waveFunction} enemyTypes.length ${this.enemyTypes.length}, this function: ${thisFunction}, typeof ${typeof thisFunction}`/* this.enemyTypes[waveFunction] ${this.enemyTypes[waveFunction]}*/)
       //call the chosen function
       thisFunction();
       //inc wave cont and display, mark wave active 
       this.waveActive = true;
       if(gameActive){
         this.waveCount++;
+        //for endgame scoreboard
+        totalWaves++;
         WAVES_TEXT.innerText = `WAVE #: ${this.waveCount} of ${this.waveMax}`;
       }
-      //console.log(`called`, this.enemyTypes)
     }
   }
 }
