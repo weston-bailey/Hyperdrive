@@ -1,6 +1,7 @@
+
 * {
   background-color: grey;
-  font-family: 'VT323', monospace;
+  font-family: 'VT323', monospace !important;
   color:  #33ff00;
   text-align: center;
   margin: 0 auto;
@@ -71,7 +72,7 @@ div {
   background-color: rgba(0, 0, 0, 0);
   color:  rgb(51, 255, 0, .9);
   font-size: 110px;
-  font-family: 'Bungee Inline', cursive;
+  font-family: 'Bungee Inline' !important;
 
 }
 /* makes bg see through */
@@ -215,5 +216,10 @@ cursor: pointer;
 /* error messages class */
 .error {
   color: red; 
+  background-color: rgba(0, 0, 0, 0);
+}
+/* error messages class */
+.warning {
+  color: yellow; 
   background-color: rgba(0, 0, 0, 0);
 }

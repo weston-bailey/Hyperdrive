@@ -14,6 +14,7 @@ function nextLevel(){
   }
   level++;
 }
+
 //[triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]
 //called when manual flight control button is pressed
 function gameStart(){
@@ -67,8 +68,10 @@ function makeStarBackgroud() {
 
 //keeps track of overall distance
 function distanceTick(){
-  distance++;
-  DISTANCE_TEXT.innerText = `DISTANCE: ${distance}`;
+  if(gameActive){
+    distance++;
+    DISTANCE_TEXT.innerText = `DISTANCE: ${distance}`;
+  }
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -97,10 +100,10 @@ function inputHandler(){
       ship.movingX = false;
     }
     if (keys[16]){
-      if(ship.sheildLevel > 0){
+      if(ship.sheildLevel > 0 && !ship.sheildCoolDown){
         ship.sheild = true;
       }
-    } else {
+    } else if(!ship.sheildCoolDown) {
       ship.sheild = false;
     }
     return [directionX, directionY];
@@ -148,7 +151,7 @@ function hitTest(radius1, x1, y1, radius2, x2, y2){
 //decrements sheild level on hit and updates hud
 function decrementSheild(){
   //return if called and the ship has no sheild
-  if(ship.sheildLevel <= 0){
+  if(ship.sheildLevel <= 0 && !ship.sheildCoolDown){
     return;
   } else {
     //decrement shield level value
@@ -166,6 +169,13 @@ function decrementSheild(){
       ship.sheild = false;  
     }
   }
+}
+
+function sheildCoolDownOver(){
+  decrementSheild();
+  ship.sheildCoolDown = false;
+  ship.sheild = ship.sheild;
+
 }
 
 /* TODO: try to make a function/class that fades 

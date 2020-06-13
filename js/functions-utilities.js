@@ -6,6 +6,10 @@ function clamp(x, min, max){
       else { x = x; }
   return x;
 }
+//finds what percetn x is of y
+function precentageOf(x, y) {
+  return Math.round(x * 100 / y);
+}
 
 //degrees to radians
 function degreesToRadians(angle){
@@ -22,7 +26,9 @@ function logFunction(){
 
 //make random color hex
 function randomColorHex(){
-  return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+  let hex = `#${Math.floor(Math.random()*16777215).toString(16)}`
+  //console.log(hex);
+  return hex;
 }
 
 //convert color hex to rgb with a predefined alpha(optional)

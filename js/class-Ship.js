@@ -13,6 +13,7 @@ class Ship {
     this.sheildColorAlpha = 1;  //presently unsued, but could be modified for effect
     this.sheild = false;
     this.sheildLevel = 4; //draw width for line and level of how much sheild is left
+    this.sheildCoolDown = false; //period of invincibility after shild has been hit
     this.isGarbage = false;
   }
   update(directionX, directionY){

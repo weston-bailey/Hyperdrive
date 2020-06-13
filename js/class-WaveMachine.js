@@ -1,10 +1,11 @@
 //wave machine keeps track of enemy waves and generates another when needed
 class WaveMachine {
   //pass an array of functions that generate enemy  wavws
-  constructor (enemyTypes){
+  constructor (enemyTypes, waveMax){
     this.waveActive = false;
     this.enemyTypes = enemyTypes; 
     this.waveCount = 0;
+    this.waveMax = waveMax || Math.round(randomInRange(8, 12));
   }
   update(){
     //randomly select a wave function from the array
@@ -12,6 +13,13 @@ class WaveMachine {
     //double check that the value is in range just in case, because if it isn't, javascript will crash
     waveFunction = clamp(waveFunction, 0, this.enemyTypes.length);
     if(!this.waveActive){
+      //inc level and reset wavecount if max wave passed already
+      if(this.waveCount >= this.waveMax){
+        level++;
+        this.waveCount = 0;
+        this.waveMax = Math.round(randomInRange(8, 12));
+        ship.sheild = clamp(ship.sheild + 2, 0, 4);
+      }
       // pull the function out the array fand store it in a variable LOUIS THANK YOU THE IDEA!
       let thisFunction = this.enemyTypes[waveFunction];
       if(typeof thisFunction != `function`){
@@ -27,9 +35,11 @@ class WaveMachine {
       //call the chosen function
       thisFunction();
       //inc wave cont and display, mark wave active 
-      this.waveCount++;
       this.waveActive = true;
-      WAVES_TEXT.innerText = `WAVE #: ${this.waveCount}`;
+      if(gameActive){
+        this.waveCount++;
+        WAVES_TEXT.innerText = `WAVE #: ${this.waveCount} of ${this.waveMax}`;
+      }
       //console.log(`called`, this.enemyTypes)
     }
   }

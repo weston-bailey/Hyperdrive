@@ -4,7 +4,7 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(triangleCometWaveSameDirections, 1, 4);
+                                                                          debugGameStart(testWave, 1, 4);
                                                                         }                                                              
                                                                       });
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });
@@ -20,6 +20,7 @@ const DISTANCE_TEXT = document.getElementById(`distance-text`);
 const WAVES_TEXT = document.getElementById(`waves-text`);
 const SHEILD_LEVEL_TEXT = document.getElementById(`sheild-level-text`);
 const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
+const COLLISION_VECTOR_TEXT = document.getElementById(`collision-vector-text`);
 
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
 
@@ -41,6 +42,8 @@ let spawn3X = spawn1X * 3;
 let keys = [];
 //for ship object
 let ship;
+//timeout of shield cooldown
+let sheildCoolDownTimer;
 //for wavemachine object
 let waveMachine = null;
 //arrays of background objects
@@ -50,6 +53,8 @@ let backgroundZ2 = [];
 let backgroundZ3 = [];
 //array of enemies
 let enemies = [];
+//previous amount of enemies for HUD update
+var prevEnemiesLength = 0;
 //array of exhuast particles
 let exhuastParticles = [];
 //array of debris
@@ -71,11 +76,19 @@ var distance = 0;
 //for levels
 var levelStartInterval;
 var level = 0;
-
 //varible to check if the game has started
 var gameActive = false;
-
-var waveFunctions = [triangleCometWaveRandomDirections, triangleCometWaveSameDirections, higherRightSlantWave, higherLeftSlantWave, higherRightSlantWaveMoveX, inverseHigherRightSlantWaveMoveX, higherLeftSlantWaveMoveX, inverseHigherLeftSlantWaveMoveX]
+//functions for wave machine to call
+var waveFunctions =   [triangleCometWaveRandomDirections, 
+                      triangleCometWaveSameDirections, 
+                      higherRightSlantWave, 
+                      higherLeftSlantWave, 
+                      higherRightSlantWaveMoveX, 
+                      inverseHigherRightSlantWaveMoveX, 
+                      higherLeftSlantWaveMoveX, 
+                      inverseHigherLeftSlantWaveMoveX,
+                      triangleCometWaveSameDirectionsSmall,
+                      lineWave, lineWaveMoveX, lineWaveMoveY]
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -85,6 +98,8 @@ function init() {
   emergencyMesssage1(); 
   //make ship class
   ship = new Ship;
+  ship.sheildLevel = 2;
+  decrementSheild();
   //setupcanvas
   canvas = document.querySelector("#game-canvas");
   ctx = canvas.getContext("2d");
@@ -125,9 +140,10 @@ function navComputerGameStart(){
 }
 
 //for debug mode start
-function debugGameStart(wave, level, sheild){
+function debugGameStart(wave, level){
   level = level;
-  ship.sheildLevel = sheild;
+  ship.sheildLevel = 5;
+  decrementSheild();
   //fade out the title
   TITLE_CONTAINER.style.opacity = 0;
   NAV_COMPUTER.style.opacity = 0;
@@ -143,8 +159,6 @@ function debugGameStart(wave, level, sheild){
   //make debug wave machine
   waveMachine = new WaveMachineDebug(wave);
   distanceTimer = setInterval(distanceTick, 500);
-  //update sheild hud
-  SHEILD_LEVEL_TEXT.innerText = `SHEILD LEVEL: ${scale(ship.sheildLevel, 0, 4, 0, 100)}%`;
   //game is now active
   gameActive = true;
 }
@@ -171,40 +185,42 @@ function render(){
     exhuastParticles[i].draw();
   }
   //update and debris
-  for(let i = 0; i < debrisParticles.length; i++){
-    debrisParticles[i].update();
-    debrisParticles[i].draw();
+  for(let j = 0; j < debrisParticles.length; j++){
+    debrisParticles[j].update();
+    debrisParticles[j].draw();
   }
   //update wavemachine
   if(waveMachine != null){
     waveMachine.update();
   }
   //update and draw enemies
-  for(let i = 0; i < enemies.length; i++){
-    enemies[i].update();
-    enemies[i].draw();
+  for(let k = 0; k < enemies.length; k++){
+    enemies[k].update();
+    enemies[k].draw();
     if(debug){
-      enemies[i].drawCollisionRadius();
+      enemies[k].drawCollisionRadius();
     }
   }
   //check for collisions
-  for(let i = 0; i < enemies.length; i++){
+  for(let l = 0; l < enemies.length; l++){
     let crash;
     if(ship.sheild && ship.sheildLevel > 0){     //sheild is on
-      crash = hitTest(45, ship.noseX, ship.noseY + 25, enemies[i].hitRadius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
+      crash = hitTest(45, ship.noseX, ship.noseY + 25, enemies[l].hitRadius, enemies[l].x, enemies[l].y); //(radius1, x1, y1, radius2, x2, y2,)
       if(crash){  //hit detected
-        //decrease sheild level and mark enemy as garbage
-        decrementSheild();
-        enemies[i].makeDebris();
-        enemies[i].isGarbage = true;
-      } else {
-        //enemies[i].color = `white`;
-      }
+        //decrease sheild level and mark enemy as garbage, fire off a sheild cool down
+        if(!ship.sheildCoolDown){
+          sheildCoolDownTimer = setTimeout(sheildCoolDownOver, 250);
+          ship.sheild = true;
+          ship.sheildCoolDown = true;
+        }
+        enemies[l].makeDebris();
+        enemies[l].isGarbage = true;
+      } 
     } else if (!ship.sheild) { //sheild is off
-      crash = hitTest(15, ship.noseX, ship.noseY + 30, enemies[i].hitRadius, enemies[i].x, enemies[i].y); //(radius1, x1, y1, radius2, x2, y2,)
+      crash = hitTest(15, ship.noseX, ship.noseY + 30, enemies[l].hitRadius, enemies[l].x, enemies[l].y); //(radius1, x1, y1, radius2, x2, y2,)
       if(crash){
-        enemies[i].makeDebris();
-        enemies[i].isGarbage = true;
+        enemies[l].makeDebris();
+        enemies[l].isGarbage = true;
         //ship is invincible in debug mode
         if(!debug){
           ship.makeDebris();
@@ -214,27 +230,50 @@ function render(){
       } 
     }
   }
+  //check if any enemies want to self destruct
+  for(let m = 0; m < enemies.length; m++){
+    if(enemies[m].selfDestruct){
+      enemies[m].makeDebris();
+      enemies[m].isGarbage = true;
+    }
+  }
   //check if enemies are marked as garbage, splice the ones that are
-  for(let i = 0; i < enemies.length; i++){
-    if(enemies[i].isGarbage) {
-      enemies.splice(i, 1);
+  for(let o = 0; o < enemies.length; o++){
+    if(enemies[o].isGarbage) {
+      enemies.splice(o, 1);
     }
   }
   //check for exhaust marked as garbage
-  for(let i = 0; i < exhuastParticles.length; i++){
-    if(exhuastParticles[i].isGarbage){
-      exhuastParticles.splice(i, 1);
+  for(let p = 0; p < exhuastParticles.length; p++){
+    if(exhuastParticles[p].isGarbage){
+      exhuastParticles.splice(p, 1);
     }
   }
   //check for exhaust marked as garbage
-  for(let i = 0; i < debrisParticles.length; i++){
-    if(debrisParticles[i].isGarbage){
-      debrisParticles.splice(i, 1);
+  for(let q = 0; q < debrisParticles.length; q++){
+    if(debrisParticles[q].isGarbage){
+      debrisParticles.splice(q, 1);
     }
   }
   //if no enemies are left, tell the wave machine so it can do its thing
   if(enemies.length === 0 && waveMachine != null){
     waveMachine.waveActive = false;
+
   }
+  //update collison vectors hud if change
+  if(gameActive){
+    if(enemies.length != prevEnemiesLength){
+      COLLISION_VECTOR_TEXT.innerText = `COLLISION VECTORS: ${enemies.length}`;
+      if(enemies.length > prevEnemiesLength){
+        COLLISION_VECTOR_TEXT.style.color = `red`;
+      } else if(enemies.length > 10) 
+        COLLISION_VECTOR_TEXT.style.color = `yellow`;
+      else  {
+        COLLISION_VECTOR_TEXT.style.color = `#33ff00`;
+      }
+      prevEnemiesLength = enemies.length;
+    }
+  }
+  //console.log(ship.sheildCoolDown)
   requestAnimationFrame(render);
 }
