@@ -75,7 +75,7 @@ class Ship {
       ctx.lineWidth = this.sheildLevel + 1; //shield gets smaller when hit
       ctx.strokeStyle = `rgba(${this.sheildColor}, ${this.sheildColorAlpha})`; //could do a sheild active check in update and += sheild alpha
       ctx.beginPath();
-      ctx.arc(this.noseX, this.noseY + 25, 45, 0, 2 * Math.PI);
+      ctx.arc(this.noseX, this.noseY + 25, 45, 0, TWO_PI);
       ctx.closePath();
       ctx.stroke();
     }
@@ -85,7 +85,7 @@ class Ship {
     ctx.lineWidth = 1;
     ctx.strokeStyle = `white`;
     ctx.beginPath();
-    ctx.arc(this.noseX, this.noseY + 30, 15, 0, 2 * Math.PI);
+    ctx.arc(this.noseX, this.noseY + 30, 15, 0, TWO_PI);
     ctx.closePath();
     ctx.stroke();
   }

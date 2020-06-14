@@ -1,3 +1,5 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~THESE FUNCTIONS CAN BE PASSED TO THE WAVE MACHINE TO MAKE ENEMIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 //pass to the wave machine as a 'null' function so it doesn't freak out if needed for debug
 let dummyWave = function(){
   return;

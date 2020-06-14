@@ -45,7 +45,7 @@ class Polygon {
     ctx.lineWidth = 1;
     ctx.strokeStyle = `white`;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.hitRadius, 0, 2 * Math.PI);
+    ctx.arc(this.x, this.y, this.hitRadius, 0, TWO_PI);
     ctx.closePath();
     ctx.stroke();
   }

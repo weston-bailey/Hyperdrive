@@ -22,7 +22,7 @@ class WaveMachine {
         HYPER_DRIVE_TEXT.innerText = `HYPERDIVE REPAIR: ${precentageOf(level, 12)}%`;
         SECTOR_TEXT.innerText = `SECTOR: OPEN SPACE ${level}`;
       }
-      // pull the function out the array and store it in a variable LOUIS THANK YOU THE IDEA!
+      // pull the function out the array and store it in a variable LOUIS THANK YOU FOR THE IDEA!
       let thisFunction = this.enemyTypes[waveFunction];
       //if its not a function, break here to avoid a crash (need to fix not a function bug TODO)
       if(typeof thisFunction != `function`){

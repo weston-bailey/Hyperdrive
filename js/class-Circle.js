@@ -34,7 +34,7 @@ class Circle {
     ctx.lineWidth = 2;
     ctx.strokeStyle = this.color;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.arc(this.x, this.y, this.radius, 0, TWO_PI);
     ctx.closePath();
     ctx.stroke();
   }

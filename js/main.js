@@ -129,61 +129,6 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-function resetGame() {
-  console.log(`reset lmao`)
-  clearTimeout(navComputerBlinkTimerER);
-  clearTimeout(navComputerBlinkTimerN);
-  clearTimeout(emergencyMessageTimeout);
-  clearInterval(distanceTimer);
-  NAV_COMPUTER_N.style.visibility = `visible`;
-  NAV_COMPUTER_N.innerText = `N`;
-  NAV_COMPUTER_O.style.visibility = `visible`;
-  NAV_COMPUTER_M_P_U.style.color = `#33ff00`;
-  NAV_COMPUTER_M_P_U.style.visibility = `visible`;
-  NAV_COMPUTER_E_R.style.visibility = `visible`;
-  NAV_COMPUTER_E_R.style.color = `#33ff00`;
-  EMERGENCY_FLASH.innerHTML = ' ';
-  SECTOR_CONTAINER.style.visibility = `hidden`;
-  SECTOR_NAV_TEXT.innerText = `sector: open space 1`;
-  MANUAL_FLIGHT_BUTTON.style.display = `inline`;
-  AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
-  SCOREBOARD_CONTAINER.style.visibility = `hidden`;
-  MANUAL_FLIGHT_MESSAGE.style.visibility = `visible`;
-  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL:`;
-  MANUAL_FLIGHT_ERROR_MESSAGE.innerText = `ERROR`;
-  MAIN_MENU_BUTTON.style.display = `none`;
-  COLLISION_VECTOR_TEXT.innerText = `COLLISION VECTORS: 0`;
-  COLLISION_VECTOR_TEXT.style.color = `#33ff00`;
-  HYPER_DRIVE_TEXT.innerText = `HYPERDIVE REPAIR: 8%`;
-  WAVES_TEXT.innerText = `WAVE #: `;
-  SECTOR_TEXT.innerText = `SECTOR: OPEN SPACE 1`;
-  DISTANCE_TEXT.innerText = `DISTANCE: 0`;
-
-  //reset vars
-  ship = null;
-  waveMachine = null;
-  prevEnemiesLength = 0;
-  totalEnemies = 0;
-  emergencyMessageTimeout = null;
-  emergencyMessageInc1 = 0; 
-  mergencyMessageInc2 = 0;
-  emergencyText1 = '*EMERGENCY ALERT*   '; 
-  emergencyText2 = 'Auto Pilot System Failure   '; 
-  navComputerBlinkTimerER = null;
-  navComputerBlinkTimerN = null;
-  distanceTimer = null;
-  distance = 0;
-  totalWaves = -1;
-  levelStartInterval = null;
-  level = 0;
-  gameActive = false;
-  //from init
-  emergencyMesssage1(); 
-  ship = new Ship;
-  ship.sheildLevel = 2;
-  decrementSheild();
-}
-
 //called on page load
 function init() {
   //write emergency message onscren
