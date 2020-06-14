@@ -1,4 +1,5 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS FOR VARIOUS USEFUL TASKS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 //limit value x to range between min and max
 function clamp(x, min, max){
   if (x < min) { x = min; }
@@ -6,6 +7,7 @@ function clamp(x, min, max){
       else { x = x; }
   return x;
 }
+
 //finds what percetn x is of y
 function precentageOf(x, y) {
   return Math.round(x * 100 / y);
@@ -16,7 +18,7 @@ function degreesToRadians(angle){
   return (angle / Math.PI) * 180;
 }
 
-//called by log button
+//called by log button for debug
 function logFunction(){
   console.log(enemies)
   canvas.onmousemove = e => {
@@ -58,7 +60,7 @@ function hexToRGBArray(hex) {
       return [r, g, b];
 }
 
-//makes a randoom number between a range that is either positive or negetive with probability (float 0 - 1) influencing the sign chance
+//makes a randoom number between a range that is either positive or negetive with probability (float 0 - 1) influencing the sign chance (optional)
 function randomSignInRange(minimum, maximum, probability){
   let prob = probability || .5;
   let coinToss = Math.random();
@@ -80,4 +82,3 @@ function scale(x, xLo, xHi, yLo, yHi) {
   let percent = (x - xLo) / (xHi - xLo);
   return percent * (yHi - yLo) + yLo;
 }
-

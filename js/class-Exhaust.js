@@ -1,6 +1,6 @@
 //ship exhaust
 class Exhaust {
-  //if no staring x and y position are giving, and no speed is given, then the constructor
+  //if no staring x and y position are given, and no speed is given, then the constructor
   //assumes its just regular ship exhaus
   constructor(x, y, speedX, speedY){
     this.speedX = speedX || randomSignInRange(.1, 1);

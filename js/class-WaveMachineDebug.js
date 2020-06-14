@@ -1,4 +1,4 @@
-//waveMachineDebug jsut accepts one wave at a time
+//deprecated, debug wavemachine now extends wavemachine
 class WaveMachineDebug {
   //pass an array of functions that generate enemy  wavws
   constructor (enemyTypes){

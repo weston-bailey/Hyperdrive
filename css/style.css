@@ -20,12 +20,9 @@ body, html {
 }
 
 canvas {
-  display: block;/* animation for button div */
+  display: block;
 }
 
-div {
-   /* border: 1px dotted red; */
-}
 /* blank div at top of screen */
 #header-spacing {
   height: 85px;
@@ -231,6 +228,10 @@ cursor: pointer;
   display: none;
 }
 
+#main-menu-button-text {
+  /* fix text position */
+}
+
 /* animation for button div */
 #main-menu-button:hover {
   background-color:rgba(128, 128, 128, .5);
@@ -249,12 +250,12 @@ cursor: pointer;
   color: red; 
   background-color: rgba(0, 0, 0, 0);
 }
-/* error messages class */
+/* error messages class (unused rn) */
 .warning {
   color: yellow; 
   background-color: rgba(0, 0, 0, 0);
 }
-
+/* scoreboard for game over */
 #scoreboard-container {
   background-color: rgba(0, 0, 0, 0);
   height: 200px;
@@ -269,4 +270,4 @@ cursor: pointer;
   z-index: 2;
   visibility: hidden;
 }
-/* used for debug */
+

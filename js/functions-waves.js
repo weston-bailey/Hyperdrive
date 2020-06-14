@@ -1,36 +1,10 @@
-function sidesToHitRadiusScale(numOfSides){
-  let scaleValue;
-  switch(numOfSides){
-    case 3 :
-      scaleValue = .65;
-      break;
-    case 4 :
-      scaleValue = .8;
-      break;
-    case 5 :
-      scaleValue = .85;
-      break;
-    case 6 :
-      scaleValue = .9;
-      break;
-    case 7 :
-      scaleValue = .95;
-      break;
-    default :
-      scaleValue = .95;
-      break;
-  }
-  return scaleValue;
-}
-
-//pass to the wave machine as a 'null' function so it doesn't freak out
+//pass to the wave machine as a 'null' function so it doesn't freak out if needed for debug
 let dummyWave = function(){
   return;
 }
 
 //for testing new enemy behaviors
 let testWave = function() {
-  //let boxColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -58,12 +32,12 @@ let testWave = function() {
                         ));     
   }                       
 }
+
 ///small polgons that bounce with the same x pos
 let bounceWaveSameX = function() {
-  //let boxColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
-  //rows increase with level maxing out in range 4 - 8
+  //rows increase with level maxing out in ran
   let amount = randomInRange(5, clamp(level + 10, 11, 20));
   //speed inc with level but just a little
   let speedX = randomInRange(2, clamp(2 + level, 3, 6));
@@ -84,13 +58,12 @@ let bounceWaveSameX = function() {
                 randomColorHex(),                       //color
                     radiusScaling,                                   //hit radius scale    
                         randomInRange(0, canvasHeight), //y position of self destruct   
-                        randomInRange(3, 6)             //bounce times until self destruct
+                        randomInRange(3, 8)             //bounce times until self destruct
                         ));     
   }                       
 }
 ///small polgons that bounce with the same x pos
 let bounceWaveClusterSameY = function() {
-  //let boxColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -115,13 +88,12 @@ let bounceWaveClusterSameY = function() {
                 randomColorHex(),                       //color
                     radiusScaling,                                   //hit radius scale    
                         randomInRange(0, canvasHeight), //y position of self destruct   
-                        randomInRange(10, 18)             //bounce times until self destruct
+                        randomInRange(3, 8)             //bounce times until self destruct
                         ));     
   }                       
 }
 ///small polgons that bounce with the same x pos
 let bounceWaveSameY = function() {
-  //let boxColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -146,7 +118,7 @@ let bounceWaveSameY = function() {
                 randomColorHex(),                       //color
                     radiusScaling,                                   //hit radius scale    
                         randomInRange(0, canvasHeight), //y position of self destruct   
-                        randomInRange(3, 6)             //bounce times until self destruct
+                        randomInRange(3, 8)             //bounce times until self destruct
                         ));     
   }                       
 }
@@ -156,7 +128,7 @@ let circleWave = function(){
   //for testing
   for(let i = 0; i < 50; i++){
     let rad = 15 + (Math.random() * 50);
-    enemies[i] = new CircleWrap(randomInRange(0, canvasWidth),      //x
+    enemies[i] = new Circle(randomInRange(0, canvasWidth),      //x
       randomInRange(spawn1X, spawn2X),                                  //y
         randomSignInRange(1, 5),                                        //speedX
           randomInRange(1, 5),                                          //speedY
@@ -174,7 +146,7 @@ let polygonWaveRandom = function(){
 
 //falling triangles random directions and random sizes
 let triangleCometWaveRandomDirections = function(){
-  let boxColor = randomColorHex();
+  let lineColor = randomColorHex();
   let amount = randomInRange(clamp(30 + (level * 5), 35, 80), clamp(60 + (level * 5), 65, 120));
   let spinningSpeed = randomInRange(0., .05);
   let lineWidth = randomInRange(2, 4);
@@ -188,14 +160,14 @@ let triangleCometWaveRandomDirections = function(){
                   spinningSpeed,                                          //spinSpeed
                     3,                                          //sides
                       lineWidth,                                        //lineWidth
-                        boxColor,                               //color
+                        lineColor,                               //color
                           .6));                                  //hit radius sca;e               
   }
 }
 
 //falling triangles random directions
 let triangleCometWaveSameDirections = function(){
-  let boxColor = randomColorHex();
+  let lineColor = randomColorHex();
   let amount = randomInRange(clamp(30 + (level * 5), 35, 80), clamp(60 + (level * 5), 65, 120));
   let spinningSpeed = randomInRange(0., .05);
   let lineWidth = randomInRange(2, 4);
@@ -210,14 +182,14 @@ let triangleCometWaveSameDirections = function(){
                   spinningSpeed,                                          //spinSpeed
                     3,                                          //sides
                       lineWidth,                                        //lineWidth
-                        boxColor,                               //color
+                        lineColor,                               //color
                           .6));                                  //hit radius sca;e               
   }
 }
 
 //falling small fast moving triangles in random directions
 let triangleCometWaveSameDirectionsSmall = function(){
-  let boxColor = randomColorHex();
+  let lineColor = randomColorHex();
   let amount = randomInRange(clamp(50 + (level * 5), 50, 100), clamp(75 + (level * 5), 75, 200));
   let spinningSpeed = randomInRange(0., .05);
   let lineWidth = randomInRange(2, 4);
@@ -232,7 +204,7 @@ let triangleCometWaveSameDirectionsSmall = function(){
                   spinningSpeed,                                          //spinSpeed
                     3,                                          //sides
                       lineWidth,                                        //lineWidth
-                        boxColor,                               //color
+                        lineColor,                               //color
                           .6));                                  //hit radius sca;e               
   }
 }
@@ -240,7 +212,7 @@ let triangleCometWaveSameDirectionsSmall = function(){
 //rows of ploygons with an offset y higher on right side of screen
 let higherRightSlantWave = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -260,7 +232,7 @@ let higherRightSlantWave = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -268,7 +240,7 @@ let higherRightSlantWave = function() {
 //rows of polygons with an offset y, higher on left side of screen
 let higherLeftSlantWave = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -288,7 +260,7 @@ let higherLeftSlantWave = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -298,7 +270,7 @@ let higherLeftSlantWave = function() {
 //candycane like pattern
 let higherLeftSlantWaveMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -320,7 +292,7 @@ let higherLeftSlantWaveMoveX = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -330,7 +302,7 @@ let higherLeftSlantWaveMoveX = function() {
 //moving on thier x axis (hard wave bc x is negetive)
 let inverseHigherLeftSlantWaveMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -352,7 +324,7 @@ let inverseHigherLeftSlantWaveMoveX = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -362,7 +334,7 @@ let inverseHigherLeftSlantWaveMoveX = function() {
 //moving on x
 let higherRightSlantWaveMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -384,7 +356,7 @@ let higherRightSlantWaveMoveX = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -393,7 +365,7 @@ let higherRightSlantWaveMoveX = function() {
 //hard wave
 let inverseHigherRightSlantWaveMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 10));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -415,7 +387,7 @@ let inverseHigherRightSlantWaveMoveX = function() {
                     spinningSpeed,                //spinSpeed
                       sides,                          //no of polygon vertices
                         lineWidth,                        //lineWidth
-                          boxColor,               //color
+                          lineColor,               //color
                             radiusScaling));                   //hit radius scaling
     }
   }
@@ -425,7 +397,7 @@ let inverseHigherRightSlantWaveMoveX = function() {
 //hard wave
 let lineWave = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 5));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -449,7 +421,7 @@ let lineWave = function() {
                       spinningSpeed,                //spinSpeed
                         sides,                          //no of polygon vertices
                           lineWidth,                        //lineWidth
-                            boxColor,               //color
+                            lineColor,               //color
                               radiusScaling));                   //hit radius scaling
       }
     }
@@ -460,7 +432,7 @@ let lineWave = function() {
 //Very hard wave
 let lineWaveMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 5));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -484,7 +456,7 @@ let lineWaveMoveX = function() {
                       spinningSpeed,                //spinSpeed
                         sides,                          //no of polygon vertices
                           lineWidth,                        //lineWidth
-                            boxColor,               //color
+                            lineColor,               //color
                               radiusScaling));                   //hit radius scaling
       }
     }
@@ -495,7 +467,7 @@ let lineWaveMoveX = function() {
 //hard wave
 let lineWaveSkipTwo = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 5));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -519,7 +491,7 @@ let lineWaveSkipTwo = function() {
                       spinningSpeed,                //spinSpeed
                         sides,                          //no of polygon vertices
                           lineWidth,                        //lineWidth
-                            boxColor,               //color
+                            lineColor,               //color
                               radiusScaling));                   //hit radius scaling
       }
     }
@@ -530,7 +502,7 @@ let lineWaveSkipTwo = function() {
 //easy mode for lower levels
 let lineWaveSkipTwoMoveX = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 5));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -554,7 +526,7 @@ let lineWaveSkipTwoMoveX = function() {
                       spinningSpeed,                //spinSpeed
                         sides,                          //no of polygon vertices
                           lineWidth,                        //lineWidth
-                            boxColor,               //color
+                            lineColor,               //color
                               radiusScaling));                   //hit radius scaling
       }
     }
@@ -564,7 +536,7 @@ let lineWaveSkipTwoMoveX = function() {
 //polgons in a line
 let lineWaveMoveY = function() {
   //random color per wave 
-  let boxColor =  randomColorHex(); //`#FF0000`
+  let lineColor =  randomColorHex(); //`#FF0000`
   let sides =  Math.round(randomInRange(3, 5));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
@@ -588,7 +560,7 @@ let lineWaveMoveY = function() {
                       spinningSpeed,                //spinSpeed
                         sides,                          //no of polygon vertices
                           lineWidth,                        //lineWidth
-                            boxColor,               //color
+                            lineColor,               //color
                               radiusScaling));                   //hit radius scaling
       }
     }

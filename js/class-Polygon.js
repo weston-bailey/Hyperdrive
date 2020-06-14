@@ -29,8 +29,12 @@ class Polygon {
     ctx.lineWidth = this.lineWidth;
     ctx.strokeStyle = this.color;
     ctx.beginPath();
+    //plot starting x y on circle x = (x - r * cosine of starting degrees as radians, y = y - r * sine of starting degrees as radians
     ctx.moveTo(this.x - this.size * Math.cos(this.radians), this.y - this.size * Math.sin(this.radians));
+    //one stroke per side
     for(let i = 0; i < this.sides; i++){
+      //calculate angles on circle x = x - r * (cosine of (two pi / number of sides) * angle number + starting degrees as radians), 
+      //y = y - r * (sine of (two pi / number of sides) * angle number + starting degrees as radians)
       ctx.lineTo(this.x - this.size * Math.cos(this.vertAngle * i + this.radians), this.y - this.size * Math.sin(this.vertAngle * i + this.radians));
     }
     ctx.closePath();
@@ -46,7 +50,7 @@ class Polygon {
     ctx.stroke();
   }
   makeDebris(){
-    //make alot of partilces
+    //beautiful space junk
     let amount = randomInRange(24, 64);
     for (let i = 0; i < amount; i++){
       debrisParticles.push(new Debris(this.x, this.y, .001, hexToRGBArray(this.color)));
@@ -62,7 +66,6 @@ class Polygon {
 class PolygonWrap extends Polygon {
   update(){
     //move polygon
-    //console.log(this.color)
     this.y += this.speedY;
     this.x += this.speedX;
     this.radians += this.spinSpeed;
@@ -83,11 +86,11 @@ class PolygonWrap extends Polygon {
     }
   }
 }
-//wraps movement from one x boundary to another
+//bounces around until bounceThresh has been reached and then self destructs, acceclerates every bounce
 class PolygonBounceBomb extends Polygon {
   constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale, selfDestructVal, bounceThresh) {
     super(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale);
-    this.selfDestruct = false; //render checks if the objects wants to self destruct
+    this.selfDestruct = false; //render checks if the object wants to self destruct
     this.selfDestructVal = selfDestructVal || null; //a value for self destruct logic (in this case y position)
     this.bounceCount = 0; //a 
     this.bounceThresh = bounceThresh; //how many bounces befor self destruct
@@ -106,7 +109,7 @@ class PolygonBounceBomb extends Polygon {
       this.bounceCount++;                   
       this.speedX *= -1.3;
     }  
-    //doesn't start bouncing until y0 threshhold is passed
+    //doesn't start bouncing until y0 threshhold is passed, inc bounce count each time bounce happens
     if(this.y > this.hitRadius + canvasHeight){
       this.bounceCount++;
       this.speedY *= -1.3;
@@ -118,7 +121,8 @@ class PolygonBounceBomb extends Polygon {
     } else {
       this.onScreen = true;
     }
-    if(this.y < this.selfDestructVal && this.bounceCount > 4){
+    //explode after bounce count is reached at a certian y position
+    if(this.y < this.selfDestructVal && this.bounceCount >= this.bounceThresh){
       this.selfDestruct = true;
     }
   }

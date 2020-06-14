@@ -12,41 +12,52 @@ const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode
 const KEY_UP = document.body.addEventListener(`keyup`, e => { keys[e.keyCode] = false; });
 //for debug
 const LOG_BUTTON = document.getElementById(`log-button`);
-
-const MANUAL_FLIGHT_BUTTON = document.getElementById(`manual-flight-button`);
-const EMERGENCY_FLASH = document.getElementById(`emergency-flash`);
-const NAV_COMPUTER = document.getElementById(`nav-computer`);
+//title
 const TITLE_CONTAINER = document.getElementById(`title-container`);
-const SECTOR_CONTAINER = document.getElementById(`sector-container`);
-const AUTO_REPAIR_CONTAINER = document.getElementById(`auto-repair-container`);
-const DISTANCE_TEXT = document.getElementById(`distance-text`);
-const WAVES_TEXT = document.getElementById(`waves-text`);
-const SHEILD_LEVEL_TEXT = document.getElementById(`sheild-level-text`);
-const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
-const COLLISION_VECTOR_TEXT = document.getElementById(`collision-vector-text`);
-const SCOREBOARD_CONTAINER = document.getElementById(`scoreboard-container`);
-const DISTANCE_SCORE_TEXT = document.getElementById(`distance-score-text`);
-const TOTAL_WAVES_TEXT = document.getElementById(`total-waves-text`);
-const COLLISIONS_AVOIDED_TEXT = document.getElementById(`collisons-avoided-text`);
+//nav computer
+const NAV_COMPUTER = document.getElementById(`nav-computer`);
+//for glitch effect on game over
 const NAV_COMPUTER_N = document.getElementById(`nav-computer-N`);
 const NAV_COMPUTER_O = document.getElementById(`nav-computer-O`);
 const NAV_COMPUTER_M_P_U = document.getElementById(`nav-computer-M-P-U`);
 const NAV_COMPUTER_E_R = document.getElementById(`nav-computer-E-R`);
+//the typing red message
+const EMERGENCY_FLASH = document.getElementById(`emergency-flash`);
+//sector on game start/game over
+const SECTOR_CONTAINER = document.getElementById(`sector-container`);
+const SECTOR_NAV_TEXT = document.getElementById(`sector-nav-text`);
+//auto repair on game start
+const AUTO_REPAIR_CONTAINER = document.getElementById(`auto-repair-container`);
+//scoreboard on game over
+const SCOREBOARD_CONTAINER = document.getElementById(`scoreboard-container`);
+const DISTANCE_SCORE_TEXT = document.getElementById(`distance-score-text`);
+const TOTAL_WAVES_TEXT = document.getElementById(`total-waves-text`);
+const COLLISIONS_AVOIDED_TEXT = document.getElementById(`collisons-avoided-text`);
+const HYPER_DRIVE_REPAIR_LEVEL_TEXT = document.getElementById(`hyperdrive-repair-level-text`);
+//reset button on game over
 const MAIN_MENU_BUTTON = document.getElementById(`main-menu-button`);
-
-const SECTOR_HUD_TEXT = document.getElementById(`sector-HUD-text`);
+//message at bottom of nav gomputer
+const MANUAL_FLIGHT_MESSAGE = document.getElementById(`manual-flight-message`);
+const MANUAL_FLIGHT_ERROR_MESSAGE = document.getElementById(`manual-flight-error-message`);
+//game start button
+const MANUAL_FLIGHT_BUTTON = document.getElementById(`manual-flight-button`);
+//info HUD in lower left corner
+const SHEILD_LEVEL_TEXT = document.getElementById(`sheild-level-text`);
+const COLLISION_VECTOR_TEXT = document.getElementById(`collision-vector-text`);
+const HYPER_DRIVE_TEXT = document.getElementById(`hyper-drive-text`);
+//Score HUD on lower right
 const SECTOR_TEXT = document.getElementById(`sector-text`);
-
+const WAVES_TEXT = document.getElementById(`waves-text`);
+const DISTANCE_TEXT = document.getElementById(`distance-text`);
+//click event listeners for the buttons
 MAIN_MENU_BUTTON.addEventListener(`click`, () => { resetGame(); });
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
 //for debug
 LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
-
+//useful for maths
 const TWO_PI = 2 * Math.PI;
-
 //toggles debug mode
-let debug = true;
-
+let debug = false;
 //canvas variables
 let canvas, ctx; 
 let canvasWidth = 800;
@@ -59,7 +70,7 @@ let spawn3X = spawn1X * 3;
 //Array of keypresses
 let keys = [];
 //for ship object
-let ship;
+let ship = null;
 //timeout of shield cooldown
 let sheildCoolDownTimer;
 //for wavemachine object
@@ -102,7 +113,7 @@ let levelStartInterval;
 let level = 0;
 //varible to check if the game has started
 let gameActive = false;
-//functions for wave machine to call
+//wave functions in an array for wave machine to call
 let waveFunctions =   [triangleCometWaveRandomDirections, 
                       triangleCometWaveSameDirections, 
                       higherRightSlantWave, 
@@ -120,6 +131,57 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
 
 function resetGame() {
   console.log(`reset lmao`)
+  clearTimeout(navComputerBlinkTimerER);
+  clearTimeout(navComputerBlinkTimerN);
+  clearTimeout(emergencyMessageTimeout);
+  clearInterval(distanceTimer);
+  NAV_COMPUTER_N.style.visibility = `visible`;
+  NAV_COMPUTER_N.innerText = `N`;
+  NAV_COMPUTER_O.style.visibility = `visible`;
+  NAV_COMPUTER_M_P_U.style.color = `#33ff00`;
+  NAV_COMPUTER_M_P_U.style.visibility = `visible`;
+  NAV_COMPUTER_E_R.style.visibility = `visible`;
+  NAV_COMPUTER_E_R.style.color = `#33ff00`;
+  EMERGENCY_FLASH.innerHTML = ' ';
+  SECTOR_CONTAINER.style.visibility = `hidden`;
+  SECTOR_NAV_TEXT.innerText = `sector: open space 1`;
+  MANUAL_FLIGHT_BUTTON.style.display = `inline`;
+  AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
+  SCOREBOARD_CONTAINER.style.visibility = `hidden`;
+  MANUAL_FLIGHT_MESSAGE.style.visibility = `visible`;
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL:`;
+  MANUAL_FLIGHT_ERROR_MESSAGE.innerText = `ERROR`;
+  MAIN_MENU_BUTTON.style.display = `none`;
+  COLLISION_VECTOR_TEXT.innerText = `COLLISION VECTORS: 0`;
+  COLLISION_VECTOR_TEXT.style.color = `#33ff00`;
+  HYPER_DRIVE_TEXT.innerText = `HYPERDIVE REPAIR: 8%`;
+  WAVES_TEXT.innerText = `WAVE #: `;
+  SECTOR_TEXT.innerText = `SECTOR: OPEN SPACE 1`;
+  DISTANCE_TEXT.innerText = `DISTANCE: 0`;
+
+  //reset vars
+  ship = null;
+  waveMachine = null;
+  prevEnemiesLength = 0;
+  totalEnemies = 0;
+  emergencyMessageTimeout = null;
+  emergencyMessageInc1 = 0; 
+  mergencyMessageInc2 = 0;
+  emergencyText1 = '*EMERGENCY ALERT*   '; 
+  emergencyText2 = 'Auto Pilot System Failure   '; 
+  navComputerBlinkTimerER = null;
+  navComputerBlinkTimerN = null;
+  distanceTimer = null;
+  distance = 0;
+  totalWaves = -1;
+  levelStartInterval = null;
+  level = 0;
+  gameActive = false;
+  //from init
+  emergencyMesssage1(); 
+  ship = new Ship;
+  ship.sheildLevel = 2;
+  decrementSheild();
 }
 
 //called on page load
@@ -191,12 +253,13 @@ function render(){
     if(ship.sheild && ship.sheildLevel > 0){     //sheild is on
       crash = hitTest(45, ship.noseX, ship.noseY + 25, enemies[l].hitRadius, enemies[l].x, enemies[l].y); //(radius1, x1, y1, radius2, x2, y2,)
       if(crash){  //hit detected
-        //decrease sheild level and mark enemy as garbage, fire off a sheild cool down
+        //decrease sheild level and mark enemy as garbage, fire off a sheild cool down, reduce shield's alhpa for flash effect
         if(!ship.sheildCoolDown){
           sheildCoolDownTimer = setTimeout(sheildCoolDownOver, 250);
           ship.sheild = true;
           ship.sheildCoolDown = true;
         }
+        ship.sheildColorAlpha = 0;
         enemies[l].makeDebris();
         enemies[l].isGarbage = true;
       } 
@@ -234,7 +297,7 @@ function render(){
       exhuastParticles.splice(p, 1);
     }
   }
-  //check for exhaust marked as garbage
+  //check for debris marked as garbage
   for(let q = 0; q < debrisParticles.length; q++){
     if(debrisParticles[q].isGarbage){
       debrisParticles.splice(q, 1);
@@ -243,7 +306,6 @@ function render(){
   //if no enemies are left, tell the wave machine so it can do its thing
   if(enemies.length === 0 && waveMachine != null){
     waveMachine.waveActive = false;
-
   }
   //update collison vectors hud if change while game is active
   if(gameActive){
@@ -266,5 +328,6 @@ function render(){
       prevEnemiesLength = enemies.length;
     }
   }
+  //do it all again
   requestAnimationFrame(render);
 }

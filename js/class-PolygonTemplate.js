@@ -1,5 +1,4 @@
-
-//template for making polygon enemies
+//template for making polygon enemies, can spawn with totally random but functional constructor values
 class PolygonTemplate {
     //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, 
   //spinspeed should be float 0 - 1 (lower values better), sides = vertices, lineiwdth is an int
@@ -33,12 +32,6 @@ class PolygonTemplate {
     if(this.x < 0 - this.hitRadius){                     
       this.x = canvasWidth + this.hitRadius;
     }  
-    // if(this.y > (canvasHeight - this.size)){                     
-    //   this.speedY *= -1;
-    // }       
-    // if(this.y < (this.size)){                     
-    //   this.speedY *= -1;
-    // }     
     if(this.y > this.hitRadius + canvasHeight){
       this.onScreen = false;
       this.isGarbage = true;
@@ -52,8 +45,12 @@ class PolygonTemplate {
     ctx.lineWidth = this.lineWidth;
     ctx.strokeStyle = this.color;
     ctx.beginPath();
+    //plot starting x y on circle x = (x - r * cosine of starting degrees as radians, y = y - r * sine of starting degrees as radians
     ctx.moveTo(this.x - this.size * Math.cos(this.radians), this.y - this.size * Math.sin(this.radians));
+    //one stroke per side
     for(let i = 0; i < this.sides; i++){
+      //calculate angles on circle x = x - r * (cosine of (two pi / number of sides) * angle number + starting degrees as radians), 
+      //y = y - r * (sine of (two pi / number of sides) * angle number + starting degrees as radians)
       ctx.lineTo(this.x - this.size * Math.cos(this.vertAngle * i + this.radians), this.y - this.size * Math.sin(this.vertAngle * i + this.radians));
     }
     ctx.closePath();
@@ -69,7 +66,7 @@ class PolygonTemplate {
     ctx.stroke();
   }
   makeDebris(){
-     //make alot of partilces
+     //space junk
      let amount = randomInRange(24, 64);
      for (let i = 0; i < amount; i++){
        debrisParticles.push(new Debris(this.x, this.y, .001, hexToRGBArray(this.color)));

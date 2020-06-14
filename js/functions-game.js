@@ -1,5 +1,6 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY init() AND navComputerGameStart()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+//next level will do more when levels are implemented more
 function nextLevel(){
   //check if we are on level one, if so start timer and gameActive
   if(level === 0){
@@ -15,16 +16,46 @@ function nextLevel(){
   level++;
 }
 
-//[triangleCometWaveBig, polygonWaveRandom, squareLineSlantWave, circleWave]
-//called when manual flight control button is pressed
-function gameStart(){
-  //make a new wave machine
-  //fade out menu
-  //track distance
-  distanceTimer = setInterval(distanceTick, 500);
-  //game is now active
-  gameActive = true;
+//called by init
+function makeStarBackgroud() {
+  for(let i = 0; i < 75; i++){
+    backgroundZ0[i] = new Star(3 - Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
+      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .3)`, 1);
+  }
+  for(let j = 0; j < 75; j++){
+    backgroundZ1[j] = new Star(1 + Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
+      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .15)`, 1);
+  }
+  for(let k = 0; k < 3; k++){
+    backgroundZ2[k] = new Star(Math.random() * 3, scale(Math.random(), 0, 1, 0, canvasHeight), 
+    scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
+  }
 }
+
+//keeps track of overall distance and does distance-related duties
+function distanceTick(){
+  if(gameActive){
+    distance++;
+    DISTANCE_TEXT.innerText = `DISTANCE: ${distance}`;
+    //inc sheild level every 50 distances
+    //inc by 2 and call decrementSheild() bc im lazy, haha
+    if(distance % 50 == 0){
+      ship.sheildLevel = clamp(ship.sheildLevel + 1, 0, 4);
+    //update HUD Textt
+    SHEILD_LEVEL_TEXT.innerText = `SHEILD LEVEL: ${scale(ship.sheildLevel, 0, 4, 0, 100)}%`;
+    //update HUD color
+    if (ship.sheildLevel > 2) {
+        SHEILD_LEVEL_TEXT.style.color = `#33ff00`;
+      } else if (ship.sheildLevel >= 2) {
+        SHEILD_LEVEL_TEXT.style.color = `yellow`;
+      } else if (ship.sheildLevel >= 0) {
+        SHEILD_LEVEL_TEXT.style.color = `red`; 
+      }
+    }
+  }
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY USER CLICK EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 //fades the nav computer out and disables the start game button
 function navComputerGameStart(){
@@ -53,7 +84,7 @@ function navComputerPlayerDeath(){
   //fade in the title and nav computer
   setTimeout(titleFadeIn, 9000);
   setTimeout(navComputerFadeIn, 3000);
-  //get rid of the button
+  //do all the menu stuff
   MAIN_MENU_BUTTON.style.display = `inline`;
   MANUAL_FLIGHT_BUTTON.style.display = `none`;
   AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
@@ -63,12 +94,10 @@ function navComputerPlayerDeath(){
   COLLISIONS_AVOIDED_TEXT.innerText = `Collisions Avoided: ${totalEnemies}`;
   NAV_COMPUTER_O.style.visibility = `hidden`;
   NAV_COMPUTER_M_P_U.style.color = `red`;
-  // hyper-drive-textHYPER_DRIVE_REPAIR_LEVEL_TEXT.innerText = `Hyperdirve Repair Level: ${precentageOf(level, 12)}%`;
-  // hyper-drive-textSECTOR_HUD_TEXT.innerText = `SECTOR: OPEN SPACE ${level}`;
+  HYPER_DRIVE_REPAIR_LEVEL_TEXT.innerText = `Hyperdirve Repair Level: ${precentageOf(level, 12)}%`;
+  SECTOR_NAV_TEXT.innerText = `SECTOR: OPEN SPACE ${level}`;
   navComputerBlinkTimerER = setTimeout(navComputerBlinkER, 350);
   navComputerBlinkTimerN = setTimeout(navComputerBlinkN, 200);
-
-  // SECTOR_CONTAINER.style.visibility = `visible`;
   // //update nav computer screen
   MANUAL_FLIGHT_MESSAGE.style.visibility = `hidden`;
   //reset emergency flash message
@@ -81,10 +110,9 @@ function navComputerPlayerDeath(){
   emergencyText1 = scrambleString(emergencyText1);
   emergencyText2 = scrambleString(emergencyText2);
   emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
-  // //make timer for level start
-  // levelStartInterval = setTimeout(nextLevel, 6000);
 }
 
+//callback to blink nav comp letters on game over
 function navComputerBlinkER(){
   if( NAV_COMPUTER_E_R.style.visibility == `hidden`){
     NAV_COMPUTER_E_R.style.visibility = `visible`;
@@ -99,21 +127,22 @@ function navComputerBlinkER(){
   } else {
     NAV_COMPUTER_E_R.style.visibility = `hidden`;
   }
-  setTimeout(navComputerBlinkER, 350);
+  navComputerBlinkTimerER = setTimeout(navComputerBlinkER, 350);
 }
+//callback to blink nav comp on game over
 function navComputerBlinkN(){
   if( NAV_COMPUTER_N.style.visibility == `hidden`){
     let navComputerRandomChars = `NnñÑ¿µúùû¥ü`;
     let randomChar = Math.round(randomInRange(0, navComputerRandomChars.length - 1));
-    NAV_COMPUTER_N.innerText = `${navComputerRandomChars[randomChar]}`
+    NAV_COMPUTER_N.innerText = `${navComputerRandomChars[randomChar]}`;
     NAV_COMPUTER_N.style.visibility = `visible`;
   } else {
     NAV_COMPUTER_N.style.visibility = `hidden`;
   }
-  setTimeout(navComputerBlinkN, randomInRange(30, 300));
+  navComputerBlinkTimerN = setTimeout(navComputerBlinkN, randomInRange(30, 300));
 }
 
-//for debug mode start
+//for debug mode start wants a single wave function and a starting level
 function debugGameStart(wave, level){
   level = level;
   ship.sheildLevel = 5;
@@ -137,6 +166,7 @@ function debugGameStart(wave, level){
   gameActive = true;
 }
 
+//used to scramble message text on game over
 function scrambleString(string){
   let stringArray = [];
   for(let i = 0; i < string.length; i++){
@@ -150,7 +180,7 @@ function scrambleString(string){
       stringArray[i] = randomChars[randomIndex];
     }
   }
-  return stringArray.toString().replace( /,/g, "" );;
+  return stringArray.toString().replace( /,/g, "" );; //TODO maybe limit length of returned string
 }
 
 //writes emergencyText1 and switches by calling emergencyMessage2 when finished
@@ -179,42 +209,96 @@ function emergencyMesssage2() {
   }
 }
 
-function makeStarBackgroud() {
-  for(let i = 0; i < 75; i++){
-    backgroundZ0[i] = new Star(3 - Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
-      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .3)`, 1);
-  }
-  for(let j = 0; j < 75; j++){
-    backgroundZ1[j] = new Star(1 + Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
-      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .15)`, 1);
-  }
-  for(let k = 0; k < 3; k++){
-    backgroundZ2[k] = new Star(Math.random() * 3, scale(Math.random(), 0, 1, 0, canvasHeight), 
-    scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
-  }
+/* TODO: try to make a function/class that fades 
+whatever html element is passed to it, that would slick af */
+
+//fades out the title (same speed as nav computer)
+function titleFadeOut(){
+  if(titleOpacity > .0){
+    titleOpacity -= .01;
+    TITLE_CONTAINER.style.opacity = titleOpacity;
+    setTimeout(titleFadeOut, fadeSpeed);
+  } 
+}
+//fades out the title (same speed as nav computer)
+function titleFadeIn(){
+  if(titleOpacity <= 1){
+    titleOpacity += .01;
+    TITLE_CONTAINER.style.opacity = titleOpacity;
+    setTimeout(titleFadeIn, fadeSpeed);
+  } 
+}
+//fades out the nav computer but doesnt bother with the flight control
+function navComputerFadeOut(){
+  if(navComputerOpacity > .0){
+    navComputerOpacity -= .01;
+    NAV_COMPUTER.style.opacity = navComputerOpacity;
+    setTimeout(navComputerFadeOut, fadeSpeed);
+  } 
 }
 
-//keeps track of overall distance
-function distanceTick(){
-  if(gameActive){
-    distance++;
-    DISTANCE_TEXT.innerText = `DISTANCE: ${distance}`;
-    //inc sheild level every 50 distances
-    //inc by 2 and call decrementSheild() bc im lazy, haha
-    if(distance % 50 == 0){
-      ship.sheildLevel = clamp(ship.sheildLevel + 1, 0, 4);
-    //update HUD Textt
-    SHEILD_LEVEL_TEXT.innerText = `SHEILD LEVEL: ${scale(ship.sheildLevel, 0, 4, 0, 100)}%`;
-    //update HUD color
-    if (ship.sheildLevel > 2) {
-        SHEILD_LEVEL_TEXT.style.color = `#33ff00`;
-      } else if (ship.sheildLevel >= 2) {
-        SHEILD_LEVEL_TEXT.style.color = `yellow`;
-      } else if (ship.sheildLevel >= 0) {
-        SHEILD_LEVEL_TEXT.style.color = `red`; 
-      }
-    }
-  }
+//fades in the nav computer 
+function navComputerFadeIn(){
+  if(navComputerOpacity < 1){
+    navComputerOpacity += .01;
+    NAV_COMPUTER.style.opacity = navComputerOpacity;
+    setTimeout(navComputerFadeIn, fadeSpeed);
+  } 
+}
+//reset lmao
+function resetGame() {
+  //clear timers
+  clearTimeout(navComputerBlinkTimerER);
+  clearTimeout(navComputerBlinkTimerN);
+  clearTimeout(emergencyMessageTimeout);
+  clearInterval(distanceTimer);
+  //reset HUD
+  NAV_COMPUTER_N.style.visibility = `visible`;
+  NAV_COMPUTER_N.innerText = `N`;
+  NAV_COMPUTER_O.style.visibility = `visible`;
+  NAV_COMPUTER_M_P_U.style.color = `#33ff00`;
+  NAV_COMPUTER_M_P_U.style.visibility = `visible`;
+  NAV_COMPUTER_E_R.style.visibility = `visible`;
+  NAV_COMPUTER_E_R.style.color = `#33ff00`;
+  EMERGENCY_FLASH.innerHTML = ' ';
+  SECTOR_CONTAINER.style.visibility = `hidden`;
+  SECTOR_NAV_TEXT.innerText = `sector: open space 1`;
+  MANUAL_FLIGHT_BUTTON.style.display = `inline`;
+  AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
+  SCOREBOARD_CONTAINER.style.visibility = `hidden`;
+  MANUAL_FLIGHT_MESSAGE.style.visibility = `visible`;
+  MANUAL_FLIGHT_MESSAGE.innerText = `FLIGHT CONTROL:`;
+  MANUAL_FLIGHT_ERROR_MESSAGE.innerText = `ERROR`;
+  MAIN_MENU_BUTTON.style.display = `none`;
+  COLLISION_VECTOR_TEXT.innerText = `COLLISION VECTORS: 0`;
+  COLLISION_VECTOR_TEXT.style.color = `#33ff00`;
+  HYPER_DRIVE_TEXT.innerText = `HYPERDIVE REPAIR: 8%`;
+  WAVES_TEXT.innerText = `WAVE #: `;
+  SECTOR_TEXT.innerText = `SECTOR: OPEN SPACE 1`;
+  DISTANCE_TEXT.innerText = `DISTANCE: 0`;
+  //reset vars
+  ship = null;
+  waveMachine = null;
+  prevEnemiesLength = 0;
+  totalEnemies = 0;
+  emergencyMessageTimeout = null;
+  emergencyMessageInc1 = 0; 
+  mergencyMessageInc2 = 0;
+  emergencyText1 = '*EMERGENCY ALERT*   '; 
+  emergencyText2 = 'Auto Pilot System Failure   '; 
+  navComputerBlinkTimerER = null;
+  navComputerBlinkTimerN = null;
+  distanceTimer = null;
+  distance = 0;
+  totalWaves = -1;
+  levelStartInterval = null;
+  level = 0;
+  gameActive = false;
+  //from init
+  emergencyMesssage1(); 
+  ship = new Ship;
+  ship.sheildLevel = 2;
+  decrementSheild();
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -275,7 +359,7 @@ function drawBackground(){
 
 //find the differences between the x and y values, square them, sum them
 //and if the square root of the sum is less than the sum of the two radii
-//then the circles overlap
+//then the circles overlap √((x1 + x2)^2 + (y1 + y2)^2)
 function hitTest(radius1, x1, y1, radius2, x2, y2){
   if(gameActive){
     let radiiSum = radius1 + radius2;
@@ -314,45 +398,37 @@ function decrementSheild(){
   }
 }
 
+//callback after shield is hit
 function sheildCoolDownOver(){
+  //handle HUD and subtraction
   decrementSheild();
+  //cooldown has ended
   ship.sheildCoolDown = false;
-  ship.sheild = ship.sheild;
+  ship.sheild = ship.sheild; // why did i put this here? is this needed TODO
 }
 
-/* TODO: try to make a function/class that fades 
-whatever html element is passed to it, that would slick af */
-
-//fades out the title (same speed as nav computer)
-function titleFadeOut(){
-  if(titleOpacity > .0){
-    titleOpacity -= .01;
-    TITLE_CONTAINER.style.opacity = titleOpacity;
-    setTimeout(titleFadeOut, fadeSpeed);
-  } 
-}
-//fades out the title (same speed as nav computer)
-function titleFadeIn(){
-  if(titleOpacity <= 1){
-    titleOpacity += .01;
-    TITLE_CONTAINER.style.opacity = titleOpacity;
-    setTimeout(titleFadeIn, fadeSpeed);
-  } 
-}
-//fades out the nav computer but doesnt bother with the flight control
-function navComputerFadeOut(){
-  if(navComputerOpacity > .0){
-    navComputerOpacity -= .01;
-    NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeOut, fadeSpeed);
-  } 
-}
-
-//fades in the nav computer 
-function navComputerFadeIn(){
-  if(navComputerOpacity < 1){
-    navComputerOpacity += .01;
-    NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeIn, fadeSpeed);
-  } 
+//used by wave functions to scale hit radius of enemies based on sides
+function sidesToHitRadiusScale(numOfSides){
+  let scaleValue;
+  switch(numOfSides){
+    case 3 :
+      scaleValue = .65;
+      break;
+    case 4 :
+      scaleValue = .8;
+      break;
+    case 5 :
+      scaleValue = .85;
+      break;
+    case 6 :
+      scaleValue = .9;
+      break;
+    case 7 :
+      scaleValue = .95;
+      break;
+    default :
+      scaleValue = .95;
+      break;
+  }
+  return scaleValue;
 }

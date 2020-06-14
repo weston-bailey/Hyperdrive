@@ -1,4 +1,4 @@
-//random polygons made on impacts
+//random polygons made on impacts, the only values it really needs are x y
 class Debris {
   //staring x, starting y, speed that debris dissapears (values closer to 0 is longer), color of debris
   //constructor is randomized is not passed values when created 
@@ -32,6 +32,7 @@ class Debris {
     ctx.lineWidth = 1;
     ctx.strokeStyle = `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.alpha})`;
     ctx.beginPath();
+    //same maths as polygon classes (see them for formula)
     ctx.moveTo(this.x - this.size * Math.cos(this.radians), this.y - this.size * Math.sin(this.radians));
     for(let i = 0; i < this.sides; i++){
       ctx.lineTo(this.x - this.size * Math.cos(this.vertAngle * i + this.radians), this.y - this.size * Math.sin(this.vertAngle * i + this.radians));

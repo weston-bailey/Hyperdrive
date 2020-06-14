@@ -8,38 +8,40 @@
   <link  href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
+  <!-- dummy div for spacing at the top-->
   <div id="header-spacing"></div>
+  <!-- container with all the action -->
   <div id="canvas-container">
-    <div id="info">
-      <h4 class="HUD-text error" id="sheild-level-text">SHEILD LEVEL: 0%</h4>
-      <h4 class="HUD-text" id="collision-vector-text">COLLISION VECTORS: 0</h4>
-      <h4 class="HUD-text" id="hyper-drive-text">HYPERDIVE REPAIR: 8%</h4>
-    </div>
-    <div id="score">
-      <h4 class="HUD-text score-text" id="sector">SECTOR: OPEN SPACE 1</h4>
-      <h4 class="HUD-text score-text" id="waves-text">WAVE #: </h4>
-      <h4 class="HUD-text score-text" id="distance-text">DISTANCE: 0</h4>
-    </div>
+    <!-- just the game title -->
     <div id="title-container">
       <h1 id="title-text">HYPERDRIVE</h1>
     </div>
+    <!-- navecomputer interface container -->
     <div id="nav-computer">
+      <!-- N A V C O M P U T E R text -->
       <h1 class="HUD-text"><span class="HUD-text" id="nav-computer-N">N</span> A V C <span class="HUD-text" id="nav-computer-O">O</span> <span class="HUD-text" id="nav-computer-M-P-U">M P U</span> T <span class="HUD-text" id="nav-computer-E-R">E R</span></h1>
+      <!-- the scrolling red letters under N A V C O M P U T E R-->
       <h2 class="HUD-text" id="emergency-flash"></h2>
+      <!-- container for the 'sector' display when the game starts -->
       <div class="HUD-text" id="sector-container">
-        <h2 class="HUD-text" id="sector-text">sector: open space 1</h2>
+        <h2 class="HUD-text" id="sector-nav-text">sector: open space 1</h2>
       </div>
+      <!-- 'auto repair' container displayed at game start -->
       <div class="HUD-text" id="auto-repair-container">
         <h2 class="HUD-text" id="ship-auto-repair-text">SHIP AUTO-REPAIR STATUS:</h2>
+        <!-- div for inline separation -->
         <div class="HUD-text">
           <h2 class="HUD-text" id="sheild-repair-text">SHEILD:</h2>
           <h2 class="HUD-text warning" id="sheild-repair-value">25%</h2>
         </div>
+        <!-- div for inline separation -->
         <div class="HUD-text">
           <h2 class="HUD-text" id="hyperdrive-repair-text">HYPERDRIVE:</h2>
           <h2 class="HUD-text" id="hyperdrive-repair-value">8%</h2>
         </div>
+        <!-- scoreboard displayed on game over -->
         <div class="HUD-text" id="scoreboard-container">
           <h3 class="HUD-text" id="distance-score-text">Distance:</h3>
           <h3 class="HUD-text" id="total-waves-text">Waves Survived:</h3>
@@ -47,27 +49,41 @@
           <h3 class="HUD-text" id="hyperdrive-repair-level-text">Hyperdirve Repair Level: 8%</h3>
         </div>
       </div>
+      <!-- main menu button displayed on game over for reset -->
       <div id="main-menu-button">
         <h2 class="HUD-text" id="main-menu-button-text">Main Menu</h2>
       </div>
-      <h3 class="HUD-text" id="manual-flight-message"> FLIGHT CONTROL: <span class="error">ERROR</span></h3>
+      <!-- message at bottom of nav computer -->
+      <h3 class="HUD-text" id="manual-flight-message"> FLIGHT CONTROL: <span class="error" id="manual-flight-error-message">ERROR</span></h3>
     </div>
+    <!-- manual flight button outside of nav computer div -->
     <div id="manual-flight-button">
       <h2 class="HUD-text">Engage Manual</h2>
       <h2 class="HUD-text">Flight Control</h2>
+    </div>
+    <!-- info HUD in lower left corner -->
+    <div id="info">
+      <h4 class="HUD-text error" id="sheild-level-text">SHEILD LEVEL: 0%</h4>
+      <h4 class="HUD-text" id="collision-vector-text">COLLISION VECTORS: 0</h4>
+      <h4 class="HUD-text" id="hyper-drive-text">HYPERDIVE REPAIR: 8%</h4>
+    </div>
+    <!-- socre HUD in lower right -->
+    <div id="score">
+      <h4 class="HUD-text score-text" id="sector-text">SECTOR: OPEN SPACE 1</h4>
+      <h4 class="HUD-text score-text" id="waves-text">WAVE #: </h4>
+      <h4 class="HUD-text score-text" id="distance-text">DISTANCE: 0</h4>
     </div>
     <canvas id="game-canvas"></canvas>
   </div>
   <button id="log-button">LOG BUTTON</button>
   <script src="./js/class-PolygonTemplate.js"></script>
   <script src="./js/class-Polygon.js"></script>
-  <script src="./js/class-CircleWrap.js"></script>
+  <script src="./js/class-Circle.js"></script>
   <script src="./js/class-Debris.js"></script>
   <script src="./js/class-Exhaust.js"></script>
   <script src="./js/class-Ship.js"></script>
   <script src="./js/class-Star.js"></script>
   <script src="./js/class-WaveMachine.js"></script>
-  <!-- <script src="./js/class-WaveMachineDebug.js"></script> -->
   <script src="./js/functions-game.js"></script>
   <script src="./js/functions-utilities.js"></script>
   <script src="./js/functions-waves.js"></script>

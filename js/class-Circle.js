@@ -1,5 +1,5 @@
-//first enemy made, inital a test but still useful
-class CircleWrap {
+//first enemy made, initally a test but still useful maybe
+class Circle {
   constructor(x, y, speedX, speedY, radius, color){
     this.x = x;
     this.y = y;
@@ -7,7 +7,7 @@ class CircleWrap {
     this.speedY = speedY;
     this.radius = radius;
     this.hitRadius = this.radius; //radius = hit radius bc its a circle
-    this.color = color; //should be a hex for debris
+    this.color = color;           //should be a hex for debris
     this.onScreen = false;
     this.isGarbage = false;
   }
@@ -43,7 +43,7 @@ class CircleWrap {
       return;
     }
   makeDebris(){
-     //make alot of partilces
+     //make alot of space junk
      let amount = randomInRange(24, 64);
      for (let i = 0; i < amount; i++){
        debrisParticles.push(new Debris(this.x, this.y, .001, hexToRGBArray(this.color)));
