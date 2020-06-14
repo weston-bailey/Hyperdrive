@@ -1,10 +1,10 @@
 //polygon enemy that needs to be given an upodate method
 class Polygon {
-  //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, 
+  //starting x, starting y, speed on x axis, speed on y axis, size =  draw radius, radians should be degrees already converted to radians 
   //spinspeed should be float 0 - 1 (lower values better), sides = vertices, lineiwdth is an int
   //color needs to be a hex so makeDebris can run hexToRGBArray() on it
   //hitRadiusScale shrinks the radius for hit detection based on draw radius
-  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale, selfDestructVal){
+  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale){
     this.x = x;
     this.y = y;
     this.speedX = speedX;
@@ -19,9 +19,6 @@ class Polygon {
     this.spinSpeed = spinSpeed; 
     this.sides = sides;
     this.vertAngle = TWO_PI / this.sides; 
-    this.selfDestruct = false;
-    this.selfDestructVal = selfDestructVal || null;
-    this.bounceCount = 0;
     this.onScreen = false;
     this.isGarbage = false;
   }
@@ -38,7 +35,6 @@ class Polygon {
     }
     ctx.closePath();
     ctx.stroke();
-
   }  
   //for debug
   drawCollisionRadius(){
@@ -61,6 +57,7 @@ class Polygon {
     }
   }
 }
+
 //wraps movement from one x boundary to another
 class PolygonWrap extends Polygon {
   update(){
@@ -88,9 +85,15 @@ class PolygonWrap extends Polygon {
 }
 //wraps movement from one x boundary to another
 class PolygonBounceBomb extends Polygon {
+  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale, selfDestructVal, bounceThresh) {
+    super(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale);
+    this.selfDestruct = false; //render checks if the objects wants to self destruct
+    this.selfDestructVal = selfDestructVal || null; //a value for self destruct logic (in this case y position)
+    this.bounceCount = 0; //a 
+    this.bounceThresh = bounceThresh; //how many bounces befor self destruct
+  }
   update(){
     //move polygon
-    //console.log(this.color)
     this.y += this.speedY;
     this.x += this.speedX;
     this.radians += this.spinSpeed;
@@ -98,13 +101,12 @@ class PolygonBounceBomb extends Polygon {
     if(this.x > canvasWidth + this.hitRadius){   
       this.bounceCount++;                 
       this.speedX *= -1.3;
-      console.log(`called negetive`)
     }       
     if(this.x < 0 - this.hitRadius){  
       this.bounceCount++;                   
       this.speedX *= -1.3;
-      console.log(`called positive `)
     }  
+    //doesn't start bouncing until y0 threshhold is passed
     if(this.y > this.hitRadius + canvasHeight){
       this.bounceCount++;
       this.speedY *= -1.3;
@@ -119,41 +121,5 @@ class PolygonBounceBomb extends Polygon {
     if(this.y < this.selfDestructVal && this.bounceCount > 4){
       this.selfDestruct = true;
     }
-  }
-}
-//wraps movement from one x boundary to another
-class PolygonBounce extends Polygon {
-  update(){
-    //this.timer = setTimeout(this.makeDebris, 100)
-    //move polygon
-    //console.log(this.color)
-    this.y += this.speedY;
-    this.x += this.speedX;
-    this.radians += this.spinSpeed;
-    //wrap the screen boundaries
-    if(this.x > canvasWidth + this.hitRadius){                    
-      this.speedX *= -1.3;
-    }       
-    if(this.x < 0 - this.hitRadius){                     
-      this.speedX *= -1.3;
-    }  
-    if(this.y > this.hitRadius + canvasHeight){
-      this.speedY *= - 1.3;
-      // this.onScreen = false;
-      // this.isGarbage = true;
-    } else if(this.y < 0 - this.hitRadius){
-      this.speedY *= - 1.3;
-      this.onScreen = false;
-    } else {
-      this.onScreen = true;
-    }
-    // if(this.speedX > 45 || this.speedX < -45){
-    //   this.speedX = 0;
-    //   this.selfDestruct = true;
-    // }
-    // if(this.speedY > 45 || this.speedY < -45){
-    //   this.speedY = 0;
-    //   this.selfDestruct = true;
-    // }
   }
 }

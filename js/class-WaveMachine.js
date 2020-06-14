@@ -19,7 +19,9 @@ class WaveMachine {
         level++;
         this.waveCount = 0;
         this.waveMax = Math.round(randomInRange(8, 12));
-        ship.sheild = clamp(ship.sheild + 2, 0, 4);
+        //ship.sheild = clamp(ship.sheild + 2, 0, 4);
+        HYPER_DRIVE_HUD_TEXT.innerHTML = `HYPERDIVE REPAIR: ${precentageOf(level, 12)}%`;
+        SECTOR_HUD_TEXT.innerText = `SECTOR: OPEN SPACE ${level}`;
       }
       // pull the function out the array and store it in a variable LOUIS THANK YOU THE IDEA!
       let thisFunction = this.enemyTypes[waveFunction];
@@ -54,7 +56,7 @@ class WaveMachineDebug extends WaveMachine {
       for (let i = 0; i < enemies.length; i++){
         colors.push(enemies[i].color);
       }
-      console.log(`level: ${level}, color: ${colors}`)
+      //console.log(`level: ${level}, color: ${colors}`)
       WAVES_TEXT.innerText = `WAVE #: ${this.waveCount}`;
       //console.log(`called`, this.enemyTypes)
     }

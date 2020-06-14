@@ -213,6 +213,37 @@ cursor: pointer;
   box-shadow: 0 4px #666;
   top: 51%;
 }
+
+#main-menu-button{
+  background-color: rgba(0, 0, 0, 0);
+  height: 20px;
+  width: 130px;
+  position: absolute;
+  left: 28%;
+  text-align: center;
+  bottom: 8px;
+  margin: 0 auto;
+  z-index: 2;
+  visibility: visible;
+  box-shadow: 0 4px #999;
+  border: 1px solid #999; 
+  outline: none;
+  display: none;
+}
+
+/* animation for button div */
+#main-menu-button:hover {
+  background-color:rgba(128, 128, 128, .5);
+  cursor: pointer; 
+  }
+  /* animation for button div */
+  #main-menu-button:active {
+    background-color:rgba(128, 128, 128, 0);
+    cursor: pointer; 
+    box-shadow: 0 1px #666;
+    bottom: 4px;
+  }
+
 /* error messages class */
 .error {
   color: red; 
@@ -238,3 +269,4 @@ cursor: pointer;
   z-index: 2;
   visibility: hidden;
 }
+/* used for debug */

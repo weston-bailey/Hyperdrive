@@ -54,6 +54,7 @@ function navComputerPlayerDeath(){
   setTimeout(titleFadeIn, 9000);
   setTimeout(navComputerFadeIn, 3000);
   //get rid of the button
+  MAIN_MENU_BUTTON.style.display = `inline`;
   MANUAL_FLIGHT_BUTTON.style.display = `none`;
   AUTO_REPAIR_CONTAINER.style.visibility = `hidden`;
   SCOREBOARD_CONTAINER.style.visibility = `visible`;
@@ -62,6 +63,8 @@ function navComputerPlayerDeath(){
   COLLISIONS_AVOIDED_TEXT.innerText = `Collisions Avoided: ${totalEnemies}`;
   NAV_COMPUTER_O.style.visibility = `hidden`;
   NAV_COMPUTER_M_P_U.style.color = `red`;
+  // hyper-drive-textHYPER_DRIVE_REPAIR_LEVEL_TEXT.innerText = `Hyperdirve Repair Level: ${precentageOf(level, 12)}%`;
+  // hyper-drive-textSECTOR_HUD_TEXT.innerText = `SECTOR: OPEN SPACE ${level}`;
   navComputerBlinkTimerER = setTimeout(navComputerBlinkER, 350);
   navComputerBlinkTimerN = setTimeout(navComputerBlinkN, 200);
 
@@ -150,7 +153,6 @@ function scrambleString(string){
   return stringArray.toString().replace( /,/g, "" );;
 }
 
-
 //writes emergencyText1 and switches by calling emergencyMessage2 when finished
 function emergencyMesssage1() {
   if (emergencyMessageInc1 < emergencyText1.length) {
@@ -163,6 +165,7 @@ function emergencyMesssage1() {
     emergencyMessageTimeout = setTimeout(emergencyMesssage2, typingSpeed);
   }
 }
+
 //writes emergencyText2 and switches by caliing emergencyMessage1 when finished
 function emergencyMesssage2() {
   if (emergencyMessageInc2 < emergencyText2.length) {

@@ -4,12 +4,15 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(testWave, 1, 4);
+                                                                          debugGameStart(bounceWaveSameY, 1, 4);
                                                                         }                                                              
                                                                       });
+//listen for keypresses
 const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode] = true; });
 const KEY_UP = document.body.addEventListener(`keyup`, e => { keys[e.keyCode] = false; });
-const LOG_BUTTON = document.querySelector(`button`).addEventListener(`click`, () => { logFunction() });
+//for debug
+const LOG_BUTTON = document.getElementById(`log-button`);
+
 const MANUAL_FLIGHT_BUTTON = document.getElementById(`manual-flight-button`);
 const EMERGENCY_FLASH = document.getElementById(`emergency-flash`);
 const NAV_COMPUTER = document.getElementById(`nav-computer`);
@@ -29,13 +32,20 @@ const NAV_COMPUTER_N = document.getElementById(`nav-computer-N`);
 const NAV_COMPUTER_O = document.getElementById(`nav-computer-O`);
 const NAV_COMPUTER_M_P_U = document.getElementById(`nav-computer-M-P-U`);
 const NAV_COMPUTER_E_R = document.getElementById(`nav-computer-E-R`);
+const MAIN_MENU_BUTTON = document.getElementById(`main-menu-button`);
 
+const SECTOR_HUD_TEXT = document.getElementById(`sector-HUD-text`);
+const SECTOR_TEXT = document.getElementById(`sector-text`);
+
+MAIN_MENU_BUTTON.addEventListener(`click`, () => { resetGame(); });
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
+//for debug
+LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
 
 const TWO_PI = 2 * Math.PI;
 
 //toggles debug mode
-let debug = false;
+let debug = true;
 
 //canvas variables
 let canvas, ctx; 
@@ -75,7 +85,7 @@ let emergencyMessageInc2 = 0;
 let emergencyText1 = '*EMERGENCY ALERT*   '; //first message
 let emergencyText2 = 'Auto Pilot System Failure   '; 
 let typingSpeed = 100; //letter update speed
-//timeout for blink er and n on game over
+//timeout for blink E R and N on game over
 let navComputerBlinkTimerER;
 let navComputerBlinkTimerN;
 //for fading out of elements
@@ -102,9 +112,15 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
                       higherLeftSlantWaveMoveX, 
                       inverseHigherLeftSlantWaveMoveX,
                       triangleCometWaveSameDirectionsSmall,
-                      lineWave, lineWaveMoveX, lineWaveMoveY]
+                      lineWave, lineWaveMoveX, lineWaveMoveY, bounceWaveSameX,
+                      bounceWaveClusterSameY, bounceWaveSameY,
+                      lineWaveSkipTwoMoveX, lineWaveSkipTwo]
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+function resetGame() {
+  console.log(`reset lmao`)
+}
 
 //called on page load
 function init() {
