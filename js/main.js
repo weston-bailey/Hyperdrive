@@ -101,7 +101,11 @@ let navComputerBlinkTimerER;
 let navComputerBlinkTimerN;
 //for fading out of elements
 let navComputerOpacity = 1;
+let navComputerFadeOutTimer;
+let navComputerFadeInTimer;
 let titleOpacity = 1;
+let titleFadeInTimer;
+let titleFadeOutTimer;
 let fadeSpeed = 10;
 //setinterval for distance
 let distanceTimer;

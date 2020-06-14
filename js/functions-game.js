@@ -82,8 +82,8 @@ function navComputerGameStart(){
 //fades the nav computer out and disables the start game button
 function navComputerPlayerDeath(){
   //fade in the title and nav computer
-  setTimeout(titleFadeIn, 9000);
-  setTimeout(navComputerFadeIn, 3000);
+  titleFadeInTimer = setTimeout(titleFadeIn, 9000);
+  navComputerFadeInTimer = setTimeout(navComputerFadeIn, 3000);
   //do all the menu stuff
   MAIN_MENU_BUTTON.style.display = `inline`;
   MANUAL_FLIGHT_BUTTON.style.display = `none`;
@@ -217,7 +217,7 @@ function titleFadeOut(){
   if(titleOpacity > .0){
     titleOpacity -= .01;
     TITLE_CONTAINER.style.opacity = titleOpacity;
-    setTimeout(titleFadeOut, fadeSpeed);
+    titleFadeOutTimer = setTimeout(titleFadeOut, fadeSpeed);
   } 
 }
 //fades out the title (same speed as nav computer)
@@ -225,7 +225,7 @@ function titleFadeIn(){
   if(titleOpacity <= 1){
     titleOpacity += .01;
     TITLE_CONTAINER.style.opacity = titleOpacity;
-    setTimeout(titleFadeIn, fadeSpeed);
+    titleFadeInTimer = setTimeout(titleFadeIn, fadeSpeed);
   } 
 }
 //fades out the nav computer but doesnt bother with the flight control
@@ -233,7 +233,7 @@ function navComputerFadeOut(){
   if(navComputerOpacity > .0){
     navComputerOpacity -= .01;
     NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeOut, fadeSpeed);
+    navComputerFadeOutTimer = setTimeout(navComputerFadeOut, fadeSpeed);
   } 
 }
 
@@ -242,17 +242,26 @@ function navComputerFadeIn(){
   if(navComputerOpacity < 1){
     navComputerOpacity += .01;
     NAV_COMPUTER.style.opacity = navComputerOpacity;
-    setTimeout(navComputerFadeIn, fadeSpeed);
+    navComputerFadeInTimer = setTimeout(navComputerFadeIn, fadeSpeed);
   } 
 }
 //reset lmao
 function resetGame() {
+  //clear enemies
+  for(let i = 0; i < enemies.length; i++){
+    enemies[i].selfDestruct = 'true';
+  }
   //clear timers
+  clearTimeout(navComputerFadeInTimer);
+  clearTimeout(navComputerFadeOutTimer);
+  clearTimeout(titleFadeInTimer);
+  clearTimeout(navComputerFadeOutTimer);
   clearTimeout(navComputerBlinkTimerER);
   clearTimeout(navComputerBlinkTimerN);
   clearTimeout(emergencyMessageTimeout);
   clearInterval(distanceTimer);
   //reset HUD
+  TITLE_CONTAINER.style.opacity = `1`;
   NAV_COMPUTER_N.style.visibility = `visible`;
   NAV_COMPUTER_N.innerText = `N`;
   NAV_COMPUTER_O.style.visibility = `visible`;
@@ -288,6 +297,8 @@ function resetGame() {
   emergencyText2 = 'Auto Pilot System Failure   '; 
   navComputerBlinkTimerER = null;
   navComputerBlinkTimerN = null;
+  navComputerOpacity = 1;
+  titleOpacity = 1;
   distanceTimer = null;
   distance = 0;
   totalWaves = -1;
