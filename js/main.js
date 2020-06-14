@@ -12,6 +12,14 @@ const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode
 const KEY_UP = document.body.addEventListener(`keyup`, e => { keys[e.keyCode] = false; });
 //for debug
 const LOG_BUTTON = document.getElementById(`log-button`);
+//class that fades elements on load
+const LOAD_FADE = document.getElementsByClassName(`load-fade`);
+//the loading screen
+const LOAD_TEXT = document.getElementsByClassName(`load-text`);
+const LOAD_TEXT_CONTAINER = document.getElementById(`load-text-update`);
+const LOAD_TEXT_UPDATE = document.getElementById(`load-text-update`);
+const LOAD_TEXT_COMPLETE = document.getElementById(`load-text-complete`);
+const LOAD_TEXT_PRESS_ENTER = document.getElementById(`load-text-press-enter`);
 //title
 const TITLE_CONTAINER = document.getElementById(`title-container`);
 //nav computer
@@ -89,13 +97,18 @@ let totalEnemies = 0;
 let exhuastParticles = [];
 //array of debris
 let debrisParticles = [];
-//variables to make emergency message
+//variables to make emergency and loading message
 let emergencyMessageTimeout;
 let emergencyMessageInc1 = 0; //letter index to print
 let emergencyMessageInc2 = 0;
 let emergencyText1 = '*EMERGENCY ALERT*   '; //first message
 let emergencyText2 = 'Auto Pilot System Failure   '; 
 let typingSpeed = 100; //letter update speed
+let loadingMessageTimeout;
+let loadingMessageInc = 0;
+let loadingText = 'L o a d i n g . . . . . . . . . . . ';
+let doneLoading = false;
+let gameInitialized = false;
 //timeout for blink E R and N on game over
 let navComputerBlinkTimerER;
 let navComputerBlinkTimerN;
@@ -107,6 +120,8 @@ let titleOpacity = 1;
 let titleFadeInTimer;
 let titleFadeOutTimer;
 let fadeSpeed = 10;
+let loadFadeInTimer;
+let loadOpacity = 0;
 //setinterval for distance
 let distanceTimer;
 let distance = 0;
@@ -135,6 +150,8 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
 
 //called on page load
 function init() {
+  //dispaly loading message
+  loadingMessage();
   //write emergency message onscren
   emergencyMesssage1(); 
   //make ship class

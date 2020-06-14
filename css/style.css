@@ -1,7 +1,7 @@
 
 * {
   background-color: grey;
-  font-family: 'VT323', monospace !important;
+  font-family: 'VT323', monospace;
   color:  #33ff00;
   text-align: center;
   margin: 0 auto;
@@ -22,6 +22,29 @@ body, html {
 canvas {
   display: block;
 }
+
+div {
+}
+
+#load-text-container {
+  background-color: rgba(0, 0, 0, 0);
+  /* border: 1px dotted red; */
+  height: 125px;
+  width: 800px;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 1;
+  display: block;
+}
+
+.load-text {
+  font-family: Arial, Helvetica, sans-serif;
+  display: block;
+}
+
 
 /* blank div at top of screen */
 #header-spacing {
@@ -197,6 +220,7 @@ canvas {
   box-shadow: 0 9px #999;
   border: 1px solid #999; 
   outline: none;
+  display: none;
 }
 /* animation for button div */
 #manual-flight-button:hover {
@@ -229,7 +253,7 @@ cursor: pointer;
 }
 
 #main-menu-button-text {
-  /* fix text position */
+  /* TODO fix text position */
 }
 
 /* animation for button div */
@@ -269,5 +293,9 @@ cursor: pointer;
   border-radius: 25px;
   z-index: 2;
   visibility: hidden;
+}
+/* elemnents that fade in after user presses enter */
+.load-fade {
+  opacity: 0;
 }
 

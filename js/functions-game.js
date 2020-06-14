@@ -1,4 +1,28 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY init() AND navComputerGameStart()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+//callback for loading message
+function loadingMessage(){
+  if(loadingMessageInc < loadingText.length){
+    LOAD_TEXT_UPDATE.innerText += loadingText.charAt(loadingMessageInc);
+    loadingMessageInc++;
+    loadingMessageTimeout = setTimeout(loadingMessage, typingSpeed);
+  } else {
+    LOAD_TEXT_UPDATE.style.display = `none`;
+    LOAD_TEXT_COMPLETE.innerText = `Complete!`;
+    LOAD_TEXT_PRESS_ENTER.innerText = `press <enter> to start`;
+    doneLoading = true;
+  }
+}
+
+//fades in interfaceElements on load
+function loadFadeIn(){
+  if(loadOpacity < 1){
+     loadOpacity += .003;
+     for(let i = 0; i < LOAD_FADE.length; i++){
+       LOAD_FADE[i].style.opacity = loadOpacity;
+     }
+    titleFadeOutTimer = setTimeout(loadFadeIn, fadeSpeed);
+  } 
+}
 
 //next level will do more when levels are implemented more
 function nextLevel(){
@@ -59,6 +83,11 @@ function distanceTick(){
 
 //fades the nav computer out and disables the start game button
 function navComputerGameStart(){
+  waveMachine = null;
+  //clear enemies
+  for(let i = 0; i < enemies.length; i++){
+    enemies[i].selfDestruct = 'true';
+  }
   //fade out the title
   titleFadeOut();
   //get rid of the button
@@ -245,12 +274,13 @@ function navComputerFadeIn(){
     navComputerFadeInTimer = setTimeout(navComputerFadeIn, fadeSpeed);
   } 
 }
+
 //reset lmao
 function resetGame() {
-  //clear enemies
-  for(let i = 0; i < enemies.length; i++){
-    enemies[i].selfDestruct = 'true';
-  }
+  //enemies now cleared at game start
+  // for(let i = 0; i < enemies.length; i++){
+  //   enemies[i].selfDestruct = 'true';
+  // }
   //clear timers
   clearTimeout(navComputerFadeInTimer);
   clearTimeout(navComputerFadeOutTimer);
@@ -287,7 +317,7 @@ function resetGame() {
   DISTANCE_TEXT.innerText = `DISTANCE: 0`;
   //reset vars
   ship = null;
-  waveMachine = null;
+  //waveMachine = null; //wavemachine can stay active, now enemies are handled ad game start
   prevEnemiesLength = 0;
   totalEnemies = 0;
   emergencyMessageTimeout = null;
@@ -314,8 +344,10 @@ function resetGame() {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+
 //updates ship moving values and reutrns x y directions for the ships movement method
 function inputHandler(){
+  //for gameplay
   if(gameActive){
     let directionX = null;
     let directionY = null;
@@ -345,6 +377,21 @@ function inputHandler(){
       ship.sheild = false;
     }
     return [directionX, directionY];
+  }
+  //for load screen
+  if(doneLoading && !gameInitialized){
+    //enter displays button and fades content
+    if(keys[13]){
+      gameInitialized = true;
+      MANUAL_FLIGHT_BUTTON.style.display = `inline`;
+      for(let i = 0; i < LOAD_TEXT.length; i++){
+        LOAD_TEXT[i].style.display = `none`;
+      }
+      //this is reduntant with next level, but in the future they
+      //could be different
+      waveMachine = new WaveMachine(waveFunctions); 
+      loadFadeIn();
+    }
   }
 }
 

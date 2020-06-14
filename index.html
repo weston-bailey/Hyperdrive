@@ -15,11 +15,11 @@
   <!-- container with all the action -->
   <div id="canvas-container">
     <!-- just the game title -->
-    <div id="title-container">
+    <div class="load-fade" id="title-container">
       <h1 id="title-text">HYPERDRIVE</h1>
     </div>
     <!-- navecomputer interface container -->
-    <div id="nav-computer">
+    <div class="load-fade" id="nav-computer">
       <!-- N A V C O M P U T E R text -->
       <h1 class="HUD-text"><span class="HUD-text" id="nav-computer-N">N</span> A V C <span class="HUD-text" id="nav-computer-O">O</span> <span class="HUD-text" id="nav-computer-M-P-U">M P U</span> T <span class="HUD-text" id="nav-computer-E-R">E R</span></h1>
       <!-- the scrolling red letters under N A V C O M P U T E R-->
@@ -57,18 +57,24 @@
       <h3 class="HUD-text" id="manual-flight-message"> FLIGHT CONTROL: <span class="error" id="manual-flight-error-message">ERROR</span></h3>
     </div>
     <!-- manual flight button outside of nav computer div -->
-    <div id="manual-flight-button">
+    <div class="load-fade" id="manual-flight-button">
       <h2 class="HUD-text">Engage Manual</h2>
       <h2 class="HUD-text">Flight Control</h2>
     </div>
+    <!-- for loading message on page landing -->
+    <div id="load-text-container">
+      <h1 class="HUD-text load-text" id="load-text-update"></h1>
+      <h1 class="HUD-text load-text" id="load-text-complete"></h1>
+      <h2 class="HUD-text load-text" id="load-text-press-enter"></h2>
+    </div>
     <!-- info HUD in lower left corner -->
-    <div id="info">
+    <div class="load-fade" id="info">
       <h4 class="HUD-text error" id="sheild-level-text">SHEILD LEVEL: 0%</h4>
       <h4 class="HUD-text" id="collision-vector-text">COLLISION VECTORS: 0</h4>
       <h4 class="HUD-text" id="hyper-drive-text">HYPERDIVE REPAIR: 8%</h4>
     </div>
     <!-- socre HUD in lower right -->
-    <div id="score">
+    <div class="load-fade" id="score">
       <h4 class="HUD-text score-text" id="sector-text">SECTOR: OPEN SPACE 1</h4>
       <h4 class="HUD-text score-text" id="waves-text">WAVE #: </h4>
       <h4 class="HUD-text score-text" id="distance-text">DISTANCE: 0</h4>
