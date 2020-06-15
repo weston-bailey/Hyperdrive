@@ -1,6 +1,7 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~THESE FUNCTIONS CAN BE PASSED TO THE WAVE MACHINE TO MAKE ENEMIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~THESE FUNCTIONS CAN BE PASSED TO THE WAVE MACHINE IN AN ARRAY TO MAKE ENEMIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 //pass to the wave machine as a 'null' function so it doesn't freak out if needed for debug
+//TODO bake this functionality into the wavemachine
 let dummyWave = function(){
   return;
 }
@@ -559,7 +560,7 @@ let lineWaveMoveX = function() {
 }
 
 //polgons in a line, skipping two in a row
-//hard wave
+//easy mode version of this wave type
 let lineWaveSkipTwo = function() {
   //random color per wave 
   let lineColor =  randomColorHex(); //`#FF0000`

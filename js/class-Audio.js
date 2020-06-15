@@ -1,4 +1,6 @@
 class Audio {
+  //supply audio source and volume ( optional float 0 -1) 
+  //TODO make class self-initializing so init() doesn't need to be called
   constructor(source, level){
     this.audio = document.createElement(`audio`);
     this.source = source;
@@ -24,25 +26,41 @@ class Audio {
   loop(){
     this.audio.loop = `true`;
   }
+  //spcify desired volume (float 0 - 1)
   volume(level){
     this.level = level;
     this.audio.volume = level;
   }
-  //setTimeout doesn't scope right or something?
-  // fade(targetLevel, speed){
-  //   if(this.level >= targetLevel){
-  //     this.level -= speed;
-  //     this.level = clamp(this.level, 0, 1);
-  //     this.audio.volume = this.level;
-  //     setTimeout(this.fade(targetLevel, speed), 100);
-  //     console.log(`dec ${this.level}`);
-  //   } else if (this.level <= targetLevel) {
-  //     this.level += speed;
-  //     this.level = clamp(this.level, 0, 1);
-  //     this.audio.volume = this.level;
-  //     setTimeout(this.fade(targetLevel, speed), 100);
-  //     console.log(`inc ${this.level}`);
-  //   }
-  //   console.log(`done ${this.level}`);
-  // }
+  //fade to targetLevel (float 0 - 1) at speed (float 0 - 1)
+  //and call stopFunction (optional) when finished
+  fade(targetLevel, speed, stopFuction){
+    //level is gerater than target
+    if(this.level > targetLevel){
+      //move towards target level at speed
+      this.level -= speed;
+      //values outside of 0 - 1 throw an error
+      this.level = clamp(this.level, 0, 1);
+      //update audio object
+      this.audio.volume = this.level;
+      setTimeout( () => { this.fade(targetLevel, speed, stopFuction) }, 10);;
+      //level is less than taret
+    } else if (this.level < targetLevel) {
+      //move towards target at speed
+      this.level += speed;
+      //values outside of 0 - 1 throw an error
+      this.level = clamp(this.level, 0, 1);
+      //update audio object
+      this.audio.volume = this.level;
+      //set callback
+      setTimeout( () => { this.fade(targetLevel, speed, stopFuction) }, 10);
+    } 
+    //stop and reset if stopOnFadeOver is true, run stopFunction
+    if(this.level == targetLevel){
+      //make sure its a function to prevent crash
+      if(typeof stopFuction === `function`){
+        let callFuciton = stopFuction;
+        callFuciton();
+      }
+    }
+  }
 }

@@ -89,7 +89,7 @@ function navComputerGameStart(){
     LOAD_FADE[i].style.opacity = 1;
   }
   //enjoy the silence of space
-  titleMusic.stop();
+  titleMusic.fade(0, .01, () => { titleMusic.stop(); });
   //clear enemies
   waveMachine = null;
   for(let i = 0; i < enemies.length; i++){
@@ -114,7 +114,7 @@ function navComputerGameStart(){
   //make timer for level start
   levelStartInterval = setTimeout(nextLevel, 6000);
   //kick out the jams (need to wrap a class's method in a function to use with setTimeout?)
-  musicTimer = setTimeout( () => { levelMusic.play(); }, 6000);
+  musicTimer = setTimeout( () => { levelMusic.volume(1); levelMusic.play(); }, 6000);
 }
 
 //fades the nav computer out and disables the start game button
@@ -290,8 +290,7 @@ function navComputerFadeIn(){
 //reset lmao
 function resetGame() {
   //do music stuff
-  levelMusic.stop()
-  titleMusic.play();
+  levelMusic.fade(0, .1, () =>  { levelMusic.stop(); titleMusic.volume(1); titleMusic.play(); });
   //enemies now cleared at game start
   // for(let i = 0; i < enemies.length; i++){
   //   enemies[i].selfDestruct = 'true';

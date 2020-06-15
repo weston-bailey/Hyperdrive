@@ -18,9 +18,14 @@ function degreesToRadians(angle){
   return (angle / Math.PI) * 180;
 }
 
+//for when wonedering if function pointers are getting called
+function logWhenCalled(){
+  console.log(`i got called!`);
+}
+
 //called by log button for debug
 function logFunction(){
-  console.log(enemies)
+  console.log(levelMusic.paused);
   canvas.onmousemove = e => {
     console.log(`x position: ${e.offsetX} y position: ${e.offsetY}`);
   }
