@@ -4,7 +4,7 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(bounceWaveSameY, 1, 4);
+                                                                          debugGameStart(bigBounceWave, 1, 4);
                                                                         }                                                              
                                                                       });
 //listen for keypresses
@@ -65,7 +65,7 @@ LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
 //useful for maths
 const TWO_PI = 2 * Math.PI;
 //toggles debug mode
-let debug = false;
+let debug = true;
 //canvas variables
 let canvas, ctx; 
 let canvasWidth = 800;
@@ -132,6 +132,10 @@ let levelStartInterval;
 let level = 0;
 //varible to check if the game has started
 let gameActive = false;
+//for audio objects
+let titleMusic;
+let levelMusic;
+let musicTimer;
 //wave functions in an array for wave machine to call
 let waveFunctions =   [triangleCometWaveRandomDirections, 
                       triangleCometWaveSameDirections, 
@@ -170,7 +174,14 @@ function init() {
     keys[i] = false;
   }  
   //populate the heavens
-  makeStarBackgroud();                                                       
+  makeStarBackgroud();     
+  //init audio objects
+  titleMusic = new Audio(`./snd/last-step-contrast.mp3`);                                                  
+  titleMusic.init();   
+  titleMusic.loop();                                              
+  levelMusic = new Audio(`./snd/aphex-twin-vordhosbn.mp3`);
+  levelMusic.init();
+  levelMusic.loop();
   //start rendering
   render();
 }

@@ -1,4 +1,4 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~THESE FUNCTIONS CAN BE PASSED TO THE WAVE MACHINE TO MAKE ENEMIESS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~THESE FUNCTIONS CAN BE PASSED TO THE WAVE MACHINE TO MAKE ENEMIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 //pass to the wave machine as a 'null' function so it doesn't freak out if needed for debug
 let dummyWave = function(){
@@ -104,6 +104,37 @@ let bounceWaveSameY = function() {
   let speedX = randomInRange(2, clamp(2 + level, 3, 6));
   let speedY = randomInRange(2, clamp(2 + level, 3, 6));
   let posX = randomInRange(0, canvasHeight);
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06);
+  for(let i = 0; i < amount; i++){
+    enemies.push(new PolygonBounceBomb(posX, //x random
+    spawnHalfX - i * 100,                               //y random
+    speedX,                                       //speedX
+        speedY,                                //speedY
+        randomInRange(15, 25),                              //size
+            180,                                            //radans
+            spinningSpeed,                                          //spinSpeed
+              sides,                                          //sides
+                lineWidth,                                        //lineWidth
+                randomColorHex(),                       //color
+                    radiusScaling,                                   //hit radius scale    
+                        randomInRange(0, canvasHeight), //y position of self destruct   
+                        randomInRange(3, 8)             //bounce times until self destruct
+                        ));     
+  }                       
+}
+///small polgons that bounce with the same x pos
+let bigBounceWave = function() {
+  let sides =  Math.round(randomInRange(3, 6));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let amount = randomInRange(10, clamp(level + 20, 21, 40));
+  //speed inc with level but just a little
+  let speedX = randomInRange(2, clamp(2 + level, 3, 6));
+  let speedY = randomInRange(2, clamp(2 + level, 3, 6));
+  let posX = randomInRange(0, canvasHeight);
+  let poxY = randomInRange(0, spawnHalfX);
   let lineWidth = randomInRange(2, 4);
   //random speed per wave;
   let spinningSpeed = randomSignInRange(.05, .06);

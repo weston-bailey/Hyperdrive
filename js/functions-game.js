@@ -20,7 +20,7 @@ function loadFadeIn(){
      for(let i = 0; i < LOAD_FADE.length; i++){
        LOAD_FADE[i].style.opacity = loadOpacity;
      }
-    titleFadeOutTimer = setTimeout(loadFadeIn, fadeSpeed);
+    loadFadeInTimer = setTimeout(loadFadeIn, fadeSpeed);
   } 
 }
 
@@ -83,8 +83,15 @@ function distanceTick(){
 
 //fades the nav computer out and disables the start game button
 function navComputerGameStart(){
-  waveMachine = null;
+  //stop the fade animation if it is still going
+  clearInterval(loadFadeInTimer);
+  for(let i = 0; i < LOAD_FADE.length; i++){
+    LOAD_FADE[i].style.opacity = 1;
+  }
+  //enjoy the silence of space
+  titleMusic.stop();
   //clear enemies
+  waveMachine = null;
   for(let i = 0; i < enemies.length; i++){
     enemies[i].selfDestruct = 'true';
   }
@@ -106,6 +113,8 @@ function navComputerGameStart(){
   emergencyMessageTimeout = setTimeout(emergencyMesssage1, typingSpeed);
   //make timer for level start
   levelStartInterval = setTimeout(nextLevel, 6000);
+  //kick out the jams (need to wrap a class's method in a function to use with setTimeout?)
+  musicTimer = setTimeout( () => { levelMusic.play(); }, 6000);
 }
 
 //fades the nav computer out and disables the start game button
@@ -277,6 +286,9 @@ function navComputerFadeIn(){
 
 //reset lmao
 function resetGame() {
+  //do music stuff
+  levelMusic.stop()
+  titleMusic.play();
   //enemies now cleared at game start
   // for(let i = 0; i < enemies.length; i++){
   //   enemies[i].selfDestruct = 'true';
@@ -344,7 +356,6 @@ function resetGame() {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
 //updates ship moving values and reutrns x y directions for the ships movement method
 function inputHandler(){
   //for gameplay
@@ -390,6 +401,7 @@ function inputHandler(){
       //this is reduntant with next level, but in the future they
       //could be different
       waveMachine = new WaveMachine(waveFunctions); 
+      titleMusic.play();
       loadFadeIn();
     }
   }
