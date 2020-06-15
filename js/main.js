@@ -12,6 +12,7 @@ const KEY_DOWN = document.body.addEventListener(`keydown`, e => { keys[e.keyCode
 const KEY_UP = document.body.addEventListener(`keyup`, e => { keys[e.keyCode] = false; });
 //for debug
 const LOG_BUTTON = document.getElementById(`log-button`);
+const START_GAME_BUTTON = document.getElementById(`start-game-button`);
 //class that fades elements on load
 const LOAD_FADE = document.getElementsByClassName(`load-fade`);
 //the loading screen
@@ -60,6 +61,7 @@ const DISTANCE_TEXT = document.getElementById(`distance-text`);
 //click event listeners for the buttons
 MAIN_MENU_BUTTON.addEventListener(`click`, () => { resetGame(); });
 MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); });
+START_GAME_BUTTON.addEventListener(`click`, () => { loadScreenClickThru(); });
 //for debug
 LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
 //useful for maths
@@ -106,7 +108,7 @@ let emergencyText2 = 'Auto Pilot System Failure   ';
 let typingSpeed = 100; //letter update speed
 let loadingMessageTimeout;
 let loadingMessageInc = 0;
-let loadingText = 'L o a d i n g . . . . . . . . . . . ';
+let loadingText = 'L o a d i n g     .     .     .     .     ';
 let doneLoading = false;
 let gameInitialized = false;
 //timeout for blink E R and N on game over

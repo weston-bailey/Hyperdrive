@@ -24,6 +24,7 @@ canvas {
 }
 
 div {
+  /* border: 2px dotted red; */
 }
 
 #load-text-container {
@@ -43,6 +44,39 @@ div {
 .load-text {
   font-family: Arial, Helvetica, sans-serif;
   display: block;
+}
+
+#start-game-button{
+  background-color: rgba(0, 0, 0, 0);
+  height: 20px;
+  width: 130px;
+  position: absolute;
+  top: 57%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  visibility: visible;
+  box-shadow: 0 4px #999;
+  border: 1px solid #999; 
+  outline: none;
+  display: none;
+}
+
+#start-game-button {
+  /* TODO fix text position */
+}
+
+/* animation for button div */
+#start-game-button:hover {
+  background-color:rgba(128, 128, 128, .5);
+  cursor: pointer; 
+  }
+/* animation for button div */
+#start-game-button:active {
+  background-color:rgba(128, 128, 128, 0);
+  cursor: pointer; 
+  box-shadow: 0 1px #666;
+  bottom: 4px;
 }
 
 
@@ -299,3 +333,6 @@ cursor: pointer;
   opacity: 0;
 }
 
+#log-button {
+  display: none;
+}

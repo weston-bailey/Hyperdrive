@@ -65,7 +65,10 @@
     <div id="load-text-container">
       <h1 class="HUD-text load-text" id="load-text-update"></h1>
       <h1 class="HUD-text load-text" id="load-text-complete"></h1>
-      <h2 class="HUD-text load-text" id="load-text-press-enter"></h2>
+      <div class="HUD-text load-text" id="start-game-button">
+        <h2 class="HUD-text">Start Game</h2>
+      </div>
+      <h5 class="HUD-text load-text" id="load-text-press-enter"></h5>
     </div>
     <!-- info HUD in lower left corner -->
     <div class="load-fade" id="info">
@@ -81,7 +84,7 @@
     </div>
     <canvas id="game-canvas"></canvas>
   </div>
-  <button id="log-button">LOG BUTTON</button>
+  <button id="log-button" disabled>LOG BUTTON</button>
   <script src="./js/class-Audio.js"></script>
   <script src="./js/class-PolygonTemplate.js"></script>
   <script src="./js/class-Polygon.js"></script>

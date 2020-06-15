@@ -7,8 +7,9 @@ function loadingMessage(){
     loadingMessageTimeout = setTimeout(loadingMessage, typingSpeed);
   } else {
     LOAD_TEXT_UPDATE.style.display = `none`;
+    START_GAME_BUTTON.style.display = `block`;
     LOAD_TEXT_COMPLETE.innerText = `Complete!`;
-    LOAD_TEXT_PRESS_ENTER.innerText = `press <enter> to start`;
+    LOAD_TEXT_PRESS_ENTER.innerText = `Use [W][S][A][D] to pilot your craft and [SHIFT] to active its sheild`;
     doneLoading = true;
   }
 }
@@ -392,21 +393,21 @@ function inputHandler(){
     }
     return [directionX, directionY];
   }
-  //for load screen
+}
+
+//for load screen
+function loadScreenClickThru(){
   if(doneLoading && !gameInitialized){
-    //enter displays button and fades content
-    if(keys[13]){
-      gameInitialized = true;
-      MANUAL_FLIGHT_BUTTON.style.display = `inline`;
-      for(let i = 0; i < LOAD_TEXT.length; i++){
-        LOAD_TEXT[i].style.display = `none`;
-      }
-      //this is reduntant with next level, but in the future they
-      //could be different
-      waveMachine = new WaveMachine(waveFunctions); 
-      titleMusic.play();
-      loadFadeIn();
+    gameInitialized = true;
+    MANUAL_FLIGHT_BUTTON.style.display = `inline`;
+    for(let i = 0; i < LOAD_TEXT.length; i++){
+      LOAD_TEXT[i].style.display = `none`;
     }
+    //this is reduntant with next level, but in the future they
+    //could be different
+    waveMachine = new WaveMachine(waveFunctions); 
+    titleMusic.play();
+    loadFadeIn();
   }
 }
 
