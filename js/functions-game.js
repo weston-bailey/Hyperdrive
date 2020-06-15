@@ -139,7 +139,7 @@ function navComputerPlayerDeath(){
   // //update nav computer screen
   MANUAL_FLIGHT_MESSAGE.style.visibility = `hidden`;
   //reset emergency flash message
-  EMERGENCY_FLASH.innerHTML = ' ';
+  EMERGENCY_FLASH.innerText = ' ';
   clearTimeout(emergencyMessageTimeout);
   emergencyMessageInc1 = 0; //letter index to print
   emergencyMessageInc2 = 0;
@@ -185,6 +185,9 @@ function debugGameStart(wave, level){
   level = level;
   ship.sheildLevel = 5;
   decrementSheild();
+  for(let i = 0; i < LOAD_TEXT.length; i++){
+    LOAD_TEXT[i].style.display = `none`;
+  }
   //fade out the title
   TITLE_CONTAINER.style.opacity = 0;
   NAV_COMPUTER.style.opacity = 0;

@@ -4,7 +4,7 @@
 const LOAD_PAGE = document.addEventListener(`DOMContentLoaded`, () => { 
                                                                         init();
                                                                         if(debug){
-                                                                          debugGameStart(bigBounceWave, 1, 4);
+                                                                          debugGameStart(testWave, 1, 4);
                                                                         }                                                              
                                                                       });
 //listen for keypresses
@@ -148,7 +148,8 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
                       triangleCometWaveSameDirectionsSmall,
                       lineWave, lineWaveMoveX, lineWaveMoveY, bounceWaveSameX,
                       bounceWaveClusterSameY, bounceWaveSameY,
-                      lineWaveSkipTwoMoveX, lineWaveSkipTwo]
+                      lineWaveSkipTwoMoveX, lineWaveSkipTwo, bigBounceWave,
+                      accelertateYnoX, accelertateYwithX]
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

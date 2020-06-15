@@ -10,29 +10,87 @@ let testWave = function() {
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
-  let amount = randomInRange(5, clamp(level + 10, 11, 20));
+  let amount = randomInRange(30, clamp((level * 2) + 45, 46, 90));
   //speed inc with level but just a little
   let speedX = randomInRange(1, 5);
-  let speedY = randomInRange(2, clamp(2 + level, 3, 6));
+  let speedY = randomInRange(3, clamp(2 + level, 3, 6));
   let lineWidth = randomInRange(2, 4);
   //random speed per wave;
   let spinningSpeed = randomSignInRange(.05, .06);
   for(let i = 0; i < amount; i++){
-    enemies.push(new PolygonBounceBomb(randomInRange(0, canvasWidth), //x random
-    spawnHalfX,                               //y random
+    enemies.push(new PolygonAccelerate(randomInRange(0, canvasWidth), //x random
+    spawnHalfX * ((i + 1) / 6),                               //y random
     speedX,                                       //speedX
         speedY,                                //speedY
-        randomInRange(15, 25),                              //size
+        randomInRange(15, 45),                              //size
             180,                                            //radans
             spinningSpeed,                                          //spinSpeed
               sides,                                          //sides
                 lineWidth,                                        //lineWidth
                 randomColorHex(),                       //color
                     radiusScaling,                                   //hit radius scale    
-                        randomInRange(0, canvasHeight), //y position of self destruct   
-                        randomInRange(3, 6)             //bounce times until self destruct
-                        ));     
-  }                       
+                        randomInRange(0, canvasHeight * .25), //y pos of accelortate
+                        randomInRange(0, .5)             //speed added each render after accelaration starts
+                        ));   
+  }                    
+}
+//for testing new enemy behaviors
+let accelertateYwithX = function() {
+  let sides =  Math.round(randomInRange(3, 6));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let amount = randomInRange(30, clamp((level * 2) + 45, 46, 90));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5);
+  let speedY = randomInRange(3, clamp(2 + level, 3, 6));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06);
+  for(let i = 0; i < amount; i++){
+    enemies.push(new PolygonAccelerate(randomInRange(0, canvasWidth), //x random
+    spawnHalfX * ((i + 1) / 6),                               //y random
+    speedX,                                       //speedX
+        speedY,                                //speedY
+        randomInRange(15, 45),                              //size
+            180,                                            //radans
+            spinningSpeed,                                          //spinSpeed
+              sides,                                          //sides
+                lineWidth,                                        //lineWidth
+                randomColorHex(),                       //color
+                    radiusScaling,                                   //hit radius scale    
+                        randomInRange(0, canvasHeight * .25), //y pos of accelortate
+                        randomInRange(0, .5)             //speed added each render after accelaration starts
+                        ));   
+  }                    
+}
+//for testing new enemy behaviors
+let accelertateYnoX= function() {
+  let sides =  Math.round(randomInRange(3, 6));
+  let radiusScaling = sidesToHitRadiusScale(sides);
+  //rows increase with level maxing out in range 4 - 8
+  let amount = randomInRange(30, clamp((level * 2) + 45, 46, 90));
+  //speed inc with level but just a little
+  let speedX = randomInRange(1, 5);
+  let speedY = randomInRange(3, clamp(2 + level, 3, 6));
+  let lineWidth = randomInRange(2, 4);
+  //random speed per wave;
+  let spinningSpeed = randomSignInRange(.05, .06);
+  for(let i = 0; i < amount; i++){
+    enemies.push(new PolygonAccelerate(randomInRange(0, canvasWidth), //x random
+    spawnHalfX * ((i + 1) / 6),                               //y random
+    0,                                       //speedX
+        speedY,                                //speedY
+        randomInRange(15, 45),                              //size
+            180,                                            //radans
+            spinningSpeed,                                          //spinSpeed
+              sides,                                          //sides
+                lineWidth,                                        //lineWidth
+                randomColorHex(),                       //color
+                    radiusScaling,                                   //hit radius scale    
+                        randomInRange(0, canvasHeight * .25), //y pos of accelortate
+                        randomInRange(0, .5)             //speed added each render after accelaration starts
+                        ));   
+  }                    
 }
 
 ///small polgons that bounce with the same x pos
@@ -129,30 +187,34 @@ let bigBounceWave = function() {
   let sides =  Math.round(randomInRange(3, 6));
   let radiusScaling = sidesToHitRadiusScale(sides);
   //rows increase with level maxing out in range 4 - 8
-  let amount = randomInRange(10, clamp(level + 20, 21, 40));
+  let amount = 6;
   //speed inc with level but just a little
   let speedX = randomInRange(2, clamp(2 + level, 3, 6));
   let speedY = randomInRange(2, clamp(2 + level, 3, 6));
   let posX = randomInRange(0, canvasHeight);
-  let poxY = randomInRange(0, spawnHalfX);
+  let posY = randomInRange(0, spawnHalfX);
   let lineWidth = randomInRange(2, 4);
+  let size = randomInRange(30, 60);
+  let color = randomColorHex();
   //random speed per wave;
   let spinningSpeed = randomSignInRange(.05, .06);
-  for(let i = 0; i < amount; i++){
-    enemies.push(new PolygonBounceBomb(posX, //x random
-    spawnHalfX - i * 100,                               //y random
-    speedX,                                       //speedX
-        speedY,                                //speedY
-        randomInRange(15, 25),                              //size
-            180,                                            //radans
-            spinningSpeed,                                          //spinSpeed
-              sides,                                          //sides
-                lineWidth,                                        //lineWidth
-                randomColorHex(),                       //color
-                    radiusScaling,                                   //hit radius scale    
-                        randomInRange(0, canvasHeight), //y position of self destruct   
-                        randomInRange(3, 8)             //bounce times until self destruct
-                        ));     
+  for(let h = 0; h < randomInRange(2, 4); h++){
+    for(let i = 0; i < amount; i++){
+      enemies.push(new PolygonBounceBomb(posX, //x random
+      posY * h,                               //y random
+      speedX,                                       //speedX
+          speedY,                                //speedY
+          size,                              //size
+              180,                                            //radans
+              spinningSpeed,                                          //spinSpeed
+                sides,                                          //sides
+                  lineWidth,                                        //lineWidth
+                  randomColorHex(),                       //color
+                      radiusScaling,                                   //hit radius scale    
+                          randomInRange(0, canvasHeight), //y position of self destruct   
+                          randomInRange(3, 10)             //bounce times until self destruct
+                          ));   
+    }  
   }                       
 }
 

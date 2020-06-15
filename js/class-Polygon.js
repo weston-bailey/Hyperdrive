@@ -100,7 +100,7 @@ class PolygonBounceBomb extends Polygon {
     this.y += this.speedY;
     this.x += this.speedX;
     this.radians += this.spinSpeed;
-    //wrap the screen boundaries
+
     if(this.x > canvasWidth + this.hitRadius){   
       this.bounceCount++;                 
       this.speedX *= -1.3;
@@ -117,6 +117,86 @@ class PolygonBounceBomb extends Polygon {
       this.bounceCount++;
       this.speedY *= -1.3;
     } else if (this.y < 0 - this.hitRadius) {
+      this.onScreen = false;
+    } else {
+      this.onScreen = true;
+    }
+    //explode after bounce count is reached at a certian y position
+    if(this.y < this.selfDestructVal && this.bounceCount >= this.bounceThresh){
+      this.selfDestruct = true;
+    }
+  }
+}
+//bounces around until bounceThresh has been reached and then self destructs, acceclerates every bounce
+class PolygonBounceBombWrapX extends Polygon {
+  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale, selfDestructVal, bounceThresh) {
+    super(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale);
+    this.selfDestruct = false; //render checks if the object wants to self destruct
+    this.selfDestructVal = selfDestructVal || null; //a value for self destruct logic (in this case y position)
+    this.bounceCount = 0; //a 
+    this.bounceThresh = bounceThresh; //how many bounces befor self destruct
+  }
+  update(){
+    //move polygon
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.radians += this.spinSpeed;
+    //wrap the screen boundaries
+    if(this.x > canvasWidth + this.hitRadius){                    
+      this.x = 0 - this.hitRadius;
+    }       
+    if(this.x < 0 - this.hitRadius){                     
+      this.x = canvasWidth + this.hitRadius;
+    }  
+    //doesn't start bouncing until y0 threshhold is passed, inc bounce count each time bounce happens
+    if(this.y > this.hitRadius + canvasHeight){
+      this.bounceCount++;
+      this.speedY *= -1.3;
+    } else if(this.y < 0 - this.hitRadius && this.onScreen){
+      this.bounceCount++;
+      this.speedY *= -1.3;
+    } else if (this.y < 0 - this.hitRadius) {
+      this.onScreen = false;
+    } else {
+      this.onScreen = true;
+    }
+    //explode after bounce count is reached at a certian y position
+    if(this.y < this.selfDestructVal && this.bounceCount >= this.bounceThresh){
+      this.selfDestruct = true;
+    }
+  }
+}
+//y speed increases when certain threshhold is passed, bounces off walls
+class PolygonAccelerate extends Polygon {
+  constructor(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale, accelerateY, accelerateSpeed) {
+    super(x, y, speedX, speedY, size, radians, spinSpeed, sides, lineWidth, color, hitRadiusScale);
+    this.accelerateY = accelerateY || 0;
+    this.accelerateSpeed = accelerateSpeed || .5;
+  }
+  update(){
+    //move polygon
+    this.y += this.speedY;
+    this.x += this.speedX;
+    ///this.x += this.speedX;
+    this.radians += this.spinSpeed;
+    //wrap the screen boundaries
+    if(this.x > canvasWidth + this.hitRadius){   
+      this.bounceCount++;                 
+      this.speedX *= -1;
+    }       
+    if(this.x < 0 - this.hitRadius){  
+      this.bounceCount++;                   
+      this.speedX *= -1;
+    }  
+    if(this.y >= this.accelerateY){
+      this.speedY += this.accelerateSpeed;
+      exhuastParticles.push(new Exhaust(this.x, this.y - this.hitRadius));
+    }
+    //mark as garbage after screen height
+    if(this.y > this.hitRadius + canvasHeight){
+      this.onScreen = false;
+      this.isGarbage = true;
+    } else if(this.y < 0 - this.hitRadius){
       this.onScreen = false;
     } else {
       this.onScreen = true;
