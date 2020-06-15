@@ -193,38 +193,12 @@ function render(){
   let shipDirection = inputHandler();
   //clear the canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  //update and draw the backgrounds
+  //update and draw all objects
   drawBackground();
-  //update and draw ship only after game starts
-  if(gameActive){
-    ship.update(shipDirection[0], shipDirection[1]);
-    ship.draw();
-    if(debug){
-      ship.drawCollisionRadius();
-    }
-  }
-  //update and draw exhaust
-  for(let i = 0; i < exhuastParticles.length; i++){
-    exhuastParticles[i].update();
-    exhuastParticles[i].draw();
-  }
-  //update and debris
-  for(let j = 0; j < debrisParticles.length; j++){
-    debrisParticles[j].update();
-    debrisParticles[j].draw();
-  }
-  //update wavemachine
-  if(waveMachine != null){
-    waveMachine.update();
-  }
-  //update and draw enemies
-  for(let k = 0; k < enemies.length; k++){
-    enemies[k].update();
-    enemies[k].draw();
-    if(debug){
-      enemies[k].drawCollisionRadius();
-    }
-  }
+  drawShip(shipDirection);
+  drawEnemies();
+  drawExhaust();
+  drawDebris();
   //check for collisions
   for(let l = 0; l < enemies.length; l++){
     let crash;
@@ -263,25 +237,13 @@ function render(){
       enemies[m].isGarbage = true;
     }
   }
-  //check if enemies are marked as garbage, splice the ones that are
-  for(let o = 0; o < enemies.length; o++){
-    if(enemies[o].isGarbage) {
-      enemies.splice(o, 1);
-    }
+  //splice everything marked as garbage
+  collectGarbage();
+  //update wavemachine
+  if(waveMachine != null){
+    waveMachine.update();
   }
-  //check for exhaust marked as garbage
-  for(let p = 0; p < exhuastParticles.length; p++){
-    if(exhuastParticles[p].isGarbage){
-      exhuastParticles.splice(p, 1);
-    }
-  }
-  //check for debris marked as garbage
-  for(let q = 0; q < debrisParticles.length; q++){
-    if(debrisParticles[q].isGarbage){
-      debrisParticles.splice(q, 1);
-    }
-  }
-  //if no enemies are left, tell the wave machine so it can do its thing
+  //if no enemies are left, tell the wave machine so it can do its thing next render
   if(enemies.length === 0 && waveMachine != null){
     waveMachine.waveActive = false;
   }

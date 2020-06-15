@@ -359,6 +359,7 @@ function resetGame() {
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 //updates ship moving values and reutrns x y directions for the ships movement method
+//TODO make inoutHandler directly modify the ships x y instead of returning them
 function inputHandler(){
   //for gameplay
   if(gameActive){
@@ -409,7 +410,7 @@ function inputHandler(){
   }
 }
 
-//looks for objects in the background arrays and updates and draws them
+//update and draw background
 function drawBackground(){
   for(let i = 0; i < backgroundZ0.length; i++){
     backgroundZ0[i].update();
@@ -429,6 +430,44 @@ function drawBackground(){
   }
 }
 
+//update and draw ship (needs x y in and array from inout handler)
+function drawShip(shipDirection){
+  //only draw on game active
+  if(gameActive){
+    ship.update(shipDirection[0], shipDirection[1]);
+    ship.draw();
+    if(debug){
+      ship.drawCollisionRadius();
+    }
+  }
+}
+
+//update and draw enemies
+function drawEnemies(){
+  for(let k = 0; k < enemies.length; k++){
+    enemies[k].update();
+    enemies[k].draw();
+    if(debug){
+      enemies[k].drawCollisionRadius();
+    }
+  }
+}
+///update and draw exhaust
+function drawExhaust() {
+  for(let i = 0; i < exhuastParticles.length; i++){
+    exhuastParticles[i].update();
+    exhuastParticles[i].draw();
+  }
+}
+
+//update and draw debris
+function drawDebris(){
+  for(let j = 0; j < debrisParticles.length; j++){
+    debrisParticles[j].update();
+    debrisParticles[j].draw();
+  }
+}
+
 //find the differences between the x and y values, square them, sum them
 //and if the square root of the sum is less than the sum of the two radii
 //then the circles overlap √((x1 + x2)^2 + (y1 + y2)^2)
@@ -445,6 +484,15 @@ function hitTest(radius1, x1, y1, radius2, x2, y2){
       return false;
     }
   }
+}
+
+//callback after shield is hit
+function sheildCoolDownOver(){
+  //handle HUD and subtraction
+  decrementSheild();
+  //cooldown has ended
+  ship.sheildCoolDown = false;
+  ship.sheild = ship.sheild; // why did i put this here? is this needed TODO
 }
 
 //decrements sheild level on hit and updates hud
@@ -470,13 +518,26 @@ function decrementSheild(){
   }
 }
 
-//callback after shield is hit
-function sheildCoolDownOver(){
-  //handle HUD and subtraction
-  decrementSheild();
-  //cooldown has ended
-  ship.sheildCoolDown = false;
-  ship.sheild = ship.sheild; // why did i put this here? is this needed TODO
+//splice everything marked as garbage
+function collectGarbage(){
+  //check if enemies are marked as garbage, splice the ones that are
+  for(let o = 0; o < enemies.length; o++){
+    if(enemies[o].isGarbage) {
+      enemies.splice(o, 1);
+    }
+  }
+  //check for exhaust marked as garbage
+  for(let p = 0; p < exhuastParticles.length; p++){
+    if(exhuastParticles[p].isGarbage){
+      exhuastParticles.splice(p, 1);
+    }
+  }
+  //check for debris marked as garbage
+  for(let q = 0; q < debrisParticles.length; q++){
+    if(debrisParticles[q].isGarbage){
+      debrisParticles.splice(q, 1);
+    }
+  }
 }
 
 //used by wave functions to scale hit radius of enemies based on sides
