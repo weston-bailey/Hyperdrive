@@ -65,7 +65,7 @@ LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
 //useful for maths
 const TWO_PI = 2 * Math.PI;
 //toggles debug mode
-let debug = true;
+let debug = false;
 //canvas variables
 let canvas, ctx; 
 let canvasWidth = 800;
