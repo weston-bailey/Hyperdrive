@@ -192,9 +192,9 @@ passMeFunctions(twoFunctions);
 
 I really feel like I failed hard with HTML element names and organization of the GUI. I started out with a good system but due to poor planning the id names turned into a complicated disaster and as I added more things I did not plan for, it turned into a nightmare to sort it out. Refactoring this part of the code is high on the priority list. 
 
-Working on this project was an absolute blast, and I will certainly keep working on it. After a code solid refactor and a knocking out a list of tidying-up stuff i plan on adding additional elements to make it a more full-fledged game. 
+Working on this project was an absolute blast, and I will certainly keep working on it. After a code solid refactor and  knocking out a list of tidying-up stuff i plan on adding additional elements to make it a more full-fledged game. 
 
-## Source:
+## Sources:
 
 #### tutorials
 
