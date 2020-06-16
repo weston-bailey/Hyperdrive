@@ -2,11 +2,15 @@
 
 ## Overview
 
-Hyperdrive is a retro-futuristic styled space-themed vertical scrolling infinite runner game where the player controls a ship (isosceles triangle) with the WSAD keys and must avoid collisions with polygon enemies of various shapes and sizes that appear at the top of the screen and move in various ways. They play can activate the ship's shield to avoid collisions, but the shield loses power each time and only recharges every 50 distance points. The shield starts at a lower power and charges up as the game advances.
+Hyperdrive is a retro-futuristic styled space-themed vertical scrolling infinite runner game where the player controls a ship (isosceles triangle) with the WSAD keys and must avoid collisions with polygon enemies of various shapes and sizes that appear at the top of the screen and move in various ways. The player can activate the ship's shield to avoid collisions, but the shield loses power each time and only recharges every 50 distance points. The shield starts at a lower power and charges up as the game advances.
 
 The polygon enemies appear in randomly chosen waves, with semi-randomized attributes, and after a semi-random amount waves the level increases. Higher levels currently spawn more difficult enemy waves by influencing values such as total enemies spawned at once and the speed at which they move. When the game is over, the distance the player traveled, the waves survived and the total amount of enemies successfully avoided is displayed on a scoreboard. 
 
 Future plans include implementing a win condition when the player achieves a hyperdrive repair level of 100%, but as it stands the game only has a lose condition and a score for survival time.  
+
+Here is a link to the playable deployment, because I always forget where to find it on github:
+
+https://weston-bailey.github.io/Hyperdrive/
 
 ## MVP
 
@@ -35,6 +39,34 @@ Future plans include implementing a win condition when the player achieves a hyp
 [] enemies that fire projectiles that need to be avoided
 
 [] bonus power ups like invincibility for a short period
+
+## Wire Frames
+
+I immediately realized how dumb it was to plan to have the gameplay information and score at the top of the screen when I started laying out the HTML elements on the page, and switched them to the bottom of the screen. Below are wireframes and final game screen grabs for comparison
+
+### Game start and Menu Wire Frame
+
+![Game Start](./img/1-game-menu.png)
+
+### Game start and Menu in Hyperdrive
+
+![Hyperdrive Start](./img/1-hyperdrive-menu.png)
+
+### Background Wire Frame
+
+![Game Background](./img/2-background.png)
+
+### Hyperdrive Background
+
+![Hyperdrive Background](./img/2-hyperdrive-background.png)
+
+### Wire frame of Gameplay 
+
+![Game Play](./img/3-gameplay.png)
+
+### Hyperdrive Gameplay
+
+![Game Play](./img/3-hyperdrive-gameplay.png)
 
 ## Technical Overview
 
@@ -74,9 +106,9 @@ Future plans include implementing a win condition when the player achieves a hyp
 * Enemy waves are handled by functions that contain for loops that and push new enemy objects to the enemy array
 * The waves functions are passed to the wave machine as in an array as function pointers so it can randomly choose an index to call a function
 
-## example pseudo code prototype for Star class
+## example pseudo code prototype for Star class and explanation of render loop core functionality
 
-> a bunch of stars will be pushed to an array on game start to make the background, the render loop will iterate through the star array to update and draw each of them. The enemy obstacle array will work similarly but also check for hit detection.
+> a bunch of stars are pushed to an array on game start to make the background, the render loop iterates through the star array to update and draw each of them. The enemy obstacle array works similarly but also checks for hit detection. Enemy objects, exhaust and debris self-flag as no longer relevant to gampeplay when aren't visible and garbage collector loop iterates over the enemy array to check if any enemies have drifted off screen.
 
 ```
 
@@ -106,35 +138,24 @@ class Star {
   }
 }
 
+let stars = []
+//make stars 
+for(let i = 0; i < 150; i++){
+  star[i].push(new Star(/*randomized values*/));
+}
+
+function render(){
+  for(let i = 0; i < stars.length; i++){
+    stars[i].update;
+    stars[i].draw;
+  }
+  //render other objects
+  //detect collisions
+  //collect garbage
+  callback(render());
+}
+
 ```
-
-## Wire Frames
-
-I immediately realized how dumb it was to plan to have the gameplay information and score at the top of the screen when I started laying out the HTML elements on the page, and switched them to the bottom of the screen. Below are wireframes and final game screen grabs for comparison
-
-### Game start and Menu Wire Frame
-
-![Game Start](./img/1-game-menu.png)
-
-### Game start and Menu in Hyperdrive
-
-![Hyperdrive Start](./img/1-hyperdrive-menu.png)
-
-### Background Wire Frame
-
-![Game Background](./img/2-background.png)
-
-### Hyperdrive Background
-
-![Hyperdrive Background](./img/2-hyperdrive-background.png)
-
-### Wire frame of Gameplay 
-
-![Game Play](./img/3-gameplay.png)
-
-### Hyperdrive Gameplay
-
-![Game Play](./img/3-hyperdrive-gameplay.png)
 
 ## Closing thoughts
 
