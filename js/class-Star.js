@@ -14,7 +14,7 @@ class Star {
     //if star moves off screen, reset y and randomize x to repurpose it as a new star
     if(this.y > canvasHeight){
       this.y = 0;
-      this.x = scale(Math.random(), 0, 1, 0, canvasWidth); 
+      this.x = Math.random() * canvasWidth; 
     }
   }
   //stars are just little circles

@@ -1,44 +1,78 @@
-# Project 1
+# Hyperdrive - Project 1
 
-## Idea Overview
+## Overview
 
-For this project I would like to build a space themed endless runner game where the player controls a spaceship and must navigate through a series of enemies and obstacles to survive. Score would be calculated by the time the player survived. I was originally thinking that I would make a vertically scrolling shoot 'em up type game, but I decided that I'd prefer to create something less violent. I'd like the game play to be similar to a scrolling shoot 'em up, but have the emphasis be on maneuvering rather than shooting. Obstacles and enemies will appear in waves and the end of waves will be punctuated with a moment of repose for the player to prepare for the next increasingly difficult wave. 
+Hyperdrive is a retro-futuristic styled space-themed vertical scrolling infinite runner game where the player controls a ship (isosceles triangle) with the WSAD keys and must avoid collisions with polygon enemies of various shapes and sizes that appear at the top of the screen and move in various ways. They play can activate the ship's shield to avoid collisions, but the shield loses power each time and only recharges every 50 distance points. The shield starts at a lower power and charges up as the game advances.
 
-Stretch goals could include additional game play elements like a shield or cloaking ability the player could activate to avoid collisions. I really enjoy games that have a procedural generated element or randomness to them, and I'd like to incorporate this by having enemy wave types be somewhat random, but still increasingly difficult as the game progresses. 
+The polygon enemies appear in randomly chosen waves, with semi-randomized attributes, and after a semi-random amount waves the level increases. Higher levels currently spawn more difficult enemy waves by influencing values such as total enemies spawned at once and the speed at which they move. When the game is over, the distance the player traveled, the waves survived and the total amount of enemies successfully avoided is displayed on a scoreboard. 
 
-> I plan on using HTML5 canvas and Plain JavaScript to create this game
+Future plans include implementing a win condition when the player achieves a hyperdrive repair level of 100%, but as it stands the game only has a lose condition and a score for survival time.  
+
+## MVP
+
+[x] A functional menu for starting and Ending 
+
+[x] a game play HUD with score and possible other info area like 'wave 3 incoming'
+
+[x] a scrolling space background
+
+[x] a player controlled ship
+
+[x] waves of obstacles
+
+[x] hit detection that ends the game if the player collides with and obstacle
+
+## Stretch Goals
+
+[x] a shield the player can activate
+
+[x] a variety of enemies that vary in shape, size, color and movement (such as enemies that bounce off each other or enemies that accelerate as they move forward)
+
+[x] music and sound
+
+[x] a more complex level system (such as certain enemies only coming after wave 5 for example or backgrounds and music that change after a certain wave)
+
+[] enemies that fire projectiles that need to be avoided
+
+[] bonus power ups like invincibility for a short period
 
 ## Technical Overview
 
-I plan on implementing a scrolling background of stars, with two or more layers of stars moving at different speeds to create a parallax sense of depth and movement. Distance traveled for scoring will be kept track of with a timer and displayed on screen. Enemies and obstacles will appear at the top of the canvas and will move towards the player. The player will use WSAD controls to move their spacecraft, the left and right of the canvas will wrap the player's craft around to the other side, and the player will not be able to move beyond the top or bottom boundaries of the canvas.
+> Hyperdrive uses HTML5 and vanilla JavaScript
 
-Instead of using sprites, I would like to use abstract geometric shapes to represent game play elements as a nod to older 'golden era arcade games'. The player's ship will be an isosceles triangle and enemies and obstacles can be a range of polygons and other geometric shapes such as circles or spinning squares. After researching collision detection, I would like to use circle collision detection, as it seems lightweight and a circle collision radius can be assigned to any object. Objects can appear to spin with circle collision detection without the hit area being affected. This is also conveint because it is easy to split circles into polygons, so obstacles could be drawn as a polygon and the hit detection radius could the same as the draw radius but scaled down slightly, if they weren't drawn with the baked in HTML5 canvas methods.
-
-#### All game elements rendered on screen will be classes with three main elements: 
+#### All game elements rendered on screen are classes with three main elements: 
 
 * constructors that contain all relevant information for that object (such as current x, y screen positions)
 * an update method that is called every frame to read object information and update it (such as reading current x, y screen position values and updating them to new ones to move the object)
 * a draw method to be called after the update method to render the object with new values
 
-#### Collision detection will be based on circles, with the following procudure: 
+#### Collision detection is based on circles, with the following procedure: 
 
   * sum the radii of the circles (r1 + r2)
-  * find the distance between the circles by calculating the difference between the x values and squaring them, calculating the difference the y values and squaring them, summing the two squares and then finding the square root of the sum √((x1 + x2)^2 + (y1 + y2)^2) 
+  * find the distance between the circles by calculating the difference between the x values and squaring them, calculating the difference the y values and squaring them, summing the two squares and then finding the square root of the sum  
   * if the distance is less than the sum of the radii, a hit is detected
+  * (r1 + r2) > √((x1 + x2)^2 + (y1 + y2)^2) 
+
+#### Polygons are created by calculating using sin and cos in a unit circle and stroking them on canvas
+
+  * by treating the radius of a circle as the hypotenuse of a triangle, x y positions of any point on the circle can be found because sin(angle) = opposite/hypotenuse (y) and cos(angle) = adjacent/hypotenuse (x)
+  *  x position to draw on circle = center x of circle - radius * (cosine of (two pi / number of sides) * angle number + starting degrees as radians)
+  * y position to draw on circle = center y of circle - radius * (sine of (two pi / number of sides) * angle number + starting degrees as radians)
 
 #### Other technical elements:
 
-* A function will handle keyboard input
-* a timer to calculate distance traveled and the difficulty
-* an obstacle generator that will make waves of obstacles somewhat randomly but based on distance for difficulty (I need to plan this part out more, explore possibly making a wave generator class to handle the logic)
-* arrays to store the star background objects
-* arrays to store obstacles and enemies to be referenced for hit detection
-* on screen menu handling for game start/end
-* the screen menus and game HUD could be handled with html and css to take some load off the main render function
+* keypresses are pushed to an array the time of the event and a function handles keyboard input during the render loop
+* The Menus and HUD are styled HTML elements 
+* All DOM manipulation is handled with functions
+* a setInterval() calculates distance traveled
+* arrays store the star background objects
+* arrays store polygon enemies to be referenced for hit detection
+* arrays store objects for particle effects (exhaust and debris)
 
-#### Ideas for generating waves of enemies:
+#### Waves of enemies are handled by a WaveMachine class
 
-I'm still conceptualizing this part, but I think maybe a wave generator could choose from a few obstacles to create, make a bunch of them and push them to an array. They would be generated with semi random negative y values that would increment until the obstacles appeared on screen. As a part of the enemy obstacles classes' update methods, a could check be made to see if they are in the bounds of the screen and if so, a true/false 'onscreen' value could be updated to trigger rendering and collision detection. A garbage collector function could be run to check to see if obstacles had moved back off-screen with a y value that was greater than the screen height, and if so, the obstacle would be spliced from the array of enemy obstacles. If the wave generator was a class, the wave generator object could be replaced with an updated object with harder level values when certain distance score were obtained by the player. 
+* Enemy waves are handled by functions that contain for loops that and push new enemy objects to the enemy array
+* The waves functions are passed to the wave machine as in an array as function pointers so it can randomly choose an index to call a function
 
 ## example pseudo code prototype for Star class
 
@@ -76,42 +110,120 @@ class Star {
 
 ## Wire Frames
 
-### Game start and Menu
+I immediately realized how dumb it was to plan to have the gameplay information and score at the top of the screen when I started laying out the HTML elements on the page, and switched them to the bottom of the screen. Below are wireframes and final game screen grabs for comparison
+
+### Game start and Menu Wire Frame
 
 ![Game Start](./img/1-game-menu.png)
 
-### Game start and Menu
+### Game start and Menu in Hyperdrive
+
+![Hyperdrive Start](./img/1-hyperdrive-menu.png)
+
+### Background Wire Frame
 
 ![Game Background](./img/2-background.png)
 
-### Game start and Menu
+### Hyperdrive Background
+
+![Hyperdrive Background](./img/2-hyperdrive-background.png)
+
+### Wire frame of Gameplay 
 
 ![Game Play](./img/3-gameplay.png)
 
-## MVP
+### Hyperdrive Gameplay
 
-[] A functional menu for starting and Ending 
+![Game Play](./img/3-hyperdrive-gameplay.png)
 
-[] a game play HUD with score and possible other info area like 'wave 3 incoming'
+## Closing thoughts
 
-[] a scrolling space background
+After seeing how canvas crawler worked, I really wanted to challenge myself to work in an object oriented way with this project, and this is the first project that I really tried to do so. In some ways I succeeded and others I failed. My main goal was to create an OO MVP that was scalable into something bigger, and I feel like I succeed here. In the past, I have had several projects fall apart because their scope grew beyond want my skills could handle, and I am sure that this wouldn't have happened if I had used an OOP model in these projects but I wasn't able to full grasp how to plan something like that out.
 
-[] a player controlled ship
+The objects being rendered on screen all being handled as classes is a big success in terms of planning and execution. After working so much with classes I had an epiphany on how to refactor the DOM manipulation in an elegant OOP way after having creating a class to handle audio towards the end of this project. Handling the DOM elements with functions is okay, but somewhat verbose, and I feel like I could do better. Two epiphany moments for me during this project where I learned how to leverage class methods like functions by using anonymous functions as wrappers:
 
-[] waves of obstacles
+```
+setTimeout( () => { Class.method(); }, 10)
+```
 
-[] hit detection that ends the game if the player collides with and obstacle
+also when I learned the best way to interact with functions being passed around as as arguments or in arrays as arguments is by assigning them a variable first.
 
-## Stretch Goals
+```
+function pointer1(){
+  //do stuff
+}
 
-[] a shield the player can activate
+function pointer2(){
+  //do other stuff
+}
 
-[] a variety of enemies that vary in shape, size, color and movement (such as enemies that bounce off each other or enemies that accelerate as they move forward)
+function passMeFunctions(array){
+  let firstOneToCall = array[0];
+  let secondOneToCall = array[1];
+  firstOnToCall();
+  secondOneToCall();
+}
 
-[] music and sound
+let twoFunctions = [pointer1, pointer2];
 
-[] a more complex level system (such as certain enemies only coming after wave 5 for example or backgrounds and music that change after a certain wave)
+passMeFunctions(twoFunctions);
+```
 
-[] enemies that fire projectiles that need to be avoided
+I really feel like I failed hard with HTML element names and organization of the GUI. I started out with a good system but due to poor planning the id names turned into a complicated disaster and as I added more things I did not plan for, it turned into a nightmare to sort it out. Refactoring this part of the code is high on the priority list. 
 
-[] bonus power ups like invincibility for a short period
+Working on this project was an absolute blast, and I will certainly keep working on it. After a code solid refactor and a knocking out a list of tidying-up stuff i plan on adding additional elements to make it a more full-fledged game. 
+
+## Source:
+
+#### tutorials
+
+collision detection with circles
+
+https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+
+playable canvas asteroids (inspired code structure and particle effects)
+
+https://codepen.io/jeffibacache/pen/bzBsp
+
+js canvas asteroids tutorial (this dives into polygon maths in a great way about 10 min in)
+
+http://www.newthinktank.com/2019/07/javascript-asteroids/
+
+breakout on canvas
+
+https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript
+
+#### other 
+
+typewriter effect with setTimeout()
+
+https://www.w3schools.com/howto/howto_js_typewriter.asp
+
+cool code pen with circle hit detection
+
+https://codepen.io/DonKarlssonSan/pen/MWwGvGM
+
+about classes and extends keyword
+
+https://javascript.info/class-inheritance
+
+
+#### math
+
+trig maths with neat illustrations
+
+https://www.mathsisfun.com/algebra/trigonometry.html
+
+more math
+
+https://www.purplemath.com/modules/unitcirc.htm
+
+#### tutorials I looked at when considering frameworks vs vanilla js
+
+p5
+
+http://www.baruchadi.com/dev/game/p5js/2019/04/16/how-to-make-a-browser-game-with-p5js.html
+
+phaser
+
+https://leanpub.com/html5shootemupinanafternoon/read

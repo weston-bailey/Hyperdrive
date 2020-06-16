@@ -1,4 +1,5 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY init() AND navComputerGameStart()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 //callback for loading message
 function loadingMessage(){
   if(loadingMessageInc < loadingText.length){
@@ -44,16 +45,14 @@ function nextLevel(){
 //called by init
 function makeStarBackgroud() {
   for(let i = 0; i < 75; i++){
-    backgroundZ0[i] = new Star(3 - Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
-      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .3)`, 1);
-  }
-  for(let j = 0; j < 75; j++){
-    backgroundZ1[j] = new Star(1 + Math.random(), scale(Math.random(), 0, 1, 0, canvasHeight), 
-      scale(Math.random(), 0, 1, 0, canvasWidth), `rgba(255, 255, 255, .15)`, 1);
+    backgroundZ0[i] = new Star(1 + Math.random(), Math.random() * canvasHeight, 
+    Math.random() * canvasWidth, `rgba(255, 255, 255, .15)`, 1);
+    backgroundZ1[i] = new Star(3 - Math.random(), Math.random() * canvasHeight, 
+    Math.random() * canvasWidth, `rgba(255, 255, 255, .3)`, 1);
   }
   for(let k = 0; k < 3; k++){
-    backgroundZ2[k] = new Star(Math.random() * 3, scale(Math.random(), 0, 1, 0, canvasHeight), 
-    scale(Math.random(), 0, 1, 0, canvasWidth), hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
+    backgroundZ2[k] = new Star(Math.random() * 3, Math.random() * canvasHeight, 
+    Math.random() * canvasWidth, hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
   }
 }
 
@@ -192,6 +191,7 @@ function debugGameStart(wave, level){
   //fade out the title
   TITLE_CONTAINER.style.opacity = 0;
   NAV_COMPUTER.style.opacity = 0;
+  START_GAME_BUTTON.style.display = `none`;
   //get rid of the button
   MANUAL_FLIGHT_BUTTON.style.display = `none`;
   // AUTO_REPAIR_CONTAINER.style.visibility = `visible`;
@@ -226,6 +226,7 @@ function scrambleString(string){
 }
 
 //writes emergencyText1 and switches by calling emergencyMessage2 when finished
+//TODO do this wihout innerHTML
 function emergencyMesssage1() {
   if (emergencyMessageInc1 < emergencyText1.length) {
     EMERGENCY_FLASH.innerHTML += emergencyText1.charAt(emergencyMessageInc1);
@@ -431,7 +432,7 @@ function drawBackground(){
   }
 }
 
-//update and draw ship (needs x y in and array from inout handler)
+//update and draw ship (needs x y in and array from input handler)
 function drawShip(shipDirection){
   //only draw on game active
   if(gameActive){
@@ -520,6 +521,8 @@ function decrementSheild(){
 }
 
 //splice everything marked as garbage
+//TODO Change garbage collection by letting objects know
+//thier array index and handle splicing themself
 function collectGarbage(){
   //check if enemies are marked as garbage, splice the ones that are
   for(let o = 0; o < enemies.length; o++){

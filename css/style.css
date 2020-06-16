@@ -1,6 +1,6 @@
 
 * {
-  background-color: grey;
+  background-color: #808080;
   font-family: 'VT323', monospace;
   color:  #33ff00;
   text-align: center;
@@ -56,8 +56,8 @@ div {
   transform: translate(-50%, -50%);
   z-index: 2;
   visibility: visible;
-  box-shadow: 0 4px #999;
-  border: 1px solid #999; 
+  box-shadow: 0 4px #808080;
+  border: 1px solid #808080; 
   outline: none;
   display: none;
 }
@@ -251,8 +251,8 @@ div {
   margin: 0 auto;
   z-index: 2;
   visibility: visible;
-  box-shadow: 0 9px #999;
-  border: 1px solid #999; 
+  box-shadow: 0 9px #808080;
+  border: 1px solid #808080; 
   outline: none;
   display: none;
 }
@@ -280,8 +280,8 @@ cursor: pointer;
   margin: 0 auto;
   z-index: 2;
   visibility: visible;
-  box-shadow: 0 4px #999;
-  border: 1px solid #999; 
+  box-shadow: 0 4px #808080;
+  border: 1px solid #808080; 
   outline: none;
   display: none;
 }

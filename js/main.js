@@ -67,7 +67,7 @@ LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
 //useful for maths
 const TWO_PI = 2 * Math.PI;
 //toggles debug mode
-let debug = false;
+let debug = true;
 //canvas variables
 let canvas, ctx; 
 let canvasWidth = 800;
@@ -158,7 +158,9 @@ let waveFunctions =   [triangleCometWaveRandomDirections,
 //called on page load
 function init() {
   //dispaly loading message
-  loadingMessage();
+  if(!debug){
+    loadingMessage();
+  }
   //write emergency message onscren
   emergencyMesssage1(); 
   //make ship class
