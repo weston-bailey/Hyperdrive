@@ -385,22 +385,22 @@ function inputHandler(){
   if(gameActive){
     let directionX = null;
     let directionY = null;
-    if(keys[87]){
+    if(keys[87] || keys[38]){
       ship.movingY = true;  //controls 87 = w S = 83 
       directionY = -1;
-    } else if(keys[83]){
+    } else if(keys[83] || keys[40]){
       ship.movingY = true;  
       directionY = 1;
-    } else if (!keys[87] && !keys[83]){
+    } else if (!keys[87] && !keys[83] && !keys[38] && !keys[40]){
       ship.movingY = false;
     }
-    if(keys[65]){
+    if(keys[65] || keys[37]){
       ship.movingX = true;  //68 = D 65 = A 
       directionX = -1;
-    } else if(keys[68]){
+    } else if(keys[68] || keys[39]){
       ship.movingX = true;  
       directionX = 1;
-    } else if (!keys[68] && !keys[65]){
+    } else if (!keys[68] && !keys[65] && !keys[38] && !keys[39]){
       ship.movingX = false;
     }
     if (keys[16]){
