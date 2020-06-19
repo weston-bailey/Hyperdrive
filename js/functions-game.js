@@ -45,14 +45,32 @@ function nextLevel(){
 //called by init
 function makeStarBackgroud() {
   for(let i = 0; i < 75; i++){
-    backgroundZ0[i] = new Star(1 + Math.random(), Math.random() * canvasHeight, 
-    Math.random() * canvasWidth, `rgba(255, 255, 255, .15)`, 1);
-    backgroundZ1[i] = new Star(3 - Math.random(), Math.random() * canvasHeight, 
-    Math.random() * canvasWidth, `rgba(255, 255, 255, .3)`, 1);
+    //distant stars
+    backgroundZ0[i] = new Star({
+      speed: 1 + Math.random(),
+      x: Math.random() * canvasWidth,
+      y: Math.random() * canvasHeight,
+      color: `rgba(255, 255, 255, .15)`,
+      size: 1,
+    });
+    //closer stars
+    backgroundZ1[i] = new Star({
+      speed: 3 - Math.random(),
+      x: Math.random() * canvasWidth,
+      y: Math.random() * canvasHeight,
+      color: `rgba(255, 255, 255, .3)`,
+      size: 1.,
+    });
   }
   for(let k = 0; k < 3; k++){
-    backgroundZ2[k] = new Star(Math.random() * 3, Math.random() * canvasHeight, 
-    Math.random() * canvasWidth, hexToRGBA(randomColorHex(), Math.random()), Math.random() * 3);
+    backgroundZ2[k] = new Star({
+      //three random 'planets'
+      speed: Math.random() * 3,
+      x: Math.random() * canvasWidth,
+      y: Math.random() * canvasHeight,
+      color: hexToRGBA(randomColorHex(), Math.random()),
+      size: Math.random() * 3,
+    });
   }
 }
 

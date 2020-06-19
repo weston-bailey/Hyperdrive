@@ -181,10 +181,10 @@ function init() {
   //populate the heavens
   makeStarBackgroud();     
   //init audio objects
-  titleMusic = new Audio(`./snd/last-step-contrast.mp3`);                                                  
+  titleMusic = new Audio({ source: `./snd/last-step-contrast.mp3` });                                                  
   titleMusic.init();   
   titleMusic.loop();                                              
-  levelMusic = new Audio(`./snd/aphex-twin-vordhosbn.mp3`);
+  levelMusic = new Audio({ source: `./snd/aphex-twin-vordhosbn.mp3` });
   levelMusic.init();
   levelMusic.loop();
   //start rendering

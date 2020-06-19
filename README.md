@@ -235,7 +235,7 @@ playable canvas asteroids that I stumbled upon first (inspired particle effects,
 
 * https://codepen.io/jeffibacache/pen/bzBsp
 
-> This implementation appears to emulating private class methods and variables by using a 'object pool' pattern for object management and a 'closure pattern' for object creation, which differs from the approach used in canvas crawler. I don't fully grasp it yet, and thought it would be unwise to attempt for the project. These are some tangental sub-sources I checked out related to this example:
+> This implementation appears to be emulating private class methods and variables by using a 'object pool' pattern for object management and a 'closure pattern' for object creation, which differs from the approach used in canvas crawler. I don't fully grasp it yet, and thought it would be unwise to attempt for the project. These are some tangental sub-sources I checked out related to this example:
 > * http://www.mattsnider.com/recycler-object-for-object-pool-pattern/
 > * http://www.mattsnider.com/object-pool-pattern-in-javascript/
 > * https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-closure-b2f0d2152b36
@@ -247,7 +247,7 @@ js canvas asteroids tutorial
 
 * http://www.newthinktank.com/2019/07/javascript-asteroids/
 
-> this tutorial uses classes with a constructor pattern to create objects, and works more or less like canvas crawler. At about 10 min, it also goes into the trig used for polygons. Here are sources I was reading to figure out the difference between classes and constructor functions related to this tutorial.
+> this tutorial uses classes with a 'constructor pattern' to create objects, and works more or less like canvas crawler. At about 10 min, it also goes into the trig used for polygons. Here are sources I was reading to figure out the difference between classes and constructor functions related to this tutorial.
 > * https://www.oreilly.com/library/view/learning-javascript-design/9781449334840/ch09s01.html
 > * https://gomakethings.com/an-introduction-to-the-javascript-constructor-pattern/
 > * https://medium.com/javascript-scene/javascript-factory-functions-vs-constructor-functions-vs-classes-2f22ceddf33e
