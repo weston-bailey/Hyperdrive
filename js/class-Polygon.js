@@ -190,7 +190,8 @@ class PolygonAccelerate extends Polygon {
     }  
     if(this.y >= this.accelerateY){
       this.speedY += this.accelerateSpeed;
-      exhuastParticles.push(new Exhaust(this.x, this.y - this.hitRadius));
+      exhuastParticles.push(new Exhaust( { x: this.x, 
+                                           y: this.y - this.hitRadius } ));
     }
     //mark as garbage after screen height
     if(this.y > this.hitRadius + canvasHeight){

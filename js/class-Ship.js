@@ -24,13 +24,13 @@ class Ship {
       //direction is either pos or neg 1
       this.noseY += this.speed * directionY;
       for(let i = 0; i < 3; i++){
-        exhuastParticles.push(new Exhaust);
+        exhuastParticles.push(new Exhaust( { null: null } ));
       }
     }
     if(this.movingX){
       this.velocityX = directionX * 3;
       this.noseX += this.speed * directionX;
-      exhuastParticles.push(new Exhaust);
+      exhuastParticles.push(new Exhaust( { null: null } ));
     }
     //move ship to other side of screen when it reaches the side
     if(this.noseX > canvasWidth){                     
