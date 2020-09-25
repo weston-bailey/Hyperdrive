@@ -377,39 +377,88 @@ function resetGame() {
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~FUNCTIONS CALLED BY render()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// creates a deadzone in the middle of the analoge joystick axis
+function deadZone (number, threshold){
+  percentage = (Math.abs(number) - threshold) / (1 - threshold);
+
+  if(percentage < 0)
+     percentage = 0;
+
+  return percentage * (number > 0 ? 1 : -1);
+}
 
 //updates ship moving values and reutrns x y directions for the ships movement method
 //TODO make inoutHandler directly modify the ships x y instead of returning them
 function inputHandler(){
   //for gameplay
   if(gameActive){
+    let gamepad = navigator.getGamepads()[0];
     let directionX = null;
     let directionY = null;
-    if(keys[87] || keys[38]){
-      ship.movingY = true;  //controls 87 = w S = 83 
-      directionY = -1;
-    } else if(keys[83] || keys[40]){
-      ship.movingY = true;  
-      directionY = 1;
-    } else if (!keys[87] && !keys[83] && !keys[38] && !keys[40]){
-      ship.movingY = false;
-    }
-    if(keys[65] || keys[37]){
-      ship.movingX = true;  //68 = D 65 = A 
-      directionX = -1;
-    } else if(keys[68] || keys[39]){
-      ship.movingX = true;  
-      directionX = 1;
-    } else if (!keys[68] && !keys[65] && !keys[38] && !keys[39]){
-      ship.movingX = false;
-    }
-    if (keys[16]){
-      if(ship.sheildLevel > 0 && !ship.sheildCoolDown){
-        ship.sheild = true;
+    if(gamepad){
+      let gamepadX = deadZone(gamepad.axes[0], .05);
+      let gamepadY = deadZone(gamepad.axes[1], .05);
+    
+      if(gamepadY){
+        ship.movingY = true;
+        ship.speed = Math.abs(gamepadY) * 5;
+        directionY = gamepadY > 0 ? 1 : -1;
+      } else if (!gamepadY) {
+        ship.movingY = false
       }
-    } else if(!ship.sheildCoolDown) {
-      ship.sheild = false;
+
+      if(gamepadX){
+        ship.movingX = true;
+        ship.speed = Math.abs(gamepadX) * 5;
+        directionX = gamepadX > 0 ? 1 : -1;
+      } else if (!gamepadX) {
+        ship.movingX = false
+        directionX = 1;
+      }
+
+      if(gamepadX && gamepadY) {
+        ship.speed = Math.abs(gamepadX) > Math.abs(gamepadY) ? Math.abs(gamepadX) * 5 : Math.abs(gamepadY) * 5
+        console.log('x ' + Math.abs(gamepadX), 'y ' + Math.abs(gamepadY),'speed ' + ship.speed)
+      }
+
+      if (gamepad.buttons[0].pressed){
+        if(ship.sheildLevel > 0 && !ship.sheildCoolDown){
+          ship.sheild = true;
+        }
+      } else if(!ship.sheildCoolDown) {
+        ship.sheild = false;
+      }
+
+    } else {
+      if(keys[87] || keys[38]){
+        ship.movingY = true;  //controls 87 = w S = 83 
+        directionY = -1;
+      } else if(keys[83] || keys[40]){
+        ship.movingY = true;  
+        directionY = 1;
+      } else if (!keys[87] && !keys[83] && !keys[38] && !keys[40]){
+        ship.movingY = false;
+      }
+
+      if(keys[65] || keys[37]){
+        ship.movingX = true;  //68 = D 65 = A 
+        directionX = -1;
+      } else if(keys[68] || keys[39]){
+        ship.movingX = true;  
+        directionX = 1;
+      } else if (!keys[68] && !keys[65] && !keys[38] && !keys[39]){
+        ship.movingX = false;
+      }
+
+      if (keys[16]){
+        if(ship.sheildLevel > 0 && !ship.sheildCoolDown){
+          ship.sheild = true;
+        }
+      } else if(!ship.sheildCoolDown) {
+        ship.sheild = false;
+      }
     }
+
     return [directionX, directionY];
   }
 }

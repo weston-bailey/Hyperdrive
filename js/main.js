@@ -64,8 +64,26 @@ MANUAL_FLIGHT_BUTTON.addEventListener(`click`, () => { navComputerGameStart(); }
 START_GAME_BUTTON.addEventListener(`click`, () => { loadScreenClickThru(); });
 //for debug
 LOG_BUTTON.addEventListener(`click`, () => { logFunction() });
+// gamepad detection 
+window.addEventListener("gamepadconnected", (e) => {
+  if(debug){
+    console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+      e.gamepad.index, e.gamepad.id,
+      e.gamepad.buttons.length, e.gamepad.axes.length);
+  }
+});
 //useful for maths
 const TWO_PI = 2 * Math.PI;
+
+var gamepads = navigator.getGamepads();
+console.log('gamepads:', gamepads)
+
+window.addEventListener("gamepadconnected", function(e) {
+
+  // Gamepad connected
+  console.log("Gamepad connected", e.gamepad);
+});
+
 //toggles debug mode
 let debug = false;
 //canvas variables
