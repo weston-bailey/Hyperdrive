@@ -16,32 +16,32 @@ https://weston-bailey.github.io/Hyperdrive/
 ## MVP
 ____
 
-[x] A functional menu for starting and Ending 
+* [x] A functional menu for starting and Ending 
 
-[x] a game play HUD with score and possible other info area like 'wave 3 incoming'
+* [x] a game play HUD with score and possible other info area like 'wave 3 incoming'
 
-[x] a scrolling space background
+* [x] a scrolling space background
 
-[x] a player controlled ship
+* [x] a player controlled ship
 
-[x] waves of obstacles
+* [x] waves of obstacles
 
-[x] hit detection that ends the game if the player collides with and obstacle
+* [x] hit detection that ends the game if the player collides with and obstacle
 
 ## Stretch Goals
 ___
 
-[x] a shield the player can activate
+* [x] a shield the player can activate
 
-[x] a variety of enemies that vary in shape, size, color and movement (such as enemies that bounce off each other or enemies that accelerate as they move forward)
+* [x] a variety of enemies that vary in shape, size, color and movement (such as enemies that bounce off each other or enemies that accelerate as they move forward)
 
-[x] music and ~~sound~~
+* [x] music and ~~sound~~
 
-[x] a more complex level system ~~(such as certain enemies only coming after wave 5 for example or backgrounds and music that change after a certain wave)~~
+* [x] a more complex level system ~~(such as certain enemies only coming after wave 5 for example or backgrounds and music that change after a certain wave)~~
 
-[] ~~enemies that fire projectiles that need to be avoided~~
+* [ ] ~~enemies that fire projectiles that need to be avoided~~
 
-[] ~~bonus power ups like invincibility for a short period~~
+* [ ] ~~bonus power ups like invincibility for a short period~~
 
 ## Wire Frames
 
@@ -87,16 +87,16 @@ ___
 
 #### Collision detection is based on circles, with the following procedure: 
 
-  * sum the radii of the circles (r1 + r2)
+  * sum the radii of the circles `(r1 + r2)`
   * find the distance between the circles by calculating the difference between the x values and squaring them, calculating the difference the y values and squaring them, summing the two squares and then finding the square root of the sum  
   * if the distance is less than the sum of the radii, a hit is detected
-  * (r1 + r2) > √((x1 + x2)^2 + (y1 + y2)^2) 
+  * `(r1 + r2) > √((x1 + x2)^2 + (y1 + y2)^2)` 
 
 #### Polygons are created by calculations using sin and cos in a unit circle and stroking them on canvas
 
-  * by treating the radius of a circle as the hypotenuse of a triangle, x y positions of any point on the circle can be found because sin(angle) = opposite/hypotenuse (y) and cos(angle) = adjacent/hypotenuse (x)
-  *  x position to draw on circle = center x of circle - radius * (cosine of (two pi / number of sides) * angle  + starting degrees as radians)
-  * y position to draw on circle = center y of circle - radius * (sine of (two pi / number of sides) * angle + starting degrees as radians)
+  * by treating the radius of a circle as the hypotenuse of a triangle, x y positions of any point on the circle can be found because `sin(angle) = opposite/hypotenuse (y) and cos(angle) = adjacent/hypotenuse (x)`
+  *  x position to draw on `circle = center x of circle - radius * (cosine of (two pi / number of sides)` * angle  + starting degrees as radians)
+  * y position to draw on `circle = center y of circle - radius * (sine of (two pi / number of sides) * angle + starting degrees as radians)`
 
 #### Other technical elements:
 
@@ -118,8 +118,7 @@ ___
 
 > a bunch of stars are pushed to an array on game start to make the background, the render loop iterates through the star array to update and draw each of them. The enemy obstacle array works similarly but, also checks for hit detection. Enemy objects, exhaust and debris self-flag as no longer relevant to gampeplay when they aren't visible and a garbage collector loop iterates over the arrays to check if any objects have drifted off screen to be spliced out of the array.
 
-```
-
+```javascript
 class Star {
   //variations in star properties to create a dynamic background
   constructor(speed, x, y, color, size){
@@ -160,9 +159,8 @@ function render(){
   //render other objects
   //detect collisions
   //collect garbage
-  callback(render());
+  requestAnimationFrame(render);
 }
-
 ```
 
 ### Known Bugs
@@ -179,13 +177,13 @@ After seeing how canvas crawler worked, I really wanted to challenge myself to w
 
 The objects being rendered on screen all being handled as classes is a big success in terms of planning and execution. After working so much with classes I had an epiphany on how to refactor the DOM manipulation in an elegant OOP way after having creating a class to handle audio towards the end of this project. Handling the DOM elements with functions is okay, but somewhat verbose, and I feel like I could do better. Two epiphany moments for me during this project where when I learned how to leverage class methods like functions by using anonymous functions as wrappers:
 
-```
-setTimeout( () => { Class.method(); }, 10)
+```javacript
+setTimeout( () => Class.method(), 10)
 ```
 
 and also when I learned the best way to interact with functions being passed around as as arguments or in arrays as arguments is by assigning them a variable first.
 
-```
+```javascript
 function pointer1(){
   //do stuff
 }
@@ -195,13 +193,13 @@ function pointer2(){
 }
 
 function passMeFunctions(array){
-  let firstOneToCall = array[0];
-  let secondOneToCall = array[1];
+  const firstOneToCall = array[0];
+  const secondOneToCall = array[1];
   firstOneToCall();
   secondOneToCall();
 }
 
-let twoFunctions = [pointer1, pointer2];
+const twoFunctions = [pointer1, pointer2];
 
 passMeFunctions(twoFunctions);
 ```
