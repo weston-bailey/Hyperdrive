@@ -177,7 +177,7 @@ After seeing how canvas crawler worked, I really wanted to challenge myself to w
 
 The objects being rendered on screen all being handled as classes is a big success in terms of planning and execution. After working so much with classes I had an epiphany on how to refactor the DOM manipulation in an elegant OOP way after having creating a class to handle audio towards the end of this project. Handling the DOM elements with functions is okay, but somewhat verbose, and I feel like I could do better. Two epiphany moments for me during this project where when I learned how to leverage class methods like functions by using anonymous functions as wrappers:
 
-```javacript
+```javascript
 setTimeout( () => Class.method(), 10)
 ```
 
