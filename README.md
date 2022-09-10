@@ -1,4 +1,4 @@
-# Hyperdrive - Project 1
+# Hyperdrive
 
 ## Overview
 ____
